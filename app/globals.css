@@ -1,26 +1,321 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Theme Colors */
+  --primary: #2563eb;
+  --secondary: #10b981;
+  --accent: #8b5cf6;
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"],
+.dark {
+  /* Dark Theme Colors */
+  --primary: #60a5fa;
+  --secondary: #34d399;
+  --accent: #a78bfa;
+  --background: #0f172a;
+  --surface: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --border: #334155;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Tailwind utility classes for custom colors */
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.text-text-primary {
+  color: var(--text-primary);
+}
+
+.text-text-secondary {
+  color: var(--text-secondary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.border-secondary {
+  border-color: var(--secondary);
+}
+
+.border-accent {
+  border-color: var(--accent);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+* {
+  border-color: var(--border);
 }
 
 body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure proper contrast ratios for accessibility */
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Range Input Styling */
+input[type="range"].slider-range {
+  background: transparent;
+  position: relative;
+  border: none !important;
+  outline: none !important;
+}
+
+input[type="range"].slider-range:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+/* WebKit browsers (Chrome, Safari, Edge) */
+input[type="range"].slider-range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(
+    to right,
+    var(--primary) 0%,
+    var(--primary) var(--value-percent, 0%),
+    var(--border) var(--value-percent, 0%),
+    var(--border) 100%
+  );
+  border-radius: 4px;
+  border: none !important;
+  outline: none !important;
+}
+
+input[type="range"].slider-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+input[type="range"].slider-range::-webkit-slider-thumb:hover {
+  background: var(--accent);
+  transform: scale(1.15);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"].slider-range:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"].slider-range:focus::-webkit-slider-thumb {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Firefox */
+input[type="range"].slider-range::-moz-range-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Firefox progress fill - requires JavaScript to set background */
+input[type="range"].slider-range::-moz-range-progress {
+  height: 8px;
+  background: var(--primary);
+  border-radius: 4px 0 0 4px;
+  border: none;
+}
+
+input[type="range"].slider-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+input[type="range"].slider-range::-moz-range-thumb:hover {
+  background: var(--accent);
+  transform: scale(1.15);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"].slider-range:active::-moz-range-thumb {
+  transform: scale(1.2);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"].slider-range:focus::-moz-range-thumb {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove borders from charts on focus */
+.recharts-wrapper,
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-wrapper:focus-within {
+  outline: none !important;
+  border: none !important;
+}
+
+.recharts-wrapper svg,
+.recharts-wrapper svg:focus,
+.recharts-wrapper svg:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus borders from chart elements */
+.recharts-surface,
+.recharts-surface:focus,
+.recharts-surface:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus from chart interactive elements */
+.recharts-active-dot,
+.recharts-active-dot:focus,
+.recharts-active-dot:focus-visible,
+.recharts-dot,
+.recharts-dot:focus,
+.recharts-dot:focus-visible,
+.recharts-bar,
+.recharts-bar:focus,
+.recharts-bar:focus-visible,
+.recharts-line,
+.recharts-line:focus,
+.recharts-line:focus-visible,
+.recharts-area,
+.recharts-area:focus,
+.recharts-area:focus-visible,
+.recharts-sector,
+.recharts-sector:focus,
+.recharts-sector:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus from chart containers */
+.recharts-cartesian-axis,
+.recharts-cartesian-axis:focus,
+.recharts-cartesian-axis:focus-visible,
+.recharts-cartesian-grid,
+.recharts-cartesian-grid:focus,
+.recharts-cartesian-grid:focus-visible,
+.recharts-legend-wrapper,
+.recharts-legend-wrapper:focus,
+.recharts-legend-wrapper:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus from tooltip */
+.recharts-tooltip-wrapper,
+.recharts-tooltip-wrapper:focus,
+.recharts-tooltip-wrapper:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus from all SVG elements in charts */
+svg:focus,
+svg:focus-visible,
+svg:focus-within {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Remove focus from chart wrapper divs */
+[class*="recharts"]:focus,
+[class*="recharts"]:focus-visible,
+[class*="recharts"]:focus-within {
+  outline: none !important;
+  border: none !important;
 }
