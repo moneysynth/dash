@@ -7,18 +7,16 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Home Loan EMI Calculator - With Step-up EMI, Prepayment & Part Payment | MoneySynth",
+  title: "Home Loan EMI Calculator - Mortgage Calculator",
   description:
-    "Free home loan EMI calculator with step-up EMI, prepayment and part payment options. Calculate Equated Monthly Installment (EMI) for home loans in India. Get detailed amortization schedule, interest breakdown, and see how step-up EMI and prepayments affect your loan. Calculate home loan EMI with accurate results.",
+    "Calculate your home loan EMI with principal, interest, and tenure. Compare different home loan scenarios instantly.",
   keywords: [
     "home loan calculator",
     "home loan EMI calculator",
-    "EMI calculator",
+    "mortgage calculator",
     "home loan EMI",
     "housing loan calculator",
-    "home loan calculator India",
     "EMI calculator online",
-    "home loan EMI calculator India",
     "calculate home loan EMI",
     "home loan interest calculator",
     "home loan amortization calculator",
@@ -27,6 +25,7 @@ export const metadata: Metadata = {
     "home loan payment calculator",
     "home loan EMI formula",
     "home loan calculator with amortization",
+    "home loan calculator with step-up EMI",
     "home loan EMI schedule",
     "home loan calculator free",
     "online home loan calculator",
@@ -46,11 +45,21 @@ export const metadata: Metadata = {
     "home loan calculator with step up EMI",
     "increasing EMI calculator",
     "home loan EMI step up",
+    "mortgage EMI calculator",
+    "home loan planning",
+    "best home loan calculator",
+    "free home loan calculator",
+    "home loan EMI calculator with prepayment",
+    "home loan EMI calculator with part payment",
+    "home loan EMI calculator with step-up EMI and prepayment",
+    "home loan EMI calculator with step-up EMI and part payment",
+    "home loan EMI calculator with step-up EMI and prepayment and part payment",
+    "home loan EMI calculator with step-up EMI and prepayment and part payment",
   ],
   openGraph: {
-    title: "Home Loan EMI Calculator - With Step-up EMI, Prepayment & Part Payment | MoneySynth",
+    title: "Home Loan EMI Calculator - Mortgage Calculator",
     description:
-      "Free home loan EMI calculator with step-up EMI, prepayment and part payment options. Calculate Equated Monthly Installment for home loans with detailed amortization schedule, interest breakdown, and step-up EMI impact analysis.",
+      "Calculate your home loan EMI with principal, interest, and tenure. Compare different home loan scenarios instantly.",
     type: "website",
     url: "https://moneysynth.com/calculators/home-loan-emi-calculator",
     siteName: "MoneySynth",
@@ -58,9 +67,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Home Loan EMI Calculator - With Step-up EMI, Prepayment & Part Payment",
+    title: "Home Loan EMI Calculator - Mortgage Calculator",
     description:
-      "Free home loan EMI calculator with step-up EMI and prepayment options. Calculate your home loan EMI, total interest, payment schedule, and see how step-up EMI and prepayments save money.",
+      "Calculate your home loan EMI with principal, interest, and tenure. Compare different home loan scenarios instantly.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/home-loan-emi-calculator",

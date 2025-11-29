@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Salary Calculator - Calculate Take-Home Salary Online Free | MoneySynth",
+  title: "Salary Calculator - Take-home Pay Calculator",
   description:
-    "Free online salary calculator to calculate your take-home salary in India. Calculate net salary after tax, PF, professional tax, and other deductions.",
+    "Calculate your take-home salary after deductions. Includes PF, taxes, and other components for accurate planning.",
   keywords: [
     "salary calculator",
     "take home salary calculator",
@@ -15,18 +15,18 @@ export const metadata: Metadata = {
     "calculate take home salary",
   ],
   openGraph: {
-    title: "Salary Calculator - Calculate Take-Home Salary Online Free | MoneySynth",
+    title: "Salary Calculator - Take-home Pay Calculator",
     description:
-      "Free online salary calculator to calculate your take-home salary in India. Calculate net salary after tax, PF, professional tax, and other deductions.",
+      "Calculate your take-home salary after deductions. Includes PF, taxes, and other components for accurate planning.",
     url: "https://moneysynth.com/calculators/salary-calculator",
     siteName: "MoneySynth",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salary Calculator - Calculate Take-Home Salary Online Free",
+    title: "Salary Calculator - Take-home Pay Calculator",
     description:
-      "Free online salary calculator to calculate your take-home salary in India. Calculate net salary after tax, PF, and other deductions.",
+      "Calculate your take-home salary after deductions. Includes PF, taxes, and other components for accurate planning.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/salary-calculator",

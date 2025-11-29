@@ -6,35 +6,37 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "RD Calculator - Recurring Deposit Calculator Online Free | MoneySynth",
+  title: "RD Calculator - Recurring Deposit Returns",
   description:
-    "Free RD calculator to calculate Recurring Deposit maturity value and returns. Calculate RD interest, maturity amount, and total investment. RD calculator for banks with monthly deposits.",
+    "Calculate recurring deposit maturity amount and interest earned. Compare RD with other investment options.",
   keywords: [
     "RD calculator",
     "recurring deposit calculator",
-    "RD calculator India",
     "recurring deposit calculator online",
     "RD maturity calculator",
     "RD interest calculator",
     "RD calculator free",
-    "RD calculator India",
     "calculate RD returns",
     "RD calculator online",
     "recurring deposit maturity calculator",
     "RD calculator online free",
     "bank RD calculator",
     "RD calculator with interest",
-    "RD calculator India",
-    "recurring deposit calculator India",
     "RD calculator formula",
     "RD returns calculator",
     "monthly deposit calculator",
     "RD calculator monthly",
+    "best RD calculator",
+    "free RD calculator",
+    "recurring deposit planning",
+    "RD investment calculator",
+    "monthly savings calculator",
+    "RD maturity amount calculator",
   ],
   openGraph: {
-    title: "RD Calculator - Recurring Deposit Calculator Online Free | MoneySynth",
+    title: "RD Calculator - Recurring Deposit Returns",
     description:
-      "Free RD calculator to calculate Recurring Deposit maturity value and returns. Calculate RD interest and maturity amount.",
+      "Calculate recurring deposit maturity amount and interest earned. Compare RD with other investment options.",
     type: "website",
     url: "https://moneysynth.com/calculators/rd-calculator",
     siteName: "MoneySynth",
@@ -42,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RD Calculator - Recurring Deposit Calculator Online Free",
+    title: "RD Calculator - Recurring Deposit Returns",
     description:
-      "Free RD calculator. Calculate Recurring Deposit maturity value, interest, and returns with monthly deposits.",
+      "Calculate recurring deposit maturity amount and interest earned. Compare RD with other investment options.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/rd-calculator",

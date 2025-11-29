@@ -7,9 +7,9 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Percentage Calculator - Calculate Percentage Online Free | MoneySynth",
+  title: "Percentage Calculator - Calculate % Increase",
   description:
-    "Free online percentage calculator to calculate percentages, percentage increase, decrease, and percentage of values. Calculate percentage of a number, percentage change, and more. Simple and accurate percentage calculator tool.",
+    "Calculate percentage increase, decrease, and difference. Useful for financial calculations and data analysis.",
   keywords: [
     "percentage calculator",
     "calculate percentage",
@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     "percentage of calculator",
     "percentage change calculator",
     "percentage calculator free",
-    "percentage calculator India",
     "calculate percentage of number",
     "percentage formula calculator",
     "percentage difference calculator",
@@ -31,11 +30,15 @@ export const metadata: Metadata = {
     "percentage calculator free online",
     "calculate percentage increase",
     "calculate percentage decrease",
+    "best percentage calculator",
+    "free percentage calculator",
+    "percentage calculator tool",
+    "financial percentage calculator",
   ],
   openGraph: {
-    title: "Percentage Calculator - Calculate Percentage Online Free | MoneySynth",
+    title: "Percentage Calculator - Calculate % Increase",
     description:
-      "Free online percentage calculator to calculate percentages, percentage increase, decrease, and percentage of values. Calculate percentage of a number and percentage change.",
+      "Calculate percentage increase, decrease, and difference. Useful for financial calculations and data analysis.",
     type: "website",
     url: "https://moneysynth.com/calculators/percentage-calculator",
     siteName: "MoneySynth",
@@ -43,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Percentage Calculator - Calculate Percentage Online Free",
+    title: "Percentage Calculator - Calculate % Increase",
     description:
-      "Free online percentage calculator to calculate percentages, percentage increase, decrease, and percentage of values.",
+      "Calculate percentage increase, decrease, and difference. Useful for financial calculations and data analysis.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/percentage-calculator",

@@ -7,9 +7,9 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Age Calculator - Calculate Your Exact Age Online Free | MoneySynth",
+  title: "Age Calculator - Calculate Exact Age in Years",
   description:
-    "Free online age calculator to calculate your exact age in years, months, and days. Calculate age between two dates, find total days lived, and know when your next birthday is. Simple and accurate age calculator tool.",
+    "Calculate your exact age in years, months, and days. Useful for financial planning, retirement, and goal setting.",
   keywords: [
     "age calculator",
     "calculate age",
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
     "how old am I",
     "age calculator free",
     "calculate age from date of birth",
-    "age calculator India",
     "birthday calculator",
     "age in days calculator",
     "age in months calculator",
@@ -31,11 +30,15 @@ export const metadata: Metadata = {
     "age calculator with date",
     "age finder",
     "age calculator accurate",
+    "best age calculator",
+    "free age calculator",
+    "age calculator for financial planning",
+    "retirement age calculator",
   ],
   openGraph: {
-    title: "Age Calculator - Calculate Your Exact Age Online Free | MoneySynth",
+    title: "Age Calculator - Calculate Exact Age in Years",
     description:
-      "Free online age calculator to calculate your exact age in years, months, and days. Calculate age between two dates and find your next birthday.",
+      "Calculate your exact age in years, months, and days. Useful for financial planning, retirement, and goal setting.",
     type: "website",
     url: "https://moneysynth.com/calculators/age-calculator",
     siteName: "MoneySynth",
@@ -43,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Age Calculator - Calculate Your Exact Age Online Free",
+    title: "Age Calculator - Calculate Exact Age in Years",
     description:
-      "Free online age calculator to calculate your exact age in years, months, and days. Calculate age between two dates.",
+      "Calculate your exact age in years, months, and days. Useful for financial planning, retirement, and goal setting.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/age-calculator",

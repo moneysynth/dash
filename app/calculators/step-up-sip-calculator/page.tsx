@@ -6,35 +6,36 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "Step-up SIP Calculator - Calculate Step-up SIP Returns Online Free | MoneySynth",
+  title: "Step-up SIP Calculator - Increasing Investments",
   description:
-    "Free step-up SIP calculator to calculate returns for SIP with annual step-up increases. Calculate step-up SIP maturity value, total investment, and returns. Step-up SIP calculator for mutual funds.",
+    "Calculate returns from step-up SIP where you increase investment amount annually. Maximize your mutual fund returns.",
   keywords: [
     "step up SIP calculator",
     "step-up SIP calculator",
-    "step up SIP calculator India",
     "step-up SIP returns calculator",
     "step up SIP calculator online",
     "calculate step up SIP",
     "step up SIP calculator free",
-    "step-up SIP calculator India",
     "step up SIP investment calculator",
     "step up SIP calculator mutual fund",
     "step up SIP calculator online free",
     "increasing SIP calculator",
     "step up SIP calculator with returns",
-    "step up SIP calculator India",
     "step up SIP calculator formula",
     "step up SIP returns calculator",
-    "step up SIP calculator online India",
     "annual step up SIP calculator",
     "step up SIP vs regular SIP",
     "step up SIP calculator growth",
+    "best step up SIP calculator",
+    "free step up SIP calculator",
+    "increasing investment calculator",
+    "step up mutual fund calculator",
+    "annual increase SIP calculator",
   ],
   openGraph: {
-    title: "Step-up SIP Calculator - Calculate Step-up SIP Returns Online Free | MoneySynth",
+    title: "Step-up SIP Calculator - Increasing Investments",
     description:
-      "Free step-up SIP calculator to calculate returns for SIP with annual step-up increases. Calculate step-up SIP maturity value and returns.",
+      "Calculate returns from step-up SIP where you increase investment amount annually. Maximize your mutual fund returns.",
     type: "website",
     url: "https://moneysynth.com/calculators/step-up-sip-calculator",
     siteName: "MoneySynth",
@@ -42,9 +43,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Step-up SIP Calculator - Calculate Step-up SIP Returns Online Free",
+    title: "Step-up SIP Calculator - Increasing Investments",
     description:
-      "Free step-up SIP calculator. Calculate returns for SIP with annual increases, maturity value, and investment growth.",
+      "Calculate returns from step-up SIP where you increase investment amount annually. Maximize your mutual fund returns.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/step-up-sip-calculator",

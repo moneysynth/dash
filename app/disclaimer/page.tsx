@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     "calculator disclaimer",
     "investment disclaimer",
     "legal notice",
+    "financial calculator disclaimer",
+    "investment tool disclaimer",
+    "money calculator disclaimer",
+    "financial planning disclaimer",
+    "calculator accuracy disclaimer",
+    "investment advice disclaimer",
   ],
   openGraph: {
     title: "Disclaimer - MoneySynth",

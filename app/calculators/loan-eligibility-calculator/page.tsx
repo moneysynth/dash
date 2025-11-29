@@ -7,13 +7,12 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "Loan Eligibility Calculator - Check Loan Eligibility Online Free | MoneySynth",
+  title: "Loan Eligibility Calculator - Check Qualification",
   description:
-    "Free loan eligibility calculator to check how much loan amount you can get approved for. Calculate loan eligibility based on income, existing EMIs, tenure, and interest rate. Get personalized loan eligibility insights.",
+    "Check your loan eligibility based on income, existing EMIs, and other factors. See how much loan you can qualify for.",
   keywords: [
     "loan eligibility calculator",
     "loan eligibility",
-    "loan eligibility calculator India",
     "check loan eligibility",
     "calculate loan eligibility",
     "home loan eligibility calculator",
@@ -25,17 +24,22 @@ export const metadata: Metadata = {
     "EMI based loan eligibility",
     "loan eligibility check",
     "loan amount eligibility calculator",
-    "loan eligibility calculator India",
     "maximum loan amount calculator",
     "loan eligibility based on salary",
     "loan eligibility calculator online free",
     "how much loan can I get",
     "loan eligibility EMI calculator",
+    "loan qualification calculator",
+    "check loan qualification",
+    "best loan eligibility calculator",
+    "free loan eligibility calculator",
+    "loan approval calculator",
+    "maximum loan amount",
   ],
   openGraph: {
-    title: "Loan Eligibility Calculator - Check Loan Eligibility Online Free | MoneySynth",
+    title: "Loan Eligibility Calculator - Check Qualification",
     description:
-      "Free loan eligibility calculator to check how much loan amount you qualify for based on your income, existing obligations, and loan terms.",
+      "Check your loan eligibility based on income, existing EMIs, and other factors. See how much loan you can qualify for.",
     type: "website",
     url: "https://moneysynth.com/calculators/loan-eligibility",
     siteName: "MoneySynth",
@@ -43,9 +47,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Loan Eligibility Calculator - Check Loan Eligibility Online Free",
+    title: "Loan Eligibility Calculator - Check Qualification",
     description:
-      "Check your loan eligibility. Calculate how much loan amount you can get approved for based on your income and existing obligations.",
+      "Check your loan eligibility based on income, existing EMIs, and other factors. See how much loan you can qualify for.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/loan-eligibility",

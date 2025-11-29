@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     "personal information",
     "GDPR",
     "data collection",
+    "financial calculator privacy",
+    "calculator data privacy",
+    "money tools privacy",
+    "financial services privacy",
+    "user data protection",
+    "privacy policy financial tools",
   ],
   openGraph: {
     title: "Privacy Policy - MoneySynth",

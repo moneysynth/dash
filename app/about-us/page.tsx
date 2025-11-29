@@ -7,9 +7,9 @@ import { Target, Lightbulb, TrendingUp, Shield, Users, Zap } from "lucide-react"
 import { SEOStructuredData } from "@/components/common/SEOStructuredData";
 
 export const metadata: Metadata = {
-  title: "About Us - MoneySynth | Smart Finance. Powered by Insights.",
+  title: "About MoneySynth - Our Financial Mission",
   description:
-    "MoneySynth is a modern financial platform that helps individuals and businesses make confident financial decisions. Discover our mission, vision, and commitment to financial literacy.",
+    "Learn about MoneySynth's mission to provide free financial calculators and tools for better money management and investment decisions.",
   keywords: [
     "about moneysynth",
     "financial platform",
@@ -20,20 +20,29 @@ export const metadata: Metadata = {
     "investment guidance",
     "loan calculators",
     "financial education",
+    "free financial tools",
+    "money management platform",
+    "financial planning website",
+    "investment planning tools",
+    "personal finance tools",
+    "financial calculator platform",
+    "money management resources",
+    "financial education platform",
+    "investment guidance tools",
   ],
   openGraph: {
-    title: "About Us - MoneySynth | Smart Finance. Powered by Insights.",
+    title: "About MoneySynth - Our Financial Mission",
     description:
-      "MoneySynth is a modern financial platform that helps individuals and businesses make confident financial decisions.",
+      "Learn about MoneySynth's mission to provide free financial calculators and tools for better money management and investment decisions.",
     url: "https://moneysynth.com/about-us",
     siteName: "MoneySynth",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us - MoneySynth",
+    title: "About MoneySynth - Our Financial Mission",
     description:
-      "MoneySynth is a modern financial platform that helps individuals and businesses make confident financial decisions.",
+      "Learn about MoneySynth's mission to provide free financial calculators and tools for better money management and investment decisions.",
   },
   alternates: {
     canonical: "https://moneysynth.com/about-us",

@@ -8,17 +8,15 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Car Loan EMI Calculator - Calculate Car Loan EMI Online Free | MoneySynth",
+  title: "Car Loan EMI Calculator - Auto Loan Calculator",
   description:
-    "Free car loan EMI calculator to calculate Equated Monthly Installment (EMI) for car loans in India. Get detailed amortization schedule, interest breakdown, and payment schedule. Calculate car loan EMI, auto loan EMI with accurate results.",
+    "Calculate car loan EMI with down payment, interest rate, and tenure. Plan your vehicle purchase budget effectively.",
   keywords: [
     "car loan calculator",
     "car loan EMI calculator",
     "car loan EMI",
     "auto loan calculator",
-    "car loan calculator India",
     "EMI calculator car loan",
-    "car loan EMI calculator India",
     "calculate car loan EMI",
     "car loan interest calculator",
     "car loan amortization calculator",
@@ -32,13 +30,17 @@ export const metadata: Metadata = {
     "online car loan calculator",
     "car loan EMI calculator online",
     "vehicle loan calculator",
-    "car loan calculator India",
-    "auto loan EMI calculator India",
+    "auto loan EMI calculator",
+    "car loan planning",
+    "best car loan calculator",
+    "free car loan calculator",
+    "car loan down payment calculator",
+    "vehicle EMI calculator",
   ],
   openGraph: {
-    title: "Car Loan EMI Calculator - Calculate Car Loan EMI Online Free | MoneySynth",
+    title: "Car Loan EMI Calculator - Auto Loan Calculator",
     description:
-      "Free car loan EMI calculator to calculate Equated Monthly Installment for car loans with detailed amortization schedule and interest breakdown.",
+      "Calculate car loan EMI with down payment, interest rate, and tenure. Plan your vehicle purchase budget effectively.",
     type: "website",
     url: "https://moneysynth.com/calculators/car-loan",
     siteName: "MoneySynth",
@@ -46,9 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Car Loan EMI Calculator - Calculate Car Loan EMI Online Free",
+    title: "Car Loan EMI Calculator - Auto Loan Calculator",
     description:
-      "Free car loan EMI calculator with amortization schedule. Calculate your car loan EMI, total interest, and payment schedule.",
+      "Calculate car loan EMI with down payment, interest rate, and tenure. Plan your vehicle purchase budget effectively.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/car-loan",

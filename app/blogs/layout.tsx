@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Financial Blogs - Investment Tips, Loan Guides & Financial Planning | MoneySynth",
+  title: "MoneySynth Blog - Financial Tips & Insights",
   description:
-    "Read expert financial articles, investment tips, loan guides, and financial planning advice. Learn about EMI, SIP, SWP, mutual funds, personal finance, retirement planning, tax benefits, and wealth creation strategies.",
+    "Read our financial blog for insights on loans, investments, mutual funds, and money management strategies to grow your wealth.",
   keywords: [
     "financial blog",
     "investment blog",
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     "financial literacy blog",
   ],
   openGraph: {
-    title: "Financial Blogs - Investment Tips & Financial Planning | MoneySynth",
+    title: "MoneySynth Blog - Financial Tips & Insights",
     description:
-      "Expert financial articles, investment tips, loan guides, and financial planning advice. Learn about personal finance and investments.",
+      "Read our financial blog for insights on loans, investments, mutual funds, and money management strategies to grow your wealth.",
     type: "website",
     url: "https://moneysynth.com/blogs",
     siteName: "MoneySynth",
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Financial Blogs - Investment Tips & Financial Planning | MoneySynth",
+    title: "MoneySynth Blog - Financial Tips & Insights",
     description:
-      "Read expert financial articles, investment tips, and loan guides. Learn about personal finance and investments.",
+      "Read our financial blog for insights on loans, investments, mutual funds, and money management strategies to grow your wealth.",
   },
   alternates: {
     canonical: "https://moneysynth.com/blogs",

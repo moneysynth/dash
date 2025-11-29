@@ -8,9 +8,9 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Salary Comparison - New Labour Code 2025 Impact Calculator | MoneySynth",
+  title: "Salary Calculator - Labour Code 2025 Impact",
   description:
-    "Compare your current take-home salary with New Labour Code 2025 (50% basic salary mandate). See how the new labour code affects your salary structure, PF contributions, gratuity, and net take-home. Free salary comparison tool for understanding labour code 2025 impact.",
+    "Calculate how new labour code 2025 affects your salary structure, take-home pay, and CTC components.",
   keywords: [
     "labour code 2025",
     "new labour code",
@@ -21,7 +21,6 @@ export const metadata: Metadata = {
     "take home salary comparison",
     "labour code 2025 impact",
     "basic salary 50%",
-    "labour code 2025 India",
     "salary calculator labour code",
     "new labour code salary impact",
     "labour code 2025 take home",
@@ -29,14 +28,17 @@ export const metadata: Metadata = {
     "PF contribution labour code",
     "gratuity labour code 2025",
     "salary comparison tool",
-    "labour code 2025 calculator India",
     "50% basic salary calculator",
     "salary impact calculator",
+    "labour code salary calculator",
+    "new labour code impact calculator",
+    "salary structure 2025",
+    "labour code compliance calculator",
   ],
   openGraph: {
-    title: "Salary Comparison - New Labour Code 2025 Impact Calculator | MoneySynth",
+    title: "Salary Calculator - Labour Code 2025 Impact",
     description:
-      "Compare your current take-home salary with New Labour Code 2025 (50% basic salary mandate). See the impact on your salary structure and take-home pay.",
+      "Calculate how new labour code 2025 affects your salary structure, take-home pay, and CTC components.",
     type: "website",
     url: "https://moneysynth.com/tools/salary-comparison-labour-code-2025",
     siteName: "MoneySynth",
@@ -44,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salary Comparison - New Labour Code 2025 Impact Calculator",
+    title: "Salary Calculator - Labour Code 2025 Impact",
     description:
-      "Compare your current salary with New Labour Code 2025 impact. See how 50% basic salary mandate affects your take-home pay.",
+      "Calculate how new labour code 2025 affects your salary structure, take-home pay, and CTC components.",
   },
   alternates: {
     canonical: "https://moneysynth.com/tools/salary-comparison-labour-code-2025",

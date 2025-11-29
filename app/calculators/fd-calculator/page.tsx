@@ -6,18 +6,16 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "FD Calculator - Fixed Deposit Calculator Online Free | MoneySynth",
+  title: "FD Calculator - Fixed Deposit Returns Calculator",
   description:
-    "Free FD calculator to calculate Fixed Deposit maturity value and returns. Calculate FD interest, maturity amount for cumulative and non-cumulative FDs. FD calculator for banks with different payout options.",
+    "Calculate fixed deposit maturity amount and interest income. Compare different FD tenure and interest rates.",
   keywords: [
     "FD calculator",
     "fixed deposit calculator",
-    "FD calculator India",
     "fixed deposit calculator online",
     "FD maturity calculator",
     "FD interest calculator",
     "FD calculator free",
-    "FD calculator India",
     "calculate FD returns",
     "FD calculator online",
     "fixed deposit maturity calculator",
@@ -26,15 +24,19 @@ export const metadata: Metadata = {
     "FD calculator online free",
     "bank FD calculator",
     "FD calculator with interest",
-    "FD calculator India",
-    "fixed deposit calculator India",
     "FD calculator formula",
     "FD returns calculator",
+    "best FD calculator",
+    "free FD calculator",
+    "fixed deposit planning",
+    "FD investment calculator",
+    "FD interest rate calculator",
+    "fixed deposit returns",
   ],
   openGraph: {
-    title: "FD Calculator - Fixed Deposit Calculator Online Free | MoneySynth",
+    title: "FD Calculator - Fixed Deposit Returns Calculator",
     description:
-      "Free FD calculator to calculate Fixed Deposit maturity value and returns. Calculate FD interest for cumulative and non-cumulative options.",
+      "Calculate fixed deposit maturity amount and interest income. Compare different FD tenure and interest rates.",
     type: "website",
     url: "https://moneysynth.com/calculators/fd-calculator",
     siteName: "MoneySynth",
@@ -42,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "FD Calculator - Fixed Deposit Calculator Online Free",
+    title: "FD Calculator - Fixed Deposit Returns Calculator",
     description:
-      "Free FD calculator. Calculate Fixed Deposit maturity value, interest, and returns with different payout options.",
+      "Calculate fixed deposit maturity amount and interest income. Compare different FD tenure and interest rates.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/fd-calculator",

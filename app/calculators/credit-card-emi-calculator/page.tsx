@@ -7,15 +7,14 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Credit Card EMI Calculator - Calculate Credit Card EMI Online Free | MoneySynth",
+  title: "Credit Card EMI Calculator - Convert to EMI",
   description:
-    "Free credit card EMI calculator to calculate Equated Monthly Installment (EMI) for credit card outstanding amounts. Convert credit card balance to EMI, calculate interest, and get detailed payment schedule. Credit card EMI conversion calculator.",
+    "Calculate credit card EMI conversion costs with interest rates and tenure. Manage your credit card payments wisely.",
   keywords: [
     "credit card EMI calculator",
     "credit card EMI",
     "credit card EMI conversion calculator",
     "credit card balance EMI calculator",
-    "credit card EMI calculator India",
     "calculate credit card EMI",
     "credit card interest calculator",
     "credit card payment calculator",
@@ -25,17 +24,21 @@ export const metadata: Metadata = {
     "credit card EMI calculator online",
     "credit card EMI calculator free",
     "online credit card EMI calculator",
-    "credit card EMI calculator India",
     "convert credit card to EMI",
     "credit card EMI interest rate",
     "credit card EMI tenure",
     "credit card EMI calculator with processing fee",
     "credit card EMI calculator online free",
+    "credit card balance to EMI",
+    "best credit card EMI calculator",
+    "free credit card EMI calculator",
+    "credit card payment planning",
+    "manage credit card debt",
   ],
   openGraph: {
-    title: "Credit Card EMI Calculator - Calculate Credit Card EMI Online Free | MoneySynth",
+    title: "Credit Card EMI Calculator - Convert to EMI",
     description:
-      "Free credit card EMI calculator to convert credit card outstanding balance to EMI. Calculate monthly installments, interest, and payment schedule.",
+      "Calculate credit card EMI conversion costs with interest rates and tenure. Manage your credit card payments wisely.",
     type: "website",
     url: "https://moneysynth.com/calculators/credit-card-emi",
     siteName: "MoneySynth",
@@ -43,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Credit Card EMI Calculator - Calculate Credit Card EMI Online Free",
+    title: "Credit Card EMI Calculator - Convert to EMI",
     description:
-      "Free credit card EMI calculator. Convert credit card balance to EMI, calculate monthly installments and interest.",
+      "Calculate credit card EMI conversion costs with interest rates and tenure. Manage your credit card payments wisely.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/credit-card-emi",

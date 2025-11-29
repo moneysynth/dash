@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ - Frequently Asked Questions About Financial Calculators | MoneySynth",
+  title: "MoneySynth FAQ - Calculator Questions Answered",
   description:
-    "Find answers to frequently asked questions about financial calculators, EMI, SIP, SWP, loans, investments, and financial planning. Get help using MoneySynth's tools. Common questions about loan calculators, investment calculators, EMI calculation, SIP returns, and more.",
+    "Find answers to common questions about using our financial calculators, loan tools, and investment planning resources.",
   keywords: [
     "FAQ",
     "frequently asked questions",
@@ -30,11 +30,18 @@ export const metadata: Metadata = {
     "loan prepayment FAQ",
     "investment planning FAQ",
     "financial calculator support",
+    "how to use financial calculators",
+    "calculator troubleshooting",
+    "financial calculator guide",
+    "loan calculator help",
+    "investment calculator questions",
+    "EMI calculator how to use",
+    "SIP calculator guide",
   ],
   openGraph: {
-    title: "FAQ - Frequently Asked Questions About Financial Calculators | MoneySynth",
+    title: "MoneySynth FAQ - Calculator Questions Answered",
     description:
-      "Find answers to frequently asked questions about financial calculators, EMI, SIP, SWP, loans, and investments. Get help using our tools.",
+      "Find answers to common questions about using our financial calculators, loan tools, and investment planning resources.",
     url: "https://moneysynth.com/faq",
     siteName: "MoneySynth",
     type: "website",
@@ -42,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQ - Frequently Asked Questions About Financial Calculators | MoneySynth",
+    title: "MoneySynth FAQ - Calculator Questions Answered",
     description:
-      "Find answers to frequently asked questions about financial calculators, EMI, SIP, SWP, loans, and investments.",
+      "Find answers to common questions about using our financial calculators, loan tools, and investment planning resources.",
   },
   alternates: {
     canonical: "https://moneysynth.com/faq",

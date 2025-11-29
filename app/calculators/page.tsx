@@ -15,9 +15,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Financial Calculators - Free Online Loan & Investment Calculators | MoneySynth",
+  title: "Financial Calculators - Loan & Investment Tools",
   description:
-    "Browse all free financial calculators - EMI calculator, SIP calculator, SWP calculator, RD calculator, FD calculator, loan eligibility calculator, and more. Calculate loans, investments, and plan your financial goals with accurate results.",
+    "Comprehensive collection of financial calculators including EMI, SIP, FD, RD, and mutual fund calculators for better financial planning.",
   keywords: [
     "financial calculators",
     "loan calculators",
@@ -27,8 +27,6 @@ export const metadata: Metadata = {
     "SWP calculator",
     "RD calculator",
     "FD calculator",
-    "loan calculator India",
-    "investment calculator India",
     "financial planning tools",
     "online calculators",
     "free calculators",
@@ -47,11 +45,18 @@ export const metadata: Metadata = {
     "financial calculator list",
     "all calculators",
     "calculator directory",
+    "free online financial calculators",
+    "best financial calculators",
+    "money management tools",
+    "investment planning calculators",
+    "loan EMI calculators",
+    "mutual fund calculators",
+    "financial planning tools online",
   ],
   openGraph: {
-    title: "Financial Calculators - Free Online Calculators | MoneySynth",
+    title: "Financial Calculators - Loan & Investment Tools",
     description:
-      "Access all financial calculators - EMI, SIP, SWP, RD, FD, loan eligibility, and more. Free online calculators for loans and investments in India.",
+      "Comprehensive collection of financial calculators including EMI, SIP, FD, RD, and mutual fund calculators for better financial planning.",
     type: "website",
     url: "https://moneysynth.com/calculators",
     siteName: "MoneySynth",
@@ -59,9 +64,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Financial Calculators - Free Online Calculators | MoneySynth",
+    title: "Financial Calculators - Loan & Investment Tools",
     description:
-      "Free online financial calculators for loans and investments. Calculate EMI, SIP, SWP, RD, FD, and more.",
+      "Comprehensive collection of financial calculators including EMI, SIP, FD, RD, and mutual fund calculators for better financial planning.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators",

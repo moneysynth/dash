@@ -6,35 +6,37 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "SWP Calculator - Systematic Withdrawal Plan Calculator Online Free | MoneySynth",
+  title: "SWP Calculator - Systematic Withdrawal Plan",
   description:
-    "Free SWP calculator to calculate Systematic Withdrawal Plan. Calculate how long your investment will last with regular monthly withdrawals. SWP calculator for mutual funds, retirement planning, and regular income generation.",
+    "Calculate systematic withdrawal plan from mutual funds. Plan regular income from your investments effectively.",
   keywords: [
     "SWP calculator",
     "systematic withdrawal plan calculator",
-    "SWP calculator India",
     "SWP calculator mutual fund",
     "SWP calculator online",
     "calculate SWP",
     "SWP withdrawal calculator",
     "SWP calculator free",
-    "SWP calculator India",
     "systematic withdrawal plan",
     "SWP calculator online free",
     "SWP retirement calculator",
     "SWP income calculator",
     "mutual fund SWP calculator",
     "SWP calculator with returns",
-    "SWP calculator India",
     "SWP calculator formula",
-    "SWP calculator online India",
     "regular income calculator",
     "withdrawal plan calculator",
+    "best SWP calculator",
+    "free SWP calculator",
+    "retirement income calculator",
+    "monthly withdrawal calculator",
+    "systematic withdrawal from mutual funds",
+    "SWP planning tool",
   ],
   openGraph: {
-    title: "SWP Calculator - Systematic Withdrawal Plan Calculator Online Free | MoneySynth",
+    title: "SWP Calculator - Systematic Withdrawal Plan",
     description:
-      "Free SWP calculator to calculate Systematic Withdrawal Plan. Calculate how long your investment will last with regular monthly withdrawals.",
+      "Calculate systematic withdrawal plan from mutual funds. Plan regular income from your investments effectively.",
     type: "website",
     url: "https://moneysynth.com/calculators/swp-calculator",
     siteName: "MoneySynth",
@@ -42,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SWP Calculator - Systematic Withdrawal Plan Calculator Online Free",
+    title: "SWP Calculator - Systematic Withdrawal Plan",
     description:
-      "Free SWP calculator. Calculate how long your investment will last with regular monthly withdrawals for retirement planning.",
+      "Calculate systematic withdrawal plan from mutual funds. Plan regular income from your investments effectively.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/swp-calculator",

@@ -7,35 +7,38 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "SIP Calculator - Calculate SIP Returns Online Free | MoneySynth",
+  title: "SIP Calculator - Mutual Fund SIP Returns",
   description:
-    "Free SIP calculator to calculate Systematic Investment Plan returns. Calculate SIP maturity value, total investment, returns, and growth. SIP calculator for mutual funds with year-wise breakdown and growth charts.",
+    "Calculate potential returns from SIP investments in mutual funds. Plan your systematic investment strategy effectively.",
   keywords: [
     "SIP calculator",
     "SIP returns calculator",
-    "SIP calculator India",
     "mutual fund SIP calculator",
     "SIP maturity calculator",
     "SIP calculator online",
     "calculate SIP returns",
     "SIP investment calculator",
     "SIP calculator free",
-    "SIP returns calculator India",
     "SIP calculator mutual fund",
     "SIP calculator online free",
     "SIP calculator with returns",
-    "SIP calculator India",
     "systematic investment plan calculator",
     "SIP calculator growth",
     "SIP calculator maturity value",
-    "SIP calculator online India",
     "SIP calculator formula",
     "SIP calculator returns",
+    "best SIP calculator",
+    "free SIP calculator",
+    "SIP investment planning",
+    "mutual fund SIP returns",
+    "SIP calculator tool",
+    "calculate SIP maturity",
+    "SIP wealth calculator",
   ],
   openGraph: {
-    title: "SIP Calculator - Calculate SIP Returns Online Free | MoneySynth",
+    title: "SIP Calculator - Mutual Fund SIP Returns",
     description:
-      "Free SIP calculator to calculate Systematic Investment Plan returns. Calculate SIP maturity value, total investment, and returns with growth charts.",
+      "Calculate potential returns from SIP investments in mutual funds. Plan your systematic investment strategy effectively.",
     type: "website",
     url: "https://moneysynth.com/calculators/sip-calculator",
     siteName: "MoneySynth",
@@ -43,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SIP Calculator - Calculate SIP Returns Online Free",
+    title: "SIP Calculator - Mutual Fund SIP Returns",
     description:
-      "Free SIP calculator. Calculate your SIP returns, maturity value, and investment growth with detailed breakdown.",
+      "Calculate potential returns from SIP investments in mutual funds. Plan your systematic investment strategy effectively.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/sip-calculator",

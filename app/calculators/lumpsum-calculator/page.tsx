@@ -6,35 +6,36 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "Lumpsum Calculator - Calculate Lumpsum Investment Returns Online Free | MoneySynth",
+  title: "Lumpsum Calculator - One-time Investment",
   description:
-    "Free lumpsum calculator to calculate future value of one-time lump sum investments. Calculate lumpsum returns, maturity value, and growth. Lumpsum investment calculator for mutual funds.",
+    "Calculate returns from one-time lump sum investments in mutual funds. Plan your single investment strategy.",
   keywords: [
     "lumpsum calculator",
     "lumpsum investment calculator",
-    "lumpsum calculator India",
     "lumpsum returns calculator",
     "lumpsum calculator online",
     "calculate lumpsum returns",
     "lumpsum calculator free",
-    "lumpsum calculator India",
-    "lumpsum investment calculator India",
     "lumpsum calculator mutual fund",
     "lumpsum calculator online free",
     "one time investment calculator",
     "lumpsum calculator with returns",
-    "lumpsum calculator India",
     "lumpsum calculator formula",
     "lumpsum returns calculator",
-    "lumpsum calculator online India",
     "lumpsum vs SIP calculator",
     "lumpsum investment returns",
     "lumpsum calculator growth",
+    "best lumpsum calculator",
+    "free lumpsum calculator",
+    "one-time investment planning",
+    "lumpsum mutual fund calculator",
+    "single investment calculator",
+    "lumpsum investment planning",
   ],
   openGraph: {
-    title: "Lumpsum Calculator - Calculate Lumpsum Investment Returns Online Free | MoneySynth",
+    title: "Lumpsum Calculator - One-time Investment",
     description:
-      "Free lumpsum calculator to calculate future value of one-time lump sum investments. Calculate lumpsum returns and growth.",
+      "Calculate returns from one-time lump sum investments in mutual funds. Plan your single investment strategy.",
     type: "website",
     url: "https://moneysynth.com/calculators/lumpsum-calculator",
     siteName: "MoneySynth",
@@ -42,9 +43,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lumpsum Calculator - Calculate Lumpsum Investment Returns Online Free",
+    title: "Lumpsum Calculator - One-time Investment",
     description:
-      "Free lumpsum calculator. Calculate future value of one-time investments, returns, and growth with detailed breakdown.",
+      "Calculate returns from one-time lump sum investments in mutual funds. Plan your single investment strategy.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/lumpsum-calculator",

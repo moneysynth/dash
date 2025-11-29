@@ -8,16 +8,14 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Personal Loan EMI Calculator - Calculate Personal Loan EMI Online Free | MoneySynth",
+  title: "Personal Loan EMI Calculator - Instant Results",
   description:
-    "Free personal loan EMI calculator to calculate Equated Monthly Installment (EMI) for personal loans in India. Get detailed amortization schedule, interest breakdown, and payment schedule. Calculate personal loan EMI with accurate results.",
+    "Personal loan EMI calculator to determine monthly payments, interest costs, and compare different loan offers.",
   keywords: [
     "personal loan calculator",
     "personal loan EMI calculator",
     "personal loan EMI",
-    "personal loan calculator India",
     "EMI calculator personal loan",
-    "personal loan EMI calculator India",
     "calculate personal loan EMI",
     "personal loan interest calculator",
     "personal loan amortization calculator",
@@ -30,13 +28,17 @@ export const metadata: Metadata = {
     "online personal loan calculator",
     "personal loan EMI calculator online",
     "unsecured loan calculator",
-    "personal loan EMI calculator India",
     "personal loan calculator online free",
+    "personal loan planning",
+    "best personal loan calculator",
+    "free personal loan calculator",
+    "instant personal loan EMI",
+    "personal loan interest rate calculator",
   ],
   openGraph: {
-    title: "Personal Loan EMI Calculator - Calculate Personal Loan EMI Online Free | MoneySynth",
+    title: "Personal Loan EMI Calculator - Instant Results",
     description:
-      "Free personal loan EMI calculator to calculate Equated Monthly Installment for personal loans with detailed amortization schedule and interest breakdown.",
+      "Personal loan EMI calculator to determine monthly payments, interest costs, and compare different loan offers.",
     type: "website",
     url: "https://moneysynth.com/calculators/personal-loan",
     siteName: "MoneySynth",
@@ -44,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Personal Loan EMI Calculator - Calculate Personal Loan EMI Online Free",
+    title: "Personal Loan EMI Calculator - Instant Results",
     description:
-      "Free personal loan EMI calculator with amortization schedule. Calculate your personal loan EMI, total interest, and payment schedule.",
+      "Personal loan EMI calculator to determine monthly payments, interest costs, and compare different loan offers.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/personal-loan",

@@ -6,22 +6,20 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "Goal-Based MF Calculator - Financial Goal Planning Calculator Online Free | MoneySynth",
+  title: "Goal-based Mutual Fund Calculator - Planning",
   description:
-    "Free goal-based mutual fund calculator to plan and calculate investments needed to achieve your financial goals. Calculate required monthly SIP, goal amount, and investment planning for education, retirement, house purchase, and more.",
+    "Plan your financial goals with mutual fund investments. Calculate required SIP for education, retirement, marriage.",
   keywords: [
     "goal based calculator",
     "goal based investment calculator",
     "goal based MF calculator",
     "financial goal calculator",
     "goal planning calculator",
-    "goal based calculator India",
     "goal based mutual fund calculator",
     "goal calculator online",
     "financial goal planning calculator",
     "goal based SIP calculator",
     "goal calculator free",
-    "goal based calculator India",
     "retirement goal calculator",
     "education goal calculator",
     "house purchase goal calculator",
@@ -30,11 +28,16 @@ export const metadata: Metadata = {
     "goal based calculator formula",
     "goal achievement calculator",
     "financial planning calculator",
+    "best goal based calculator",
+    "free goal calculator",
+    "financial goal planning",
+    "mutual fund goal calculator",
+    "SIP goal calculator",
   ],
   openGraph: {
-    title: "Goal-Based MF Calculator - Financial Goal Planning Calculator Online Free | MoneySynth",
+    title: "Goal-based Mutual Fund Calculator - Planning",
     description:
-      "Free goal-based mutual fund calculator to plan investments for your financial goals. Calculate required monthly SIP and goal achievement timeline.",
+      "Plan your financial goals with mutual fund investments. Calculate required SIP for education, retirement, marriage.",
     type: "website",
     url: "https://moneysynth.com/calculators/goal-based-mf-calculator",
     siteName: "MoneySynth",
@@ -42,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Goal-Based MF Calculator - Financial Goal Planning Calculator Online Free",
+    title: "Goal-based Mutual Fund Calculator - Planning",
     description:
-      "Free goal-based calculator. Plan investments for your financial goals - education, retirement, house purchase, and more.",
+      "Plan your financial goals with mutual fund investments. Calculate required SIP for education, retirement, marriage.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/goal-based-mf-calculator",

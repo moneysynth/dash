@@ -7,36 +7,37 @@ import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoa
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Mutual Fund Returns Calculator - Calculate MF Returns Online Free | MoneySynth",
+  title: "Mutual Fund Returns Calculator - MF ROI",
   description:
-    "Free mutual fund returns calculator to calculate returns on mutual fund investments. Calculate future value, total returns, CAGR, and inflation-adjusted returns. Mutual fund calculator for equity, debt, and hybrid funds.",
+    "Calculate mutual fund returns with different scenarios. Analyze past performance and future projections.",
   keywords: [
     "mutual fund returns calculator",
     "mutual fund calculator",
     "MF returns calculator",
-    "mutual fund calculator India",
     "calculate mutual fund returns",
     "mutual fund returns calculator online",
     "MF calculator",
     "mutual fund calculator free",
-    "mutual fund returns calculator India",
     "mutual fund CAGR calculator",
     "mutual fund calculator online",
     "calculate MF returns",
     "mutual fund investment calculator",
     "mutual fund calculator online free",
-    "mutual fund returns calculator India",
     "mutual fund calculator with CAGR",
     "mutual fund calculator formula",
-    "mutual fund returns calculator online India",
     "equity mutual fund calculator",
     "debt mutual fund calculator",
     "hybrid mutual fund calculator",
+    "best mutual fund calculator",
+    "free mutual fund calculator",
+    "MF ROI calculator",
+    "mutual fund performance calculator",
+    "CAGR calculator mutual fund",
   ],
   openGraph: {
-    title: "Mutual Fund Returns Calculator - Calculate MF Returns Online Free | MoneySynth",
+    title: "Mutual Fund Returns Calculator - MF ROI",
     description:
-      "Free mutual fund returns calculator to calculate returns on mutual fund investments. Calculate future value, total returns, CAGR, and inflation-adjusted returns.",
+      "Calculate mutual fund returns with different scenarios. Analyze past performance and future projections.",
     type: "website",
     url: "https://moneysynth.com/calculators/mutual-fund-returns-calculator",
     siteName: "MoneySynth",
@@ -44,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mutual Fund Returns Calculator - Calculate MF Returns Online Free",
+    title: "Mutual Fund Returns Calculator - MF ROI",
     description:
-      "Free mutual fund returns calculator. Calculate future value, total returns, CAGR, and inflation-adjusted returns on your mutual fund investments.",
+      "Calculate mutual fund returns with different scenarios. Analyze past performance and future projections.",
   },
   alternates: {
     canonical: "https://moneysynth.com/calculators/mutual-fund-returns-calculator",

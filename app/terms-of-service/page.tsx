@@ -14,6 +14,12 @@ export const metadata: Metadata = {
     "service terms",
     "legal terms",
     "website terms",
+    "financial calculator terms",
+    "calculator platform terms",
+    "money tools terms",
+    "financial services terms",
+    "user terms and conditions",
+    "platform terms of use",
   ],
   openGraph: {
     title: "Terms of Service - MoneySynth",

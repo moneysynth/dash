@@ -6,22 +6,19 @@ import { CalculatorFAQ } from "@/components/calculators/common/CalculatorFAQ";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
 
 export const metadata: Metadata = {
-  title: "Home Loan EMI Comparison - Compare Loans with Prepayment Options | MoneySynth",
+  title: "Home Loan EMI Comparison Tool - Compare Rates",
   description:
-    "Free home loan comparison tool to compare up to 3 different home loan scenarios with prepayment options. Compare interest rates, EMI, total interest, prepayment strategies, and loan terms. Make informed home loan decisions with visual charts and detailed analysis.",
+    "Compare home loan EMI across different banks and interest rates. Find the best home loan option for your budget.",
   keywords: [
     "home loan comparison",
     "compare home loans",
     "home loan comparison tool",
     "home loan comparison calculator",
     "compare home loan interest rates",
-    "home loan comparison India",
     "compare home loan EMI",
     "home loan comparison online",
     "home loan comparison free",
     "compare home loan offers",
-    "home loan comparison calculator India",
-    "home loan comparison tool India",
     "compare home loan scenarios",
     "home loan comparison with charts",
     "best home loan comparison",
@@ -33,14 +30,24 @@ export const metadata: Metadata = {
     "home loan comparison with prepayment",
     "home loan prepayment comparison",
     "compare home loans with part payment",
-    "home loan comparison with prepayment India",
     "compare home loan prepayment strategies",
     "home loan comparison advanced",
+    "best home loan rates comparison",
+    "mortgage comparison tool",
+    "compare mortgage rates",
+    "home loan EMI comparison tool",
+    "home loan comparison with step-up EMI",
+    "home loan comparison with prepayment",
+    "home loan comparison with part payment",
+    "home loan comparison with step-up EMI and prepayment",
+    "home loan comparison with step-up EMI and part payment",
+    "home loan comparison with step-up EMI and prepayment and part payment",
+    "home loan comparison with step-up EMI and prepayment and part payment",
   ],
   openGraph: {
-    title: "Home Loan EMI Comparison - Compare Loans with Prepayment Options | MoneySynth",
+    title: "Home Loan EMI Comparison Tool - Compare Rates",
     description:
-      "Free home loan comparison tool to compare up to 3 different home loan scenarios with prepayment options. Compare interest rates, EMI, total interest, and prepayment strategies with visual charts.",
+      "Compare home loan EMI across different banks and interest rates. Find the best home loan option for your budget.",
     type: "website",
     url: "https://moneysynth.com/tools/home-loan-emi-comparison",
     siteName: "MoneySynth",
@@ -48,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Home Loan EMI Comparison - Compare Home Loan Scenarios Online Free",
+    title: "Home Loan EMI Comparison Tool - Compare Rates",
     description:
-      "Compare up to 3 different home loan scenarios side by side. Make informed loan decisions with visual charts and detailed analysis.",
+      "Compare home loan EMI across different banks and interest rates. Find the best home loan option for your budget.",
   },
   alternates: {
     canonical: "https://moneysynth.com/tools/home-loan-emi-comparison",
