@@ -13,6 +13,7 @@ interface CalculatorLink {
 
 interface PopularCalculatorsProps {
   currentPath: string;
+  sticky?: boolean;
 }
 
 const allCalculators: CalculatorLink[] = [
@@ -40,14 +41,14 @@ const allCalculators: CalculatorLink[] = [
   { name: "Percentage Calculator", href: "/calculators/percentage-calculator", icon: Percent, category: "General" },
 ];
 
-export function PopularCalculators({ currentPath }: PopularCalculatorsProps) {
+export function PopularCalculators({ currentPath, sticky = true }: PopularCalculatorsProps) {
   // Filter out current calculator and get top 8 popular ones
   const popularCalculators = allCalculators
     .filter((calc) => calc.href !== currentPath)
     .slice(0, 8);
 
   return (
-    <Card className="sticky top-24 hidden lg:block w-full">
+    <Card className={`${sticky ? "sticky top-24" : ""} hidden lg:block w-full`}>
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold">Popular Calculators</CardTitle>
       </CardHeader>

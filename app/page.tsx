@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/Button";
 import { SEOStructuredData } from "@/components/common/SEOStructuredData";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
-import type { BlogPost } from "@/types";
+import { getAllBlogPosts } from "@/lib/blog";
 
 // Dynamically import calculator components for route-based code splitting
 const QuickEMICalculator = dynamic(
@@ -121,41 +121,9 @@ const structuredData = {
   },
 };
 
-// Mock blog posts - replace with actual data source
-const featuredPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Understanding EMI: A Complete Guide",
-    excerpt:
-      "Learn how Equated Monthly Installments work and how to calculate them for your loans.",
-    author: "MoneySynth Team",
-    date: "2024-01-15",
-    category: "Education",
-    readTime: 5,
-  },
-  {
-    id: "2",
-    title: "SIP vs Lump Sum: Which is Better?",
-    excerpt:
-      "Compare Systematic Investment Plans with lump sum investments to make informed decisions.",
-    author: "MoneySynth Team",
-    date: "2024-01-10",
-    category: "Investment",
-    readTime: 7,
-  },
-  {
-    id: "3",
-    title: "SWP: A Smart Way to Generate Regular Income",
-    excerpt:
-      "Discover how Systematic Withdrawal Plans can help you create a steady income stream.",
-    author: "MoneySynth Team",
-    date: "2024-01-05",
-    category: "Retirement",
-    readTime: 6,
-  },
-];
-
 export default function Home() {
+  const allBlogPosts = getAllBlogPosts();
+  const featuredPosts = allBlogPosts.slice(0, 3);
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

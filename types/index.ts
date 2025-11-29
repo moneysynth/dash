@@ -43,6 +43,8 @@ export interface BlogPost {
   category: string;
   readTime: number;
   image?: string;
+  content?: string;
+  keywords?: string[];
 }
 
 export interface ChartData {

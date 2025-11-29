@@ -4,73 +4,11 @@ import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 // import { AdUnit } from "@/components/common/AdUnit";
 import { Calendar, Clock, User } from "lucide-react";
-import type { BlogPost } from "@/types";
-
-// Mock blog posts - replace with actual data source
-const blogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Understanding EMI: A Complete Guide",
-    excerpt:
-      "Learn how Equated Monthly Installments work and how to calculate them for your loans. This comprehensive guide covers everything from basic concepts to advanced calculations.",
-    author: "MoneySynth Team",
-    date: "2024-01-15",
-    category: "Education",
-    readTime: 5,
-  },
-  {
-    id: "2",
-    title: "SIP vs Lump Sum: Which is Better?",
-    excerpt:
-      "Compare Systematic Investment Plans with lump sum investments to make informed decisions. We break down the pros and cons of each approach.",
-    author: "MoneySynth Team",
-    date: "2024-01-10",
-    category: "Investment",
-    readTime: 7,
-  },
-  {
-    id: "3",
-    title: "SWP: A Smart Way to Generate Regular Income",
-    excerpt:
-      "Discover how Systematic Withdrawal Plans can help you create a steady income stream from your investments during retirement.",
-    author: "MoneySynth Team",
-    date: "2024-01-05",
-    category: "Retirement",
-    readTime: 6,
-  },
-  {
-    id: "4",
-    title: "5 Financial Planning Mistakes to Avoid",
-    excerpt:
-      "Common pitfalls in financial planning and how to avoid them. Learn from these mistakes to secure your financial future.",
-    author: "MoneySynth Team",
-    date: "2024-01-01",
-    category: "Planning",
-    readTime: 8,
-  },
-  {
-    id: "5",
-    title: "Tax Benefits of SIP Investments",
-    excerpt:
-      "Explore the various tax benefits available for Systematic Investment Plans and how to maximize your savings.",
-    author: "MoneySynth Team",
-    date: "2023-12-28",
-    category: "Tax",
-    readTime: 6,
-  },
-  {
-    id: "6",
-    title: "Building an Emergency Fund: A Step-by-Step Guide",
-    excerpt:
-      "Learn how to build and maintain an emergency fund that can help you weather financial storms without derailing your long-term goals.",
-    author: "MoneySynth Team",
-    date: "2023-12-25",
-    category: "Savings",
-    readTime: 5,
-  },
-];
+import { getAllBlogPosts } from "@/lib/blog";
 
 export default function BlogPage() {
+  const blogPosts = getAllBlogPosts();
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
