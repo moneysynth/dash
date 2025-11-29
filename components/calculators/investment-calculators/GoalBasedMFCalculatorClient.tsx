@@ -7,6 +7,17 @@ import { Slider } from "@/components/ui/Slider";
 import { GoalTimeline } from "@/components/calculators/common/GoalTimeline";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { 
+  GraduationCap, 
+  UserCircle, 
+  Home, 
+  Heart, 
+  Plane, 
+  Shield,
+  Briefcase,
+  Target 
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -17,21 +28,65 @@ const InvestmentChart = dynamic(
   }
 );
 // import { AdUnit } from "@/components/common/AdUnit";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 
 const goalTypes = [
-  "Child Education",
-  "Retirement",
-  "House Purchase",
-  "Marriage",
-  "Vacation",
-  "Emergency Fund",
-  "Other",
+  { 
+    id: "Child Education", 
+    label: "Child Education", 
+    icon: GraduationCap,
+    description: "Plan for your child's education expenses"
+  },
+  { 
+    id: "Retirement", 
+    label: "Retirement", 
+    icon: UserCircle,
+    description: "Build your retirement corpus"
+  },
+  { 
+    id: "House Purchase", 
+    label: "House Purchase", 
+    icon: Home,
+    description: "Save for your dream home"
+  },
+  { 
+    id: "Marriage", 
+    label: "Marriage", 
+    icon: Heart,
+    description: "Plan for wedding expenses"
+  },
+  { 
+    id: "Vacation", 
+    label: "Vacation", 
+    icon: Plane,
+    description: "Fund your travel dreams"
+  },
+  { 
+    id: "Emergency Fund", 
+    label: "Emergency Fund", 
+    icon: Shield,
+    description: "Build financial security"
+  },
+  { 
+    id: "Business", 
+    label: "Business", 
+    icon: Briefcase,
+    description: "Start or grow your business"
+  },
+  { 
+    id: "Other", 
+    label: "Other", 
+    icon: Target,
+    description: "Custom financial goal"
+  },
 ];
 
 export function GoalBasedMFCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [goalType, setGoalType] = useState("Child Education");
+  
+  const selectedGoal = goalTypes.find(g => g.id === goalType) || goalTypes[0];
   const [goalAmount, setGoalAmount] = useState(5000000);
   const [timeline, setTimeline] = useState(15);
   const [inflationRate, setInflationRate] = useState(6);
@@ -114,20 +169,45 @@ export function GoalBasedMFCalculatorClient() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <label className="mb-2 block text-sm font-medium text-text-primary">
+                <label className="mb-3 block text-sm font-medium text-text-primary">
                   Goal Type
                 </label>
-                <select
-                  value={goalType}
-                  onChange={(e) => setGoalType(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-surface px-4 py-2 text-text-primary"
-                >
-                  {goalTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  {goalTypes.map((goal) => {
+                    const Icon = goal.icon;
+                    const isSelected = goalType === goal.id;
+                    return (
+                      <button
+                        key={goal.id}
+                        type="button"
+                        onClick={() => setGoalType(goal.id)}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all",
+                          "hover:border-primary/50 hover:bg-primary/5",
+                          isSelected
+                            ? "border-primary bg-primary/10 shadow-sm"
+                            : "border-border bg-surface"
+                        )}
+                        title={goal.description}
+                      >
+                        <Icon
+                          className={cn(
+                            "h-6 w-6 transition-colors",
+                            isSelected ? "text-primary" : "text-text-secondary"
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            "text-xs font-medium text-center leading-tight",
+                            isSelected ? "text-primary" : "text-text-primary"
+                          )}
+                        >
+                          {goal.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div>

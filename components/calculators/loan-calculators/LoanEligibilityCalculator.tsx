@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
-import { formatCurrency } from "@/lib/utils";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 
 interface EligibilityResult {
   eligibleLoanAmount: number;
@@ -108,6 +109,7 @@ function calculateLoanEligibility(
 }
 
 export function LoanEligibilityCalculator() {
+  const { formatCurrency } = useCurrency();
   const [monthlyIncome, setMonthlyIncome] = useState(75000);
   const [existingEMIs, setExistingEMIs] = useState(15000);
   const [tenure, setTenure] = useState(20);

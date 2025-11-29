@@ -148,6 +148,13 @@ export interface PartPayment {
   frequency?: number; // for recurring
 }
 
+// Step-up EMI
+export interface StepUpEMI {
+  enabled: boolean;
+  stepUpRate: number; // Annual percentage increase (e.g., 5 for 5%)
+  startDate?: { month: number; year: number }; // Month and year when step-up starts
+}
+
 // Advanced EMI
 export interface AdvancedEMIResult extends EMIResult {
   partPayments?: PartPayment[];

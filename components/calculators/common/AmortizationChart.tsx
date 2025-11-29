@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { AmortizationEntry } from "@/types";
 
 // Color mapping for tooltip
@@ -37,6 +37,7 @@ interface CustomTooltipProps {
 }
 
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  const { formatCurrency } = useCurrency();
   if (!active || !payload || !payload.length) {
     return null;
   }
@@ -97,6 +98,7 @@ interface YearChartData {
 function AmortizationChartComponent({
   schedule,
 }: AmortizationChartProps) {
+  const { formatCurrency, formatInIndianUnits, currency } = useCurrency();
   const [hiddenSeries, setHiddenSeries] = useState<Set<string>>(new Set());
   const [isMobile, setIsMobile] = useState(false);
   
@@ -204,11 +206,13 @@ function AmortizationChartComponent({
               <YAxis
                 yAxisId="left"
                 tickFormatter={(value) => {
-                  if (isMobile) {
-                    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`;
-                    return `₹${(value / 100000).toFixed(1)}L`;
+                  if (isMobile && currency === "INR") {
+                    // Use Indian units for mobile on INR
+                    if (value >= 10000000) return formatInIndianUnits(value);
+                    return formatInIndianUnits(value);
                   }
-                  return `₹${(value / 100000).toFixed(1)}L`;
+                  // For non-INR or desktop, use full format
+                  return formatCurrency(value);
                 }}
                 tick={{ fontSize: 9 }}
                 width={isMobile ? 45 : 55}
@@ -217,11 +221,13 @@ function AmortizationChartComponent({
                 yAxisId="right"
                 orientation="right"
                 tickFormatter={(value) => {
-                  if (isMobile) {
-                    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`;
-                    return `₹${(value / 100000).toFixed(1)}L`;
+                  if (isMobile && currency === "INR") {
+                    // Use Indian units for mobile on INR
+                    if (value >= 10000000) return formatInIndianUnits(value);
+                    return formatInIndianUnits(value);
                   }
-                  return `₹${(value / 100000).toFixed(1)}L`;
+                  // For non-INR or desktop, use full format
+                  return formatCurrency(value);
                 }}
                 tick={{ fontSize: 9 }}
                 width={isMobile ? 45 : 55}

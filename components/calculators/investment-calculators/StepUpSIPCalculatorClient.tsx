@@ -16,10 +16,12 @@ const InvestmentChart = dynamic(
   }
 );
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateStepUpSIP, formatCurrency } from "@/lib/utils";
+import { calculateStepUpSIP } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 
 export function StepUpSIPCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [initialSIP, setInitialSIP] = useState(5000);
   const [stepUpRate, setStepUpRate] = useState(10);
   const [tenure, setTenure] = useState(10);

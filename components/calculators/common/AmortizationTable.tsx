@@ -4,7 +4,7 @@ import { useMemo, useState, useCallback, memo } from "react";
 import { ChevronDown, FileX, FileChartColumnIncreasing, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { exportAmortizationToPDF } from "@/lib/export";
 import { exportAmortizationToXLSX } from "@/lib/exportXLSX";
 import type { AmortizationEntry } from "@/types";
@@ -38,6 +38,7 @@ function AmortizationTableComponent({
   loanDetails,
   showPrepayment = false,
 }: AmortizationTableProps) {
+  const { formatCurrency, currency } = useCurrency();
   const [openYears, setOpenYears] = useState<Set<number>>(new Set());
 
   // Calculate original principal: first balance + first principal payment
@@ -134,14 +135,14 @@ function AmortizationTableComponent({
     
     try {
       setIsExporting(true);
-      await exportAmortizationToXLSX(schedule, loanDetails, showPrepayment);
+      await exportAmortizationToXLSX(schedule, loanDetails, showPrepayment, currency);
     } catch (error) {
       console.error("Failed to export XLSX:", error);
       // You could add a toast notification here
     } finally {
       setIsExporting(false);
     }
-  }, [schedule, loanDetails, showPrepayment, isExporting]);
+  }, [schedule, loanDetails, showPrepayment, isExporting, currency]);
 
   const handlePDFExport = useCallback(async () => {
     if (!loanDetails || isExporting) return;
@@ -152,7 +153,8 @@ function AmortizationTableComponent({
         schedule,
         loanDetails,
         "yearly",
-        showPrepayment
+        showPrepayment,
+        currency
       );
     } catch (error) {
       console.error("Failed to export PDF:", error);

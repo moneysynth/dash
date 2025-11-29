@@ -1,0 +1,138 @@
+# MoneySynth - Financial Calculator Platform
+
+## Site Identity
+
+**Name:** MoneySynth
+**Tagline:** Synthesizing Money. Simplifying Growth.
+**URL:** https://moneysynth.com
+**Description:** MoneySynth is a modern financial platform that helps individuals and businesses make confident financial decisions through intelligent calculators, expert insights, and data-driven tools.
+
+**Mission:** To democratize financial knowledge by delivering intuitive tools, trustworthy insights, and intelligent resources that enable users to make smarter financial decisions every day.
+
+**Vision:** To become the world's most reliable and technology-driven financial ecosystem—where anyone, regardless of background, can understand money, build wealth, and design the future they aspire to.
+
+## Core Purpose
+
+MoneySynth provides free, accurate, and easy-to-use financial calculators for loans and investments. The platform combines human expertise with data-driven intelligence to deliver accurate, easy-to-understand financial solutions. We believe that financial literacy should be accessible to everyone.
+
+## Site Structure
+
+### Main Pages
+- **Homepage** (`/`): Landing page with featured calculators and quick access to all tools
+- **Calculators** (`/calculators`): Directory of all available calculators
+- **About Us** (`/about-us`): Information about MoneySynth, mission, vision, and platform features
+- **Blogs** (`/blogs`): Financial insights, tips, and guides
+- **FAQ** (`/faq`): Frequently asked questions about calculators and financial topics
+- **Legal Pages**: Privacy Policy, Terms of Service, Disclaimer
+
+### Calculator Categories
+
+#### Loan Calculators (`/calculators/`)
+- **EMI Calculator** (`/calculators/emi-calculator`): Calculate Equated Monthly Installments with step-up EMI, prepayment, and part payment options
+- **Home Loan EMI Calculator** (`/calculators/home-loan-emi-calculator`): Specialized calculator for home loans with advanced features
+- **Personal Loan EMI Calculator** (`/calculators/personal-loan`): Calculate EMI for personal loans
+- **Car Loan EMI Calculator** (`/calculators/car-loan`): Calculate EMI for car/auto loans
+- **Credit Card EMI Calculator** (`/calculators/credit-card-emi`): Convert credit card outstanding to EMI
+- **Loan Eligibility Calculator** (`/calculators/loan-eligibility`): Check loan eligibility based on income and obligations
+
+#### Investment Calculators (`/calculators/`)
+- **SIP Calculator** (`/calculators/sip-calculator`): Calculate returns on Systematic Investment Plans
+- **Step-up SIP Calculator** (`/calculators/step-up-sip-calculator`): SIP with annual step-up increases
+- **SWP Calculator** (`/calculators/swp-calculator`): Systematic Withdrawal Plan for regular income
+- **Lumpsum Calculator** (`/calculators/lumpsum-calculator`): Calculate future value of one-time investments
+- **RD Calculator** (`/calculators/rd-calculator`): Recurring Deposit maturity calculations
+- **FD Calculator** (`/calculators/fd-calculator`): Fixed Deposit returns with different payout options
+- **Goal-Based MF Calculator** (`/calculators/goal-based-mf-calculator`): Plan investments to achieve financial goals
+- **Mutual Fund Returns Calculator** (`/calculators/mutual-fund-returns-calculator`): Calculate mutual fund returns, CAGR, and inflation-adjusted returns
+
+#### General Calculators (`/calculators/`)
+- **Age Calculator** (`/calculators/age-calculator`): Calculate age between two dates
+- **Percentage Calculator** (`/calculators/percentage-calculator`): Calculate percentage increase, decrease, and conversions
+- **Salary Calculator** (`/calculators/salary-calculator`): Calculate take-home salary, CTC breakdown, PF, gratuity
+
+### Tools (`/tools/`)
+- **Home Loan EMI Comparison** (`/tools/home-loan-emi-comparison`): Compare up to 3 home loan scenarios with prepayment options
+- **Salary Comparison - Labour Code 2025** (`/tools/salary-comparison-labour-code-2025`): Compare current salary with New Labour Code 2025 impact
+
+## Key Features
+
+### Calculator Capabilities
+- Real-time calculations with instant results
+- Interactive charts and visualizations (Recharts library)
+- Amortization schedules for loans
+- Growth charts for investments
+- Export functionality (PDF, XLSX)
+- Save calculations to localStorage
+- Multi-currency support (INR, USD, EUR, GBP)
+- IP-based currency detection
+- Responsive design for all devices
+
+### Advanced Features
+- Step-up EMI: Increase EMI annually
+- Part payments: One-time and recurring prepayments
+- Comparison tools: Side-by-side scenario comparison
+- Goal-based planning: Plan for specific financial goals
+- Detailed breakdowns: Principal, interest, savings analysis
+
+## Technical Stack
+
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Charts:** Recharts
+- **State Management:** React Hooks, Context API
+- **Export Libraries:** jsPDF, xlsx (dynamically imported)
+- **Analytics:** Google Analytics 4
+- **Deployment:** Vercel (assumed)
+
+## Content Guidelines
+
+### Tone and Style
+- Clear, accessible, and jargon-free language
+- Educational and informative
+- Trustworthy and transparent
+- User-focused and helpful
+
+### Target Audience
+- Individuals planning loans (home, car, personal, credit card)
+- Investors planning SIP, SWP, lumpsum investments
+- People planning for financial goals (retirement, education, house purchase)
+- Salary earners understanding their compensation structure
+- Anyone seeking financial literacy and planning tools
+
+## SEO and Metadata
+
+- All pages include comprehensive SEO metadata
+- Structured data (Schema.org) for calculators and organization
+- Sitemap automatically generated
+- robots.txt configured for search engine crawling
+- Canonical URLs for all pages
+- Open Graph and Twitter Card metadata
+
+## Currency Support
+
+The platform supports multiple currencies:
+- **INR** (Indian Rupees)
+- **USD** (US Dollars)
+- **EUR** (Euros)
+- **GBP** (British Pounds)
+
+Currency selector available on calculator and tool pages. Default currency detected based on user's IP address.
+
+## Contact and Support
+
+- **Website:** https://moneysynth.com
+- **Support:** FAQ page available at `/faq`
+- **About:** Company information at `/about-us`
+
+## Legal Information
+
+- Privacy Policy: `/privacy-policy`
+- Terms of Service: `/terms-of-service`
+- Disclaimer: `/disclaimer`
+
+## Last Updated
+
+This file was last updated: 2025-11-29
+For the most current information, visit https://moneysynth.com
+

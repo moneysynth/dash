@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { Target, TrendingUp, Calendar } from "lucide-react";
 
 interface GoalTimelineProps {
@@ -17,6 +17,7 @@ export function GoalTimeline({
   targetDate,
   monthlySIP,
 }: GoalTimelineProps) {
+  const { formatCurrency } = useCurrency();
   const progress = Math.min(100, (currentValue / goalAmount) * 100);
   const monthsRemaining = Math.max(
     0,

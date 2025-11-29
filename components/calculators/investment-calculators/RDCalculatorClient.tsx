@@ -16,10 +16,12 @@ const InvestmentChart = dynamic(
   }
 );
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateRD, formatCurrency } from "@/lib/utils";
+import { calculateRD } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 
 export function RDCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [monthlyDeposit, setMonthlyDeposit] = useState(5000);
   const [rate, setRate] = useState(6.5);
   const [tenure, setTenure] = useState(5);

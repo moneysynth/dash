@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateSWP, formatCurrency } from "@/lib/utils";
+import { calculateSWP } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import {
   AreaChart,
   Area,
@@ -45,6 +46,7 @@ interface CustomTooltipProps {
 }
 
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  const { formatCurrency } = useCurrency();
   if (!active || !payload || !payload.length) {
     return null;
   }
@@ -78,6 +80,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 }
 
 export function SWPCalculatorClient() {
+  const { formatCurrency, formatInIndianUnits, currency } = useCurrency();
   const [initialAmount, setInitialAmount] = useState(1000000);
   const [monthlyWithdrawal, setMonthlyWithdrawal] = useState(10000);
   const [rate, setRate] = useState(8);
@@ -248,9 +251,12 @@ export function SWPCalculatorClient() {
                     interval="preserveStartEnd"
                   />
                   <YAxis
-                    tickFormatter={(value) =>
-                      `₹${(value / 100000).toFixed(1)}L`
-                    }
+                    tickFormatter={(value) => {
+                      if (currency === "INR") {
+                        return formatInIndianUnits(value);
+                      }
+                      return formatCurrency(value);
+                    }}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />

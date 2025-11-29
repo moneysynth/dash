@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 import type { TooltipProps as RechartsTooltipProps } from "recharts";
 
@@ -62,6 +62,7 @@ interface CustomTooltipProps {
 }
 
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  const { formatCurrency } = useCurrency();
   if (!active || !payload || !payload.length) {
     return null;
   }
@@ -102,6 +103,7 @@ function InvestmentChartComponent({
   investedData,
   startDate = new Date(),
 }: InvestmentChartProps) {
+  const { formatCurrency, formatInIndianUnits, currency } = useCurrency();
   const [hiddenSeries, setHiddenSeries] = useState<Set<string>>(new Set());
   const [isMobile, setIsMobile] = useState(false);
   
@@ -197,11 +199,10 @@ function InvestmentChartComponent({
                 />
                 <YAxis
                   tickFormatter={(value) => {
-                    if (isMobile) {
-                      if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`;
-                      return `₹${(value / 100000).toFixed(1)}L`;
+                    if (isMobile && currency === "INR") {
+                      return formatInIndianUnits(value);
                     }
-                    return `₹${(value / 100000).toFixed(1)}L`;
+                    return formatCurrency(value);
                   }}
                   tick={{ fontSize: 10 }}
                   width={isMobile ? 50 : 60}

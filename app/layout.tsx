@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { GoogleAnalytics } from "@/components/common/GoogleAnalytics";
+import { IdentitySchema } from "@/components/common/IdentitySchema";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,10 +44,9 @@ export const metadata: Metadata = {
     "financial planning tools",
     "online calculator",
     "free calculator",
-    "calculator India",
     "financial calculator online",
-    "loan calculator India",
-    "investment calculator India",
+    "loan calculator",
+    "investment calculator",
     "EMI calculator online",
     "SIP calculator online",
     "financial planning calculator",
@@ -114,6 +115,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <IdentitySchema />
         <GoogleAnalytics />
         <ThemeProvider
           attribute="data-theme"
@@ -121,7 +123,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <CurrencyProvider>
+            {children}
+          </CurrencyProvider>
         </ThemeProvider>
       </body>
     </html>

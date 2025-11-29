@@ -1,0 +1,73 @@
+# MoneySynth - Complete URL List
+# Base URL: https://moneysynth.com
+
+# ============================================
+# MAIN PAGES
+# ============================================
+https://moneysynth.com/
+https://moneysynth.com/calculators
+https://moneysynth.com/about-us
+https://moneysynth.com/blogs
+https://moneysynth.com/faq
+
+# ============================================
+# LOAN CALCULATORS
+# ============================================
+https://moneysynth.com/calculators/emi-calculator
+https://moneysynth.com/calculators/home-loan-emi-calculator
+https://moneysynth.com/calculators/personal-loan
+https://moneysynth.com/calculators/car-loan
+https://moneysynth.com/calculators/credit-card-emi
+https://moneysynth.com/calculators/loan-eligibility
+
+# ============================================
+# INVESTMENT CALCULATORS
+# ============================================
+https://moneysynth.com/calculators/sip-calculator
+https://moneysynth.com/calculators/step-up-sip-calculator
+https://moneysynth.com/calculators/swp-calculator
+https://moneysynth.com/calculators/rd-calculator
+https://moneysynth.com/calculators/fd-calculator
+https://moneysynth.com/calculators/lumpsum-calculator
+https://moneysynth.com/calculators/goal-based-mf-calculator
+https://moneysynth.com/calculators/mutual-fund-returns-calculator
+
+# ============================================
+# GENERAL CALCULATORS
+# ============================================
+https://moneysynth.com/calculators/age-calculator
+https://moneysynth.com/calculators/percentage-calculator
+https://moneysynth.com/calculators/salary-calculator
+
+# ============================================
+# TOOLS
+# ============================================
+https://moneysynth.com/tools/home-loan-emi-comparison
+https://moneysynth.com/tools/salary-comparison-labour-code-2025
+
+# ============================================
+# BLOG POSTS
+# ============================================
+https://moneysynth.com/blogs/1
+https://moneysynth.com/blogs/2
+https://moneysynth.com/blogs/3
+https://moneysynth.com/blogs/4
+https://moneysynth.com/blogs/5
+https://moneysynth.com/blogs/6
+
+# ============================================
+# LEGAL PAGES
+# ============================================
+https://moneysynth.com/privacy-policy
+https://moneysynth.com/terms-of-service
+https://moneysynth.com/disclaimer
+
+# ============================================
+# NOTES
+# ============================================
+# - Total URLs: 33
+# - Blog posts are dynamic and may expand
+# - Some routes use shorter aliases (e.g., /calculators/personal-loan instead of /calculators/personal-loan-emi-calculator)
+# - All URLs use HTTPS
+# - Base domain: moneysynth.com
+

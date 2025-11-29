@@ -142,20 +142,18 @@ npm start
 ## 📊 Available Calculators
 
 ### Loan Calculators
-- `/calculators/loans/emi-calculator` - Basic EMI Calculator
-- `/calculators/loans/emi-calculator/compare` - EMI Comparison Tool
-- `/calculators/loans/emi-calculator-advanced` - Advanced EMI with Part Payments
-- `/calculators/loans/emi-calculator-advanced/compare` - Advanced EMI Comparison
-- `/calculators/loans/loan-eligibility` - Loan Eligibility Checker
+- `/calculators/emi-calculator` - EMI Calculator with Part Payments & Prepayment Options
+- `/calculators/emi-calculator/compare` - EMI Comparison Tool
+- `/calculators/loan-eligibility` - Loan Eligibility Checker
 
 ### Investment Calculators
-- `/calculators/investments/sip-calculator` - SIP Returns Calculator
-- `/calculators/investments/step-up-sip-calculator` - Step-up SIP Calculator
-- `/calculators/investments/swp-calculator` - SWP Calculator
-- `/calculators/investments/lumpsum-calculator` - Lumpsum Investment Calculator
-- `/calculators/investments/rd-calculator` - Recurring Deposit Calculator
-- `/calculators/investments/fd-calculator` - Fixed Deposit Calculator
-- `/calculators/investments/goal-based-mf-calculator` - Goal-Based Planning
+- `/calculators/sip-calculator` - SIP Returns Calculator
+- `/calculators/step-up-sip-calculator` - Step-up SIP Calculator
+- `/calculators/swp-calculator` - SWP Calculator
+- `/calculators/lumpsum-calculator` - Lumpsum Investment Calculator
+- `/calculators/rd-calculator` - Recurring Deposit Calculator
+- `/calculators/fd-calculator` - Fixed Deposit Calculator
+- `/calculators/goal-based-mf-calculator` - Goal-Based Planning
 
 ## 🎨 Design System
 

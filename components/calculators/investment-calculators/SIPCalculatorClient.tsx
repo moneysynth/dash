@@ -15,13 +15,13 @@ const InvestmentChart = dynamic(
     ssr: false,
   }
 );
-import { SaveCalculation } from "@/components/calculators/common/SaveCalculation";
-import { ShareButtons } from "@/components/calculators/common/ShareButtons";
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateSIP, formatCurrency } from "@/lib/utils";
+import { calculateSIP } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 
 export function SIPCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [monthlyAmount, setMonthlyAmount] = useState(5000);
   const [rate, setRate] = useState(12);
   const [tenure, setTenure] = useState(10);
@@ -154,18 +154,6 @@ export function SIPCalculatorClient() {
             title="SIP Growth Chart"
             type="line"
           />
-
-          <div className="flex items-center justify-between">
-            <SaveCalculation
-              calculatorType="sip"
-              calculationId={`${monthlyAmount}_${rate}_${tenure}`}
-              data={results}
-            />
-            <ShareButtons
-              title="SIP Calculation Results"
-              data={results}
-            />
-          </div>
 
           {/* <AdUnit size="300x250" className="mx-auto" /> */}
         </div>

@@ -1,4 +1,6 @@
 import type { AmortizationEntry } from "@/types";
+import type { Currency } from "@/contexts/CurrencyContext";
+import { formatCurrency as formatCurrencyUtil } from "./utils";
 
 interface LoanDetails {
   principal: number;
@@ -32,8 +34,10 @@ async function loadXLSX(): Promise<typeof import("xlsx")> {
 export async function exportAmortizationToXLSX(
   schedule: AmortizationEntry[],
   loanDetails: LoanDetails,
-  showPrepayment: boolean = false
+  showPrepayment: boolean = false,
+  currency: Currency = "INR"
 ): Promise<void> {
+  const formatCurrency = (amount: number) => formatCurrencyUtil(amount, currency);
   // Dynamically load xlsx
   const XLSX = await loadXLSX();
   

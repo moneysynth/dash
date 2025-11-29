@@ -1,5 +1,6 @@
 import type { AmortizationEntry } from "@/types";
-import { formatCurrency } from "./utils";
+import { formatCurrency as formatCurrencyUtil } from "./utils";
+import type { Currency } from "@/contexts/CurrencyContext";
 
 // Dynamic import types - jsPDF is the class constructor, jsPDFInstance is the instance
 type jsPDFClass = typeof import("jspdf").default;
@@ -129,13 +130,15 @@ export async function exportToPDF(
   title: string,
   data: Record<string, unknown>[],
   columns: string[],
-  filename: string
+  filename: string,
+  currency: Currency = "INR"
 ): Promise<void> {
   // Dynamically load jsPDF
   const jsPDF = await loadjsPDF();
   await ensureAutoTable();
   
   const doc = new jsPDF();
+  const formatCurrency = (amount: number) => formatCurrencyUtil(amount, currency);
   
   // Add title
   doc.setFontSize(18);
@@ -248,8 +251,10 @@ export async function exportAmortizationToPDF(
     emi: number;
   },
   viewMode: "yearly" | "monthly" = "yearly",
-  showPrepayment: boolean = false
+  showPrepayment: boolean = false,
+  currency: Currency = "INR"
 ): Promise<void> {
+  const formatCurrency = (amount: number) => formatCurrencyUtil(amount, currency);
   // Dynamically load jsPDF and autotable
   const jsPDF = await loadjsPDF();
   await ensureAutoTable();

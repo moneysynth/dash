@@ -1,16 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { CalculatorDropdown } from "@/components/navigation/CalculatorDropdown";
+import { ToolsDropdown } from "@/components/navigation/ToolsDropdown";
 import { MobileMenu } from "@/components/navigation/MobileMenu";
+import { CurrencyDropdown } from "@/components/navigation/CurrencyDropdown";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  
+  // Show currency selector only on calculator and tool pages
+  const showCurrencySelector = pathname?.startsWith("/calculators/") || pathname?.startsWith("/tools/");
 
   return (
     <>
@@ -35,17 +42,12 @@ export function Header() {
               Home
             </Link>
             <CalculatorDropdown />
+            <ToolsDropdown />
             <Link
-              href="/compare/loans"
+              href="/blogs"
               className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
-              Compare
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
-            >
-              Blog
+              Blogs
             </Link>
             <Link
               href="/faq"
@@ -54,14 +56,15 @@ export function Header() {
               FAQ
             </Link>
             <Link
-              href="/about"
+              href="/about-us"
               className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
-              About
+              About Us
             </Link>
           </nav>
 
           <div className="flex items-center space-x-2">
+            {showCurrencySelector && <CurrencyDropdown />}
             <ThemeToggle />
             <Button
               variant="ghost"
@@ -78,6 +81,7 @@ export function Header() {
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
+        showCurrencySelector={showCurrencySelector}
       />
     </>
   );

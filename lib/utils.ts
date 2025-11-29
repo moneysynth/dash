@@ -6,10 +6,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("en-IN", {
+export function formatCurrency(amount: number, currency: "INR" | "USD" | "EUR" | "GBP" = "INR"): string {
+  const currencyConfig: Record<typeof currency, { locale: string }> = {
+    INR: { locale: "en-IN" },
+    USD: { locale: "en-US" },
+    EUR: { locale: "de-DE" },
+    GBP: { locale: "en-GB" },
+  };
+
+  const config = currencyConfig[currency];
+  return new Intl.NumberFormat(config.locale, {
     style: "currency",
-    currency: "INR",
+    currency: currency,
     maximumFractionDigits: 0,
   }).format(amount);
 }

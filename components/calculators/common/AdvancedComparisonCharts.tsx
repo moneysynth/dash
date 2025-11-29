@@ -11,7 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 interface AdvancedComparisonChartsProps {
   comparisonChartData: Array<{
@@ -28,6 +28,7 @@ function AdvancedComparisonChartsComponent({
   comparisonChartData,
   isMobile,
 }: AdvancedComparisonChartsProps) {
+  const { formatCurrency, formatInIndianUnits, currency } = useCurrency();
   return (
     <div>
       <h3 className="text-lg font-semibold text-text-primary mb-4">
@@ -63,11 +64,9 @@ function AdvancedComparisonChartsComponent({
               />
               <YAxis
                 tickFormatter={(value) => {
-                  // Use shorter format on mobile
-                  if (isMobile) {
-                    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`;
-                    if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`;
-                    return `₹${(value / 1000).toFixed(0)}K`;
+                  // Use shorter format on mobile for INR
+                  if (isMobile && currency === "INR") {
+                    return formatInIndianUnits(value);
                   }
                   return formatCurrency(value);
                 }}

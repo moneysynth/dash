@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -9,7 +9,10 @@ import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 // import { AdUnit } from "@/components/common/AdUnit";
 import { AmortizationTable } from "@/components/calculators/common/AmortizationTable";
-import { calculateEMI, formatCurrency, generateAmortizationSchedule } from "@/lib/utils";
+import { SaveCalculation } from "@/components/calculators/common/SaveCalculation";
+import { calculateEMI, generateAmortizationSchedule } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { getCalculation } from "@/lib/storage";
 import { ChartSkeleton, PieChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
 
 // Dynamically import chart components to reduce initial bundle size
@@ -32,6 +35,7 @@ const FilterablePieChart = dynamic(
 const COLORS = ["#2563eb", "#10b981"];
 
 export function PersonalLoanCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [principal, setPrincipal] = useState(500000);
   const [rate, setRate] = useState(12.0);
   const [tenure, setTenure] = useState(5);
@@ -42,6 +46,22 @@ export function PersonalLoanCalculatorClient() {
     month: currentDate.getMonth() + 1,
     year: currentDate.getFullYear(),
   });
+
+  // Load saved calculation from localStorage on mount
+  useEffect(() => {
+    const saved = getCalculation("personal-loan-emi-calculator_saved");
+    if (saved) {
+      if (typeof saved.principal === "number") setPrincipal(saved.principal);
+      if (typeof saved.rate === "number") setRate(saved.rate);
+      if (typeof saved.tenure === "number") setTenure(saved.tenure);
+      if (saved.startDate && typeof saved.startDate === "object" && saved.startDate !== null) {
+        const startDate = saved.startDate as Record<string, unknown>;
+        if (typeof startDate.month === "number" && typeof startDate.year === "number") {
+          setStartDate({ month: startDate.month, year: startDate.year });
+        }
+      }
+    }
+  }, []);
 
   const results = useMemo(() => {
     const emi = calculateEMI(principal, rate, tenure);
@@ -158,6 +178,19 @@ export function PersonalLoanCalculatorClient() {
               emi: results.emi,
             }}
           />
+
+          <div className="flex justify-end">
+            <SaveCalculation
+              calculatorType="personal-loan-emi-calculator"
+              calculationId="saved"
+              data={{
+                principal,
+                rate,
+                tenure,
+                startDate,
+              }}
+            />
+          </div>
 
           {/* <AdUnit size="300x250" className="mx-auto" /> */}
         </div>

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ChevronDown, Calculator, TrendingUp } from "lucide-react";
+import { ChevronDown, Calculator, TrendingUp, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CalculatorGroup {
@@ -21,33 +21,28 @@ const calculatorGroups: CalculatorGroup[] = [
     icon: <Calculator className="h-4 w-4" />,
     calculators: [
       {
-        name: "Home Loan Calculator",
-        href: "/calculators/loans/emi-calculator",
-        description: "Calculate monthly EMI for home loans",
-      },
-      {
-        name: "Advanced Home Loan Calculator",
-        href: "/calculators/loans/emi-calculator-advanced",
-        description: "Home loan with part payments & prepayment",
+        name: "Home Loan EMI Calculator",
+        href: "/calculators/home-loan-emi-calculator",
+        description: "Home loan EMI with prepayment options",
       },
       {
         name: "Personal Loan Calculator",
-        href: "/calculators/loans/personal-loan",
+        href: "/calculators/personal-loan-emi-calculator",
         description: "Calculate monthly EMI for personal loans",
       },
       {
         name: "Car Loan Calculator",
-        href: "/calculators/loans/car-loan",
+        href: "/calculators/car-loan-emi-calculator",
         description: "Calculate monthly EMI for car loans",
       },
       {
         name: "Credit Card EMI Calculator",
-        href: "/calculators/loans/credit-card-emi",
+        href: "/calculators/credit-card-emi-calculator",
         description: "Calculate EMI for credit card outstanding",
       },
       {
         name: "Loan Eligibility Calculator",
-        href: "/calculators/loans/loan-eligibility",
+        href: "/calculators/loan-eligibility-calculator",
         description: "Check your loan eligibility",
       },
     ],
@@ -58,38 +53,64 @@ const calculatorGroups: CalculatorGroup[] = [
     calculators: [
       {
         name: "SIP Calculator",
-        href: "/calculators/investments/sip-calculator",
+        href: "/calculators/sip-calculator",
         description: "Systematic Investment Plan",
       },
       {
         name: "Step-up SIP Calculator",
-        href: "/calculators/investments/step-up-sip-calculator",
+        href: "/calculators/step-up-sip-calculator",
         description: "SIP with annual increases",
       },
       {
         name: "Lumpsum Calculator",
-        href: "/calculators/investments/lumpsum-calculator",
+        href: "/calculators/lumpsum-calculator",
         description: "One-time investment returns",
       },
       {
         name: "SWP Calculator",
-        href: "/calculators/investments/swp-calculator",
+        href: "/calculators/swp-calculator",
         description: "Systematic Withdrawal Plan",
       },
       {
         name: "RD Calculator",
-        href: "/calculators/investments/rd-calculator",
+        href: "/calculators/rd-calculator",
         description: "Recurring Deposit",
       },
       {
         name: "FD Calculator",
-        href: "/calculators/investments/fd-calculator",
+        href: "/calculators/fd-calculator",
         description: "Fixed Deposit",
       },
       {
         name: "Goal-Based MF Calculator",
-        href: "/calculators/investments/goal-based-mf-calculator",
+        href: "/calculators/goal-based-mf-calculator",
         description: "Plan for financial goals",
+      },
+      {
+        name: "Mutual Fund Returns Calculator",
+        href: "/calculators/mutual-fund-returns-calculator",
+        description: "Calculate MF returns with CAGR",
+      },
+    ],
+  },
+  {
+    title: "General Calculators",
+    icon: <HelpCircle className="h-4 w-4" />,
+    calculators: [
+      {
+        name: "Age Calculator",
+        href: "/calculators/age-calculator",
+        description: "Calculate your exact age",
+      },
+      {
+        name: "Percentage Calculator",
+        href: "/calculators/percentage-calculator",
+        description: "Calculate percentages and changes",
+      },
+      {
+        name: "Salary Calculator",
+        href: "/calculators/salary-calculator",
+        description: "Calculate take-home salary",
       },
     ],
   },
@@ -136,8 +157,8 @@ export function CalculatorDropdown() {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-2 w-[600px] rounded-lg border border-border bg-surface shadow-lg z-50 p-4">
-          <div className="grid grid-cols-2 gap-6">
+        <div className="absolute left-0 top-full mt-2 w-[800px] rounded-lg border border-border bg-surface shadow-lg z-50 p-4">
+          <div className="grid grid-cols-3 gap-6">
             {calculatorGroups.map((group) => (
               <div key={group.title}>
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-text-primary">

@@ -5,9 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateFD, formatCurrency } from "@/lib/utils";
+import { calculateFD } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 export function FDCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [principal, setPrincipal] = useState(100000);
   const [rate, setRate] = useState(7.5);
   const [tenure, setTenure] = useState(5);

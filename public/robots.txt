@@ -1,0 +1,50 @@
+# robots.txt for MoneySynth
+# https://moneysynth.com/robots.txt
+# 
+# Note: This file is a fallback. The primary robots.txt is generated dynamically
+# from app/robots.ts in Next.js. This static file serves as a backup.
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Allow specific search engines explicitly
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Sogou
+Allow: /
+
+User-agent: Exabot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+# Sitemap location
+Sitemap: https://moneysynth.com/sitemap.xml
+

@@ -16,10 +16,12 @@ const InvestmentChart = dynamic(
   }
 );
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateLumpsum, calculateInflationAdjusted, formatCurrency } from "@/lib/utils";
+import { calculateLumpsum, calculateInflationAdjusted } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { ChartData } from "@/types";
 
 export function LumpsumCalculatorClient() {
+  const { formatCurrency } = useCurrency();
   const [principal, setPrincipal] = useState(100000);
   const [rate, setRate] = useState(12);
   const [tenure, setTenure] = useState(10);

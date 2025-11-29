@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
       <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-7">
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center">
@@ -20,9 +20,9 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-text-secondary max-w-md">
-              Your trusted financial calculator platform for making informed
-              investment decisions. Calculate EMI, SIP, SWP, and more with
-              accurate results and beautiful visualizations.
+              Smart Finance. Powered by Insights. MoneySynth empowers you to make
+              confident financial decisions with intelligent calculators, expert
+              insights, and data-driven tools for loans, investments, and financial planning.
             </p>
             <div className="pt-2">
               <Link
@@ -42,39 +42,31 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/calculators/loans/emi-calculator"
+                  href="/calculators/home-loan-emi-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
-                  Home Loan Calculator
+                  Home Loan EMI Calculator
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/calculators/loans/emi-calculator-advanced"
+                  href="/calculators/personal-loan-emi-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
-                  Advanced Home Loan Calculator
+                  Personal Loan EMI Calculator
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/calculators/loans/personal-loan"
+                  href="/calculators/car-loan-emi-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
-                  Personal Loan Calculator
+                  Car Loan EMI Calculator
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/calculators/loans/car-loan"
-                  className="text-sm text-text-secondary transition-colors hover:text-primary"
-                >
-                  Car Loan Calculator
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/calculators/loans/credit-card-emi"
+                  href="/calculators/credit-card-emi-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   Credit Card EMI Calculator
@@ -82,7 +74,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/loans/loan-eligibility"
+                  href="/calculators/loan-eligibility-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   Loan Eligibility Calculator
@@ -91,39 +83,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Comparison Tools */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-text-primary">
-              Comparison Tools
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/compare/loans"
-                  className="text-sm text-text-secondary transition-colors hover:text-primary"
-                >
-                  Loan Comparison
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/compare/loans/home-loan"
-                  className="text-sm text-text-secondary transition-colors hover:text-primary"
-                >
-                  Home Loan Comparison
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/compare/loans/home-loan-advanced"
-                  className="text-sm text-text-secondary transition-colors hover:text-primary"
-                >
-                  Advanced Home Loan Comparison
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
           {/* Investment Calculators */}
           <div>
             <h3 className="mb-4 text-sm font-semibold text-text-primary">
@@ -132,7 +91,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/calculators/investments/sip-calculator"
+                  href="/calculators/sip-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   SIP Calculator
@@ -140,7 +99,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/step-up-sip-calculator"
+                  href="/calculators/step-up-sip-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   Step-up SIP Calculator
@@ -148,7 +107,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/lumpsum-calculator"
+                  href="/calculators/lumpsum-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   Lumpsum Calculator
@@ -156,7 +115,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/swp-calculator"
+                  href="/calculators/swp-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   SWP Calculator
@@ -164,7 +123,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/rd-calculator"
+                  href="/calculators/rd-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   RD Calculator
@@ -172,7 +131,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/fd-calculator"
+                  href="/calculators/fd-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   FD Calculator
@@ -180,10 +139,76 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/investments/goal-based-mf-calculator"
+                  href="/calculators/goal-based-mf-calculator"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   Goal-Based MF Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calculators/mutual-fund-returns-calculator"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Mutual Fund Returns Calculator
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* General Calculators */}
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-text-primary">
+              General Calculators
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/calculators/age-calculator"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Age Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calculators/percentage-calculator"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Percentage Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calculators/salary-calculator"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Salary Calculator
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Tools */}
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-text-primary">
+              Tools
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/tools/home-loan-emi-comparison"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Home Loan EMI Comparison
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/tools/salary-comparison-labour-code-2025"
+                  className="text-sm text-text-secondary transition-colors hover:text-primary"
+                >
+                  Salary Comparison - Labour Code 2025
                 </Link>
               </li>
             </ul>
@@ -197,15 +222,15 @@ export function Footer() {
             <ul className="space-y-2 mb-6">
               <li>
                 <Link
-                  href="/blog"
+                  href="/blogs"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
-                  Blog
+                  Blogs
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/about"
+                  href="/about-us"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >
                   About Us

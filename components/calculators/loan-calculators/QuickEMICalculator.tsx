@@ -6,10 +6,12 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
 import { TenureInput } from "@/components/ui/TenureInput";
-import { calculateEMI, formatCurrency } from "@/lib/utils";
+import { calculateEMI } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { ArrowRight } from "lucide-react";
 
 export function QuickEMICalculator() {
+  const { formatCurrency } = useCurrency();
   const [principal, setPrincipal] = useState(5000000);
   const [rate, setRate] = useState(8.5);
   const [tenure, setTenure] = useState(20);
@@ -92,7 +94,7 @@ export function QuickEMICalculator() {
         </div>
 
         <Link
-          href="/calculators/loans/emi-calculator"
+          href="/calculators/emi-calculator"
           className="mt-4 flex items-center justify-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors"
         >
           View Detailed Calculation
@@ -102,4 +104,3 @@ export function QuickEMICalculator() {
     </Card>
   );
 }
-

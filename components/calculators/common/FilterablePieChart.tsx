@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 interface PieChartData {
   name: string;
@@ -38,6 +38,7 @@ interface CustomTooltipProps {
 }
 
 function CustomTooltip({ active, payload, data }: CustomTooltipProps & { data?: PieChartData[] }) {
+  const { formatCurrency } = useCurrency();
   if (!active || !payload || !payload.length) {
     return null;
   }

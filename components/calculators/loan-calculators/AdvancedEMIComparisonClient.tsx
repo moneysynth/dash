@@ -9,10 +9,14 @@ import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 import { Button } from "@/components/ui/Button";
 import { PartPaymentForm } from "@/components/calculators/common/PartPaymentForm";
+import { StepUpEMIForm } from "@/components/calculators/common/StepUpEMIForm";
+import { SaveCalculation } from "@/components/calculators/common/SaveCalculation";
 // import { AdUnit } from "@/components/common/AdUnit";
-import { calculateEMI, formatCurrency } from "@/lib/utils";
+import { calculateEMI } from "@/lib/utils";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { getCalculation } from "@/lib/storage";
 import { Trash2, Plus } from "lucide-react";
-import type { PartPayment } from "@/types";
+import type { PartPayment, StepUpEMI } from "@/types";
 import { ChartSkeleton, PieChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
 
 // Dynamically import comparison charts to reduce initial bundle size
@@ -40,9 +44,11 @@ interface AdvancedScenario {
   tenure: number;
   startDate: { month: number; year: number };
   partPayments: PartPayment[];
+  stepUpEMI: StepUpEMI;
 }
 
 export function AdvancedEMIComparisonClient() {
+  const { formatCurrency } = useCurrency();
   const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
@@ -69,6 +75,10 @@ export function AdvancedEMIComparisonClient() {
       tenure: 20,
       startDate: defaultStartDate,
       partPayments: [],
+      stepUpEMI: {
+        enabled: false,
+        stepUpRate: 10,
+      },
     },
     {
       id: 2,
@@ -78,8 +88,40 @@ export function AdvancedEMIComparisonClient() {
       tenure: 20,
       startDate: defaultStartDate,
       partPayments: [],
+      stepUpEMI: {
+        enabled: false,
+        stepUpRate: 10,
+      },
     },
   ]);
+
+  // Load saved calculation from localStorage on mount
+  useEffect(() => {
+    const saved = getCalculation("home-loan-emi-comparison_saved");
+    if (saved && Array.isArray(saved.scenarios) && saved.scenarios.length > 0) {
+      // Validate and load scenarios
+      const validScenarios = saved.scenarios.filter((s: unknown) => {
+        if (typeof s !== "object" || s === null) return false;
+        const scenario = s as Record<string, unknown>;
+        return (
+          typeof scenario.id === "number" &&
+          typeof scenario.name === "string" &&
+          typeof scenario.principal === "number" &&
+          typeof scenario.rate === "number" &&
+          typeof scenario.tenure === "number" &&
+          scenario.startDate &&
+          typeof (scenario.startDate as { month: number; year: number }).month === "number" &&
+          typeof (scenario.startDate as { month: number; year: number }).year === "number" &&
+          Array.isArray(scenario.partPayments) &&
+          scenario.stepUpEMI &&
+          typeof (scenario.stepUpEMI as { enabled: boolean; stepUpRate: number }).enabled === "boolean"
+        );
+      }) as AdvancedScenario[];
+      if (validScenarios.length > 0) {
+        setScenarios(validScenarios);
+      }
+    }
+  }, []);
 
   const addScenario = useCallback(() => {
     if (scenarios.length < 3) {
@@ -93,6 +135,10 @@ export function AdvancedEMIComparisonClient() {
           tenure: 20,
           startDate: defaultStartDate,
           partPayments: [],
+          stepUpEMI: {
+            enabled: false,
+            stepUpRate: 10,
+          },
         },
       ]);
     }
@@ -123,7 +169,9 @@ export function AdvancedEMIComparisonClient() {
     principal: number,
     rate: number,
     tenure: number,
-    partPayments: PartPayment[]
+    partPayments: PartPayment[],
+    stepUpEMI: StepUpEMI,
+    startDate: { month: number; year: number }
   ) => {
     let currentPrincipal = principal;
     let totalInterest = 0;
@@ -132,15 +180,41 @@ export function AdvancedEMIComparisonClient() {
     const numMonths = tenure * 12;
     const baseEMI = calculateEMI(principal, rate, tenure);
     let currentEMI = baseEMI; // Track current EMI (may change after part payments)
-    let savings = 0;
+    
+    // Calculate step-up EMI multiplier for each month
+    const getStepUpMultiplier = (month: number): number => {
+      if (!stepUpEMI.enabled || !stepUpEMI.startDate) return 1;
+      
+      // Calculate the month number when step-up starts
+      const startMonth = startDate.month;
+      const startYear = startDate.year;
+      const stepUpStartMonth = stepUpEMI.startDate.month;
+      const stepUpStartYear = stepUpEMI.startDate.year;
+      
+      // Calculate month number for step-up start relative to loan start
+      const stepUpStartMonthNumber = (stepUpStartYear - startYear) * 12 + (stepUpStartMonth - startMonth) + 1;
+      
+      // If current month is before step-up starts, return 1
+      if (month < stepUpStartMonthNumber) return 1;
+      
+      // Calculate how many years have passed since step-up started
+      const monthsSinceStepUp = month - stepUpStartMonthNumber;
+      const yearsSinceStepUp = Math.floor(monthsSinceStepUp / 12);
+      
+      // EMI increases by stepUpRate% each year
+      return Math.pow(1 + stepUpEMI.stepUpRate / 100, yearsSinceStepUp);
+    };
 
     const sortedPayments = [...partPayments].sort((a, b) => a.date - b.date);
+    let actualEMIs = 0; // Track actual number of EMIs paid
 
     for (let month = 1; month <= numMonths; month++) {
       // Check if loan is already paid off
       if (currentPrincipal <= 0) {
         break;
       }
+      
+      actualEMIs++; // Count this EMI
 
       let monthPrincipal = currentPrincipal;
       let monthInterest = monthPrincipal * monthlyRate;
@@ -163,23 +237,36 @@ export function AdvancedEMIComparisonClient() {
         }
       }
 
+      // Apply step-up multiplier to EMI
+      const stepUpMultiplier = getStepUpMultiplier(month);
+      let monthEMI = baseEMI * stepUpMultiplier;
+
       // Apply part payment if any
       if (partPaymentAmount > 0) {
         currentPrincipal -= partPaymentAmount;
         monthPrincipal = currentPrincipal;
         monthInterest = monthPrincipal * monthlyRate;
         
-        // Recalculate EMI based on new principal and remaining months
+        // Recalculate EMI based on new principal and remaining months, then apply step-up multiplier
         const remainingMonths = numMonths - month;
         if (remainingMonths > 0 && currentPrincipal > 0) {
-          currentEMI = calculateEMI(currentPrincipal, rate, remainingMonths / 12);
+          const recalculatedEMI = calculateEMI(currentPrincipal, rate, remainingMonths / 12);
+          monthEMI = recalculatedEMI * stepUpMultiplier;
         } else {
-          currentEMI = 0; // Loan paid off
+          monthEMI = 0; // Loan paid off
         }
       }
 
+      // Ensure EMI doesn't exceed what's needed to pay off the loan
+      if (currentPrincipal > 0) {
+        const maxEMI = currentPrincipal + monthInterest;
+        monthEMI = Math.min(monthEMI, maxEMI);
+      } else {
+        monthEMI = 0;
+      }
+
       // Calculate principal payment for this month
-      const principalPayment = currentEMI - monthInterest;
+      const principalPayment = Math.max(0, monthEMI - monthInterest);
       
       // Ensure we don't overpay
       if (currentPrincipal - principalPayment < 0) {
@@ -192,19 +279,101 @@ export function AdvancedEMIComparisonClient() {
 
       currentPrincipal -= principalPayment;
       totalInterest += monthInterest;
-      totalPaid += currentEMI + partPaymentAmount;
+      totalPaid += monthEMI + partPaymentAmount;
     }
 
-    // Calculate savings (difference from base EMI without part payments)
-    const baseTotalAmount = baseEMI * numMonths;
-    savings = baseTotalAmount - totalPaid;
+    // Calculate total without step-up EMI (but with part payments) for savings calculation
+    let totalWithoutStepUp = 0;
+    if (stepUpEMI.enabled) {
+      let principalWithoutStepUp = principal;
+      for (let month = 1; month <= numMonths; month++) {
+        if (principalWithoutStepUp <= 0) break;
+        
+        let monthPrincipal = principalWithoutStepUp;
+        let monthInterest = monthPrincipal * monthlyRate;
+        let monthEMI = baseEMI; // No step-up multiplier
+        let partPaymentAmount = 0;
+
+        for (const payment of sortedPayments) {
+          if (
+            payment.type === "one-time" &&
+            payment.date === month
+          ) {
+            partPaymentAmount += payment.amount;
+          } else if (
+            payment.type === "recurring" &&
+            payment.frequency &&
+            (month - payment.date) % payment.frequency === 0 &&
+            month >= payment.date
+          ) {
+            partPaymentAmount += payment.amount;
+          }
+        }
+
+        if (partPaymentAmount > 0) {
+          principalWithoutStepUp -= partPaymentAmount;
+          monthPrincipal = principalWithoutStepUp;
+          monthInterest = monthPrincipal * monthlyRate;
+          const remainingMonths = numMonths - month;
+          if (remainingMonths > 0 && principalWithoutStepUp > 0) {
+            monthEMI = calculateEMI(principalWithoutStepUp, rate, remainingMonths / 12);
+          } else {
+            monthEMI = 0;
+          }
+        }
+
+        if (principalWithoutStepUp > 0) {
+          const maxEMI = principalWithoutStepUp + monthInterest;
+          monthEMI = Math.min(monthEMI, maxEMI);
+        } else {
+          monthEMI = 0;
+        }
+
+        const principalPayment = Math.max(0, monthEMI - monthInterest);
+        principalWithoutStepUp -= principalPayment;
+        totalWithoutStepUp += monthEMI + partPaymentAmount;
+      }
+    }
+
+    // Calculate total without step-up EMI and without part payments
+    const totalWithoutStepUpAndPartPayments = baseEMI * numMonths;
+    
+    // Calculate savings from step-up EMI
+    const savingsFromStepUp = stepUpEMI.enabled && totalWithoutStepUp > 0 
+      ? totalWithoutStepUp - totalPaid 
+      : 0;
+
+    // Calculate savings from part payments (excluding step-up EMI effect)
+    // Only calculate if there are actual part payments
+    let savingsFromPartPayments = 0;
+    if (partPayments.length > 0) {
+      if (stepUpEMI.enabled && totalWithoutStepUp > 0) {
+        // When step-up is enabled, compare total without step-up (with part payments) vs without part payments
+        savingsFromPartPayments = totalWithoutStepUpAndPartPayments - totalWithoutStepUp;
+      } else {
+        // When step-up is not enabled, compare total paid (with part payments) vs base EMI total
+        savingsFromPartPayments = totalWithoutStepUpAndPartPayments - totalPaid;
+      }
+    }
+
+    // Total savings
+    const totalSavings = (baseEMI * numMonths) - totalPaid;
+
+    // Calculate EMI statistics
+    const originalEMIs = numMonths;
+    const emisReduced = originalEMIs - actualEMIs;
 
     return {
       emi: baseEMI,
       totalAmount: totalPaid,
       totalInterest,
       principal,
-      savings: Math.max(0, savings),
+      savings: Math.max(0, totalSavings),
+      savingsFromStepUp: Math.max(0, savingsFromStepUp),
+      savingsFromPartPayments: Math.max(0, savingsFromPartPayments),
+      originalEMIs,
+      actualEMIs,
+      emisReduced,
     };
   };
 
@@ -214,7 +383,9 @@ export function AdvancedEMIComparisonClient() {
         scenario.principal,
         scenario.rate,
         scenario.tenure,
-        scenario.partPayments
+        scenario.partPayments,
+        scenario.stepUpEMI,
+        scenario.startDate
       );
 
       return {
@@ -253,7 +424,7 @@ export function AdvancedEMIComparisonClient() {
             <div>
               <CardTitle>Compare Advanced Loan Scenarios</CardTitle>
               <CardDescription>
-                Compare up to 3 different loan scenarios with part payments side by side
+                Compare up to 3 different loan scenarios with step-up EMI and part payments side by side
               </CardDescription>
             </div>
             {scenarios.length < 3 && (
@@ -376,12 +547,24 @@ export function AdvancedEMIComparisonClient() {
                   </div>
 
                   <div className="pt-4 border-t border-border">
+                    <StepUpEMIForm
+                      stepUpEMI={scenario.stepUpEMI}
+                      onStepUpEMIChange={(stepUpEMI) =>
+                        updateScenario(scenario.id, "stepUpEMI", stepUpEMI)
+                      }
+                      loanTenure={scenario.tenure}
+                      loanStartDate={scenario.startDate}
+                    />
+                  </div>
+
+                  <div className="pt-4 border-t border-border">
                     <PartPaymentForm
                       partPayments={scenario.partPayments}
                       onPartPaymentsChange={(payments) =>
                         updateScenario(scenario.id, "partPayments", payments)
                       }
                       loanTenure={scenario.tenure * 12}
+                      startDate={scenario.startDate}
                     />
                   </div>
                 </CardContent>
@@ -407,7 +590,7 @@ export function AdvancedEMIComparisonClient() {
                   {formatCurrency(result.emi)}
                 </p>
               </div>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-text-secondary">Principal Amount</span>
                   <span className="font-semibold text-text-primary">
@@ -432,22 +615,62 @@ export function AdvancedEMIComparisonClient() {
                     {formatCurrency(result.totalInterest)}
                   </span>
                 </div>
-                {result.savings > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-text-secondary">Savings</span>
-                    <span className="font-semibold text-accent">
-                      {formatCurrency(result.savings)}
-                    </span>
-                  </div>
-                )}
-                <div className="flex justify-between border-t border-border pt-2">
+                <div className="flex justify-between border-t border-border pt-3">
                   <span className="font-semibold text-text-primary">
-                    Total Amount
+                    Total Amount Paid
                   </span>
                   <span className="font-bold" style={{ color: COLORS[index] }}>
                     {formatCurrency(result.totalAmount)}
                   </span>
                 </div>
+                {result.savingsFromStepUp > 0 && (
+                  <div className="flex justify-between border-t border-border pt-3">
+                    <span className="text-text-secondary">Savings from Step-up EMI</span>
+                    <span className="font-bold text-green-600">
+                      {formatCurrency(result.savingsFromStepUp)}
+                    </span>
+                  </div>
+                )}
+                {result.savingsFromPartPayments > 0 && (
+                  <div className="flex justify-between border-t border-border pt-3">
+                    <span className="text-text-secondary">Savings from Part Payments</span>
+                    <span className="font-bold text-secondary">
+                      {formatCurrency(result.savingsFromPartPayments)}
+                    </span>
+                  </div>
+                )}
+                {result.savings > 1 && result.savingsFromStepUp === 0 && result.savingsFromPartPayments === 0 && (
+                  <div className="flex justify-between border-t border-border pt-3">
+                    <span className="text-text-secondary">Total Savings</span>
+                    <span className="font-bold text-accent">
+                      {formatCurrency(result.savings)}
+                    </span>
+                  </div>
+                )}
+                {result.emisReduced > 0 && (
+                  <div className="flex justify-between border-t border-border pt-3">
+                    <span className="text-text-secondary">EMIs Reduced</span>
+                    <span className="font-bold text-green-600">
+                      {result.emisReduced} {result.emisReduced === 1 ? 'EMI' : 'EMIs'}
+                    </span>
+                  </div>
+                )}
+                {result.emisReduced > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Original Tenure</span>
+                    <span className="text-text-secondary">
+                      {result.originalEMIs} {result.originalEMIs === 1 ? 'EMI' : 'EMIs'} ({result.tenure} {result.tenure === 1 ? 'year' : 'years'})
+                    </span>
+                  </div>
+                )}
+                {result.emisReduced > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Actual Tenure</span>
+                    <span className="text-text-secondary">
+                      {result.actualEMIs} {result.actualEMIs === 1 ? 'EMI' : 'EMIs'} ({Math.ceil(result.actualEMIs / 12)} {Math.ceil(result.actualEMIs / 12) === 1 ? 'year' : 'years'})
+                    </span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -620,6 +843,16 @@ export function AdvancedEMIComparisonClient() {
           </div>
         </CardContent>
       </Card>
+
+      <div className="flex justify-end mt-6">
+        <SaveCalculation
+          calculatorType="home-loan-emi-comparison"
+          calculationId="saved"
+          data={{
+            scenarios,
+          }}
+        />
+      </div>
 
       {/* <AdUnit size="728x90" className="mx-auto" /> */}
     </div>
