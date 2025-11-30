@@ -66,11 +66,6 @@ const salaryComparisonSchema = {
     price: "0",
     priceCurrency: "INR",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "1250",
-  },
   url: "https://moneysynth.com/tools/salary-comparison-labour-code-2025",
 };
 

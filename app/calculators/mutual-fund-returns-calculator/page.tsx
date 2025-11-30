@@ -75,11 +75,6 @@ const mutualFundReturnsCalculatorSchema = {
     "Year-wise Breakdown",
     "Growth Charts",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "1250",
-  },
 };
 
 // Dynamically import calculator component for route-based code splitting

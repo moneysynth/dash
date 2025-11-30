@@ -2,8 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { goalBasedMFCalculatorSchema, investmentAmountSchema, investmentRateSchema, investmentTenureSchema, inflationRateSchema } from "@/lib/validation/schemas";
 import { GoalTimeline } from "@/components/calculators/common/GoalTimeline";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
@@ -95,6 +98,29 @@ export function GoalBasedMFCalculatorClient() {
   const [currentSavings, setCurrentSavings] = useState(0);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const goalTypeValue = goalType.toLowerCase().replace(" ", "-") as "house" | "car" | "education" | "retirement" | "vacation" | "wedding" | "other";
+    const validation = validateSchema(goalBasedMFCalculatorSchema, {
+      currentInvestment: currentSavings,
+      targetAmount: goalAmount,
+      timeHorizon: timeline,
+      expectedReturnRate: expectedReturns,
+      inflationRate,
+      goalType: goalTypeValue,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        adjustedGoal: 0,
+        requiredSIP: 0,
+        requiredLumpsum: 0,
+        progressChart: [],
+        targetDate: new Date(),
+        currentValue: 0,
+      };
+    }
+
     const adjustedGoal = goalAmount * Math.pow(1 + inflationRate / 100, timeline);
     const monthlyRate = expectedReturns / 12 / 100;
     const numPayments = timeline * 12;
@@ -220,14 +246,16 @@ export function GoalBasedMFCalculatorClient() {
                   valueLabel={formatCurrency(goalAmount)}
                   onValueChange={setGoalAmount}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentAmountSchema.min(1000, "Goal amount must be at least 1,000").max(1000000000, "Goal amount cannot exceed 100 Crore")}
                   value={goalAmount}
-                  onChange={(e) => setGoalAmount(Number(e.target.value))}
+                  onValueChange={(value) => setGoalAmount(Number(value))}
                   className="mt-2"
                   min={100000}
                   max={50000000}
                   step={100000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -241,13 +269,15 @@ export function GoalBasedMFCalculatorClient() {
                   valueLabel={`${timeline} years`}
                   onValueChange={setTimeline}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={timeline}
-                  onChange={(e) => setTimeline(Number(e.target.value))}
+                  onValueChange={(value) => setTimeline(Number(value))}
                   className="mt-2"
                   min={1}
                   max={40}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -261,14 +291,16 @@ export function GoalBasedMFCalculatorClient() {
                   valueLabel={`${inflationRate}%`}
                   onValueChange={setInflationRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={inflationRateSchema}
                   value={inflationRate}
-                  onChange={(e) => setInflationRate(Number(e.target.value))}
+                  onValueChange={(value) => setInflationRate(Number(value))}
                   className="mt-2"
                   min={3}
                   max={10}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -282,14 +314,16 @@ export function GoalBasedMFCalculatorClient() {
                   valueLabel={`${expectedReturns}%`}
                   onValueChange={setExpectedReturns}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={expectedReturns}
-                  onChange={(e) => setExpectedReturns(Number(e.target.value))}
+                  onValueChange={(value) => setExpectedReturns(Number(value))}
                   className="mt-2"
                   min={8}
                   max={18}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -303,14 +337,16 @@ export function GoalBasedMFCalculatorClient() {
                   valueLabel={formatCurrency(currentSavings)}
                   onValueChange={setCurrentSavings}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(0, "Current savings cannot be negative").max(100000000, "Current savings cannot exceed 10 Crore")}
                   value={currentSavings}
-                  onChange={(e) => setCurrentSavings(Number(e.target.value))}
+                  onValueChange={(value) => setCurrentSavings(Number(value))}
                   className="mt-2"
                   min={0}
                   max={10000000}
                   step={10000}
+                  validateOnBlur={true}
                 />
               </div>
 

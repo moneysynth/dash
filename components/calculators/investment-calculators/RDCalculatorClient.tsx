@@ -2,10 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { rdCalculatorSchema, monthlyInvestmentSchema, interestRateSchema } from "@/lib/validation/schemas";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -27,6 +30,24 @@ export function RDCalculatorClient() {
   const [tenure, setTenure] = useState(5);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(rdCalculatorSchema, {
+      monthlyDeposit,
+      rate,
+      tenure,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        maturityAmount: 0,
+        totalDeposited: 0,
+        interestEarned: 0,
+        tds: 0,
+        chartData: [],
+      };
+    }
+
     const maturityAmount = calculateRD(monthlyDeposit, rate, tenure);
     const totalDeposited = monthlyDeposit * tenure * 12;
     const interestEarned = maturityAmount - totalDeposited;
@@ -81,16 +102,16 @@ export function RDCalculatorClient() {
                   valueLabel={formatCurrency(monthlyDeposit)}
                   onValueChange={setMonthlyDeposit}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={monthlyInvestmentSchema}
                   value={monthlyDeposit}
-                  onChange={(e) =>
-                    setMonthlyDeposit(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setMonthlyDeposit(Number(value))}
                   className="mt-2"
                   min={500}
                   max={100000}
                   step={500}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -104,14 +125,16 @@ export function RDCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={interestRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={4}
                   max={9}
                   step={0.1}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -125,13 +148,15 @@ export function RDCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(0.5, "Tenure must be at least 0.5 years").max(10, "Tenure must not exceed 10 years")}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={10}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>

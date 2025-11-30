@@ -85,11 +85,6 @@ const carLoanCalculatorSchema = {
     "Payment Schedule",
     "Yearly and Monthly Views",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "1250",
-  },
 };
 
 export default function CarLoanCalculatorPage() {

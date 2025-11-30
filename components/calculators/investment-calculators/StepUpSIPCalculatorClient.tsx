@@ -2,10 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { stepUpSIPCalculatorSchema, monthlyInvestmentSchema, investmentRateSchema, investmentTenureSchema } from "@/lib/validation/schemas";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -28,6 +31,29 @@ export function StepUpSIPCalculatorClient() {
   const [returns, setReturns] = useState(12);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(stepUpSIPCalculatorSchema, {
+      initialAmount: initialSIP,
+      stepUpRate,
+      stepUpFrequency: "yearly", // Default, can be made configurable
+      rate: returns,
+      tenure,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        finalValue: 0,
+        totalInvested: 0,
+        wealthGain: 0,
+        estimatedReturns: 0,
+        regularSIPValue: 0,
+        regularSIPInvested: 0,
+        chartData: [],
+        investedData: [],
+      };
+    }
+
     const stepUpResult = calculateStepUpSIP(initialSIP, stepUpRate, tenure, returns);
     
     const monthlyRate = returns / 12 / 100;
@@ -64,6 +90,7 @@ export function StepUpSIPCalculatorClient() {
 
     return {
       ...stepUpResult,
+      estimatedReturns: stepUpResult.wealthGain,
       regularSIPValue,
       regularSIPInvested,
       chartData,
@@ -93,16 +120,16 @@ export function StepUpSIPCalculatorClient() {
                   valueLabel={formatCurrency(initialSIP)}
                   onValueChange={setInitialSIP}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={monthlyInvestmentSchema}
                   value={initialSIP}
-                  onChange={(e) =>
-                    setInitialSIP(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setInitialSIP(Number(value))}
                   className="mt-2"
                   min={500}
                   max={100000}
                   step={500}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -116,14 +143,16 @@ export function StepUpSIPCalculatorClient() {
                   valueLabel={`${stepUpRate}%`}
                   onValueChange={setStepUpRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(0, "Step-up rate must be 0% or greater").max(50, "Step-up rate must not exceed 50%")}
                   value={stepUpRate}
-                  onChange={(e) => setStepUpRate(Number(e.target.value))}
+                  onValueChange={(value) => setStepUpRate(Number(value))}
                   className="mt-2"
                   min={5}
                   max={25}
                   step={1}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -137,14 +166,16 @@ export function StepUpSIPCalculatorClient() {
                   valueLabel={`${returns}%`}
                   onValueChange={setReturns}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={returns}
-                  onChange={(e) => setReturns(Number(e.target.value))}
+                  onValueChange={(value) => setReturns(Number(value))}
                   className="mt-2"
                   min={6}
                   max={18}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -158,13 +189,15 @@ export function StepUpSIPCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={30}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>

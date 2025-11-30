@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { validateSchema } from "@/lib/validation/utils";
+import { ageCalculatorSchema } from "@/lib/validation/schemas";
 
 interface AgeResult {
   years: number;
@@ -27,7 +29,14 @@ export function AgeCalculatorClient() {
     const compare = compareDate ? new Date(compareDate) : new Date();
 
     if (isNaN(birth.getTime()) || isNaN(compare.getTime())) return null;
-    if (birth > compare) return null;
+    
+    // Validate inputs before calculation
+    const validation = validateSchema(ageCalculatorSchema, {
+      birthDate: birth,
+      compareDate: compare,
+    });
+
+    if (!validation.success || birth > compare) return null;
 
     // Calculate age
     let years = compare.getFullYear() - birth.getFullYear();

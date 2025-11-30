@@ -3,8 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { validateSchema } from "@/lib/validation/utils";
+import { emiCalculatorSchema, loanPrincipalSchema, interestRateSchema } from "@/lib/validation/schemas";
 import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 import { PartPaymentForm } from "@/components/calculators/common/PartPaymentForm";
@@ -93,6 +95,43 @@ export function EMICalculatorClient() {
   }, []);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(emiCalculatorSchema, {
+      principal,
+      rate,
+      tenure,
+      startDate,
+      partPayments: partPayments.map(p => ({
+        amount: p.amount,
+        date: p.date,
+        type: p.type,
+        frequency: p.frequency,
+      })),
+      stepUpEMI: {
+        enabled: stepUpEMI.enabled,
+        stepUpRate: stepUpEMI.stepUpRate,
+        startDate: stepUpEMI.startDate,
+      },
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        emi: 0,
+        totalAmount: 0,
+        totalInterest: 0,
+        principal: 0,
+        schedule: [],
+        savings: 0,
+        savingsFromStepUp: 0,
+        savingsFromPartPayments: 0,
+        totalSavings: 0,
+        emisReduced: 0,
+        originalEMIs: 0,
+        actualEMIs: 0,
+      };
+    }
+
     let currentPrincipal = principal;
     let totalInterest = 0;
     let totalPaid = 0;
@@ -341,15 +380,15 @@ export function EMICalculatorClient() {
                   valueLabel={formatCurrency(principal)}
                   onValueChange={setPrincipal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={loanPrincipalSchema}
                   value={principal}
-                  onChange={(e) =>
-                    setPrincipal(Number(e.target.value))
-                  }
+                  onValueChange={(val) => setPrincipal(Number(val))}
                   className="mt-2"
                   min={100000}
                   max={50000000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -363,14 +402,16 @@ export function EMICalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={interestRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(val) => setRate(Number(val))}
                   className="mt-2"
                   min={5}
                   max={20}
                   step={0.1}
+                  validateOnBlur={true}
                 />
               </div>
 

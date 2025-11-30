@@ -3,8 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { validateSchema } from "@/lib/validation/utils";
+import { creditCardEMICalculatorSchema, loanPrincipalSchema, interestRateSchema } from "@/lib/validation/schemas";
 import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 // import { AdUnit } from "@/components/common/AdUnit";
@@ -81,6 +83,25 @@ export function CreditCardEMICalculatorClient() {
   }, [rate, rateType]);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(creditCardEMICalculatorSchema, {
+      principal,
+      rate: annualRate, // Use annual rate for validation
+      tenure,
+      rateType: rateType === "per annum" ? "per-annum" : "per-month",
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        emi: 0,
+        totalAmount: 0,
+        totalInterest: 0,
+        principal: 0,
+        schedule: [],
+      };
+    }
+
     const emi = calculateEMI(principal, annualRate, tenure);
     const totalAmount = emi * tenure * 12;
     const totalInterest = totalAmount - principal;
@@ -122,15 +143,15 @@ export function CreditCardEMICalculatorClient() {
                   valueLabel={formatCurrency(principal)}
                   onValueChange={setPrincipal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={loanPrincipalSchema}
                   value={principal}
-                  onChange={(e) =>
-                    setPrincipal(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setPrincipal(Number(value))}
                   className="mt-2"
                   min={1000}
                   max={1000000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -183,14 +204,16 @@ export function CreditCardEMICalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={interestRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={rateType === "per annum" ? 12 : 1}
                   max={rateType === "per annum" ? 48 : 4}
                   step={rateType === "per annum" ? 0.5 : 0.1}
+                  validateOnBlur={true}
                 />
               </div>
 

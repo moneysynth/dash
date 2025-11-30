@@ -2,11 +2,14 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 // import { AdUnit } from "@/components/common/AdUnit";
 import { calculateFD } from "@/lib/utils";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { fdCalculatorSchema, investmentAmountSchema, interestRateSchema } from "@/lib/validation/schemas";
 
 export function FDCalculatorClient() {
   const { formatCurrency } = useCurrency();
@@ -18,6 +21,28 @@ export function FDCalculatorClient() {
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(fdCalculatorSchema, {
+      principal,
+      rate,
+      tenure,
+      compounding,
+      payoutOption,
+      isSeniorCitizen,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        maturityAmount: 0,
+        interestEarned: 0,
+        tds: 0,
+        monthlyPayout: 0,
+        quarterlyPayout: 0,
+        effectiveRate: 0,
+      };
+    }
+
     const effectiveRate = isSeniorCitizen ? rate + 0.5 : rate;
     const maturityAmount = calculateFD(principal, effectiveRate, tenure, compounding);
     const interestEarned = maturityAmount - principal;
@@ -64,14 +89,16 @@ export function FDCalculatorClient() {
                   valueLabel={formatCurrency(principal)}
                   onValueChange={setPrincipal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentAmountSchema}
                   value={principal}
-                  onChange={(e) => setPrincipal(Number(e.target.value))}
+                  onValueChange={(value) => setPrincipal(Number(value))}
                   className="mt-2"
                   min={10000}
                   max={10000000}
                   step={10000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -85,14 +112,16 @@ export function FDCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={interestRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={5}
                   max={9}
                   step={0.1}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -106,13 +135,15 @@ export function FDCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(0.5, "Tenure must be at least 0.5 years").max(10, "Tenure must not exceed 10 years")}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={10}
+                  validateOnBlur={true}
                 />
               </div>
 

@@ -2,11 +2,14 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import { SaveCalculation } from "@/components/calculators/common/SaveCalculation";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { getCalculation } from "@/lib/storage";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { salaryCalculatorSchema } from "@/lib/validation/schemas";
 
 interface SalaryBreakdown {
   grossSalary: number;
@@ -56,6 +59,34 @@ export function SalaryCalculatorClient() {
   }, []);
 
   const results = useMemo((): SalaryBreakdown => {
+    // Validate inputs before calculation
+    const validation = validateSchema(salaryCalculatorSchema, {
+      ctc,
+      basicMode,
+      basicPercentage: basicMode === "percentage" ? basicPercentage : undefined,
+      basicAmount: basicMode === "amount" ? basicAmount : undefined,
+      hraMode,
+      hraPercentage: hraMode === "percentage" ? hraPercentage : undefined,
+      hraAmount: hraMode === "amount" ? hraAmount : undefined,
+      professionalTax,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        grossSalary: 0,
+        basicSalary: 0,
+        hra: 0,
+        otherAllowances: 0,
+        pfEmployee: 0,
+        pfEmployer: 0,
+        gratuity: 0,
+        professionalTax: 0,
+        netSalary: 0,
+        annualCTC: 0,
+      };
+    }
+
     const annualCTC = ctc;
     const monthlyCTC = annualCTC / 12;
 
@@ -134,14 +165,16 @@ export function SalaryCalculatorClient() {
                   valueLabel={formatCurrency(ctc)}
                   onValueChange={setCtc}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(100000, "Annual CTC must be at least ₹1,00,000").max(20000000, "Annual CTC must not exceed ₹2 crore")}
                   value={ctc}
-                  onChange={(e) => setCtc(Number(e.target.value))}
+                  onValueChange={(val) => setCtc(Number(val))}
                   className="mt-2"
                   min={200000}
                   max={20000000}
                   step={10000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -204,14 +237,16 @@ export function SalaryCalculatorClient() {
                       valueLabel={`${basicPercentage}%`}
                       onValueChange={setBasicPercentage}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(15, "Basic salary percentage must be at least 15%").max(80, "Basic salary percentage cannot exceed 80%")}
                       value={basicPercentage}
-                      onChange={(e) => setBasicPercentage(Number(e.target.value))}
+                      onValueChange={(val) => setBasicPercentage(Number(val))}
                       className="mt-2"
                       min={15}
                       max={60}
                       step={1}
+                      validateOnBlur={true}
                     />
                     <p className="mt-1 text-xs text-text-secondary">
                       Typically 40-50% of gross salary
@@ -228,14 +263,16 @@ export function SalaryCalculatorClient() {
                       valueLabel={formatCurrency(basicAmount)}
                       onValueChange={setBasicAmount}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(1000, "Basic salary amount must be at least ₹1,000").max(10000000, "Basic salary amount cannot exceed ₹1 Crore")}
                       value={basicAmount}
-                      onChange={(e) => setBasicAmount(Number(e.target.value))}
+                      onValueChange={(val) => setBasicAmount(Number(val))}
                       className="mt-2"
                       min={10000}
                       max={1000000}
                       step={1000}
+                      validateOnBlur={true}
                     />
                     <p className="mt-1 text-xs text-text-secondary">
                       Enter the basic salary amount directly
@@ -305,14 +342,16 @@ export function SalaryCalculatorClient() {
                       valueLabel={`${hraPercentage}%`}
                       onValueChange={setHraPercentage}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "HRA percentage cannot be negative").max(100, "HRA percentage cannot exceed 100%")}
                       value={hraPercentage}
-                      onChange={(e) => setHraPercentage(Number(e.target.value))}
+                      onValueChange={(val) => setHraPercentage(Number(val))}
                       className="mt-2"
                       min={0}
                       max={100}
                       step={5}
+                      validateOnBlur={true}
                     />
                     <p className="mt-1 text-xs text-text-secondary">
                       Typically 40-50% of basic salary
@@ -329,14 +368,16 @@ export function SalaryCalculatorClient() {
                       valueLabel={formatCurrency(hraAmount)}
                       onValueChange={setHraAmount}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "HRA amount cannot be negative").max(10000000, "HRA amount cannot exceed ₹1 Crore")}
                       value={hraAmount}
-                      onChange={(e) => setHraAmount(Number(e.target.value))}
+                      onValueChange={(val) => setHraAmount(Number(val))}
                       className="mt-2"
                       min={0}
                       max={500000}
                       step={1000}
+                      validateOnBlur={true}
                     />
                     <p className="mt-1 text-xs text-text-secondary">
                       Enter the HRA amount directly
@@ -355,14 +396,16 @@ export function SalaryCalculatorClient() {
                   valueLabel={formatCurrency(professionalTax)}
                   onValueChange={setProfessionalTax}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={z.number().min(0, "Professional tax cannot be negative").max(5000, "Professional tax cannot exceed ₹5,000")}
                   value={professionalTax}
-                  onChange={(e) => setProfessionalTax(Number(e.target.value))}
+                  onValueChange={(val) => setProfessionalTax(Number(val))}
                   className="mt-2"
                   min={0}
                   max={500}
                   step={50}
+                  validateOnBlur={true}
                 />
                 <p className="mt-1 text-xs text-text-secondary">
                   Typically ₹200/month (varies by state)

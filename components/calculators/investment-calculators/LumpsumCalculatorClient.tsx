@@ -2,10 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { validateSchema } from "@/lib/validation/utils";
+import { lumpsumCalculatorSchema, investmentAmountSchema, investmentRateSchema, investmentTenureSchema, inflationRateSchema } from "@/lib/validation/schemas";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -28,6 +30,24 @@ export function LumpsumCalculatorClient() {
   const [inflationRate, setInflationRate] = useState(6);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(lumpsumCalculatorSchema, {
+      principal,
+      rate,
+      tenure,
+      inflationRate,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        futureValue: 0,
+        returns: 0,
+        inflationAdjusted: 0,
+        chartData: [],
+      };
+    }
+
     const futureValue = calculateLumpsum(principal, rate, tenure);
     const returns = futureValue - principal;
     const inflationAdjusted = calculateInflationAdjusted(
@@ -75,14 +95,16 @@ export function LumpsumCalculatorClient() {
                   valueLabel={formatCurrency(principal)}
                   onValueChange={setPrincipal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentAmountSchema}
                   value={principal}
-                  onChange={(e) => setPrincipal(Number(e.target.value))}
+                  onValueChange={(value) => setPrincipal(Number(value))}
                   className="mt-2"
                   min={10000}
                   max={10000000}
                   step={10000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -96,14 +118,16 @@ export function LumpsumCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={6}
                   max={18}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -117,13 +141,15 @@ export function LumpsumCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={30}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -137,14 +163,16 @@ export function LumpsumCalculatorClient() {
                   valueLabel={`${inflationRate}%`}
                   onValueChange={setInflationRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={inflationRateSchema}
                   value={inflationRate}
-                  onChange={(e) => setInflationRate(Number(e.target.value))}
+                  onValueChange={(value) => setInflationRate(Number(value))}
                   className="mt-2"
                   min={3}
                   max={10}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>

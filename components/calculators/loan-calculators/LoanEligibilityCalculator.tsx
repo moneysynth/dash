@@ -3,8 +3,10 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { validateSchema } from "@/lib/validation/utils";
+import { loanEligibilityCalculatorSchema, positiveNumberSchema, nonNegativeNumberSchema, loanTenureSchema } from "@/lib/validation/schemas";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 
@@ -115,6 +117,26 @@ export function LoanEligibilityCalculator() {
   const [tenure, setTenure] = useState(20);
 
   const result = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(loanEligibilityCalculatorSchema, {
+      monthlyIncome,
+      monthlyExpenses: 0, // Not used in this calculator
+      existingEMI: existingEMIs,
+      interestRate: 8.5, // Default rate for eligibility calculation
+      tenure,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        eligibleLoanAmount: 0,
+        maxEMI: 0,
+        eligibilityScore: 0,
+        factors: [],
+        suggestions: [],
+      };
+    }
+
     return calculateLoanEligibility(
       monthlyIncome,
       existingEMIs,
@@ -145,13 +167,15 @@ export function LoanEligibilityCalculator() {
               valueLabel={formatCurrency(monthlyIncome)}
               onValueChange={setMonthlyIncome}
             />
-            <Input
+            <ValidatedInput
               type="number"
+              schema={positiveNumberSchema.min(10000).max(10000000)}
               value={monthlyIncome}
-              onChange={(e) => setMonthlyIncome(Number(e.target.value))}
+              onValueChange={(value) => setMonthlyIncome(Number(value))}
               className="mt-2"
               min={20000}
               max={500000}
+              validateOnBlur={true}
             />
           </div>
 
@@ -165,13 +189,15 @@ export function LoanEligibilityCalculator() {
               valueLabel={formatCurrency(existingEMIs)}
               onValueChange={setExistingEMIs}
             />
-            <Input
+            <ValidatedInput
               type="number"
+              schema={nonNegativeNumberSchema.max(1000000)}
               value={existingEMIs}
-              onChange={(e) => setExistingEMIs(Number(e.target.value))}
+              onValueChange={(value) => setExistingEMIs(Number(value))}
               className="mt-2"
               min={0}
               max={100000}
+              validateOnBlur={true}
             />
             <p className="mt-2 text-xs text-text-secondary italic">
               Note: If you have EMI obligations that will end in the next 6 months, you can exclude them from this calculation.
@@ -188,13 +214,15 @@ export function LoanEligibilityCalculator() {
               valueLabel={`${tenure} years`}
               onValueChange={setTenure}
             />
-            <Input
+            <ValidatedInput
               type="number"
+              schema={loanTenureSchema}
               value={tenure}
-              onChange={(e) => setTenure(Number(e.target.value))}
+              onValueChange={(value) => setTenure(Number(value))}
               className="mt-2"
               min={5}
               max={30}
+              validateOnBlur={true}
             />
           </div>
         </div>

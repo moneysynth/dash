@@ -88,11 +88,6 @@ const emiCalculatorSchema = {
     "Interest Savings Calculator",
     "Scenario Comparison",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "1250",
-  },
 };
 
 export default function EMICalculatorPage() {

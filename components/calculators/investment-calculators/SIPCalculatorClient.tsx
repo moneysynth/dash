@@ -2,10 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { validateSchema } from "@/lib/validation/utils";
+import { sipCalculatorSchema, monthlyInvestmentSchema, investmentRateSchema, investmentTenureSchema } from "@/lib/validation/schemas";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -27,6 +29,27 @@ export function SIPCalculatorClient() {
   const [tenure, setTenure] = useState(10);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(sipCalculatorSchema, {
+      monthlyAmount,
+      rate,
+      tenure,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        investedAmount: 0,
+        estimatedReturns: 0,
+        totalValue: 0,
+        monthlyAmount: 0,
+        rate: 0,
+        tenure: 0,
+        chartData: [],
+        investedData: [],
+      };
+    }
+
     const totalValue = calculateSIP(monthlyAmount, rate, tenure);
     const investedAmount = monthlyAmount * tenure * 12;
     const estimatedReturns = totalValue - investedAmount;
@@ -91,16 +114,16 @@ export function SIPCalculatorClient() {
                   valueLabel={formatCurrency(monthlyAmount)}
                   onValueChange={setMonthlyAmount}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={monthlyInvestmentSchema}
                   value={monthlyAmount}
-                  onChange={(e) =>
-                    setMonthlyAmount(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setMonthlyAmount(Number(value))}
                   className="mt-2"
                   min={500}
                   max={100000}
                   step={500}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -114,14 +137,16 @@ export function SIPCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={6}
                   max={18}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -135,13 +160,15 @@ export function SIPCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={30}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>

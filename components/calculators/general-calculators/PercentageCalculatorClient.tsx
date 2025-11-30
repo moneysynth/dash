@@ -2,8 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { z } from "zod";
+import { validateSchema } from "@/lib/validation/utils";
+import { percentageCalculatorSchema } from "@/lib/validation/schemas";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import { useCurrency } from "@/contexts/CurrencyContext";
 
@@ -32,6 +35,21 @@ export function PercentageCalculatorClient() {
   const [wholeValue, setWholeValue] = useState(1000);
 
   const basicResult = useMemo((): PercentageResult => {
+    // Validate inputs before calculation
+    const validation = validateSchema(percentageCalculatorSchema, {
+      value,
+      percentage,
+      calculationType: "basic",
+    });
+
+    if (!validation.success) {
+      return {
+        result: 0,
+        formattedResult: formatCurrency(0),
+        explanation: "Please enter valid values",
+      };
+    }
+
     const result = (value * percentage) / 100;
     return {
       result,
@@ -117,13 +135,15 @@ export function PercentageCalculatorClient() {
                       valueLabel={formatCurrency(value)}
                       onValueChange={setValue}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "Value cannot be negative").max(1000000000, "Value cannot exceed 100 Crore")}
                       value={value}
-                      onChange={(e) => setValue(Number(e.target.value))}
+                      onValueChange={(val) => setValue(Number(val))}
                       className="mt-2"
                       min={0}
                       max={10000000}
+                      validateOnBlur={true}
                     />
                   </div>
 
@@ -137,14 +157,16 @@ export function PercentageCalculatorClient() {
                       valueLabel={`${percentage}%`}
                       onValueChange={setPercentage}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "Percentage cannot be negative").max(1000, "Percentage cannot exceed 1000%")}
                       value={percentage}
-                      onChange={(e) => setPercentage(Number(e.target.value))}
+                      onValueChange={(val) => setPercentage(Number(val))}
                       className="mt-2"
                       min={0}
                       max={100}
                       step={0.1}
+                      validateOnBlur={true}
                     />
                   </div>
                   
@@ -166,13 +188,15 @@ export function PercentageCalculatorClient() {
                       valueLabel={formatCurrency(originalValue)}
                       onValueChange={setOriginalValue}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "Original value cannot be negative").max(1000000000, "Original value cannot exceed 100 Crore")}
                       value={originalValue}
-                      onChange={(e) => setOriginalValue(Number(e.target.value))}
+                      onValueChange={(val) => setOriginalValue(Number(val))}
                       className="mt-2"
                       min={0}
                       max={10000000}
+                      validateOnBlur={true}
                     />
                   </div>
 
@@ -186,13 +210,15 @@ export function PercentageCalculatorClient() {
                       valueLabel={formatCurrency(newValue)}
                       onValueChange={setNewValue}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "New value cannot be negative").max(1000000000, "New value cannot exceed 100 Crore")}
                       value={newValue}
-                      onChange={(e) => setNewValue(Number(e.target.value))}
+                      onValueChange={(val) => setNewValue(Number(val))}
                       className="mt-2"
                       min={0}
                       max={10000000}
+                      validateOnBlur={true}
                     />
                   </div>
                   
@@ -214,13 +240,15 @@ export function PercentageCalculatorClient() {
                       valueLabel={formatCurrency(partValue)}
                       onValueChange={setPartValue}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0, "Part value cannot be negative").max(1000000000, "Part value cannot exceed 100 Crore")}
                       value={partValue}
-                      onChange={(e) => setPartValue(Number(e.target.value))}
+                      onValueChange={(val) => setPartValue(Number(val))}
                       className="mt-2"
                       min={0}
                       max={10000000}
+                      validateOnBlur={true}
                     />
                   </div>
 
@@ -234,13 +262,15 @@ export function PercentageCalculatorClient() {
                       valueLabel={formatCurrency(wholeValue)}
                       onValueChange={setWholeValue}
                     />
-                    <Input
+                    <ValidatedInput
                       type="number"
+                      schema={z.number().min(0.01, "Whole value must be greater than 0").max(1000000000, "Whole value cannot exceed 100 Crore")}
                       value={wholeValue}
-                      onChange={(e) => setWholeValue(Number(e.target.value))}
+                      onValueChange={(val) => setWholeValue(Number(val))}
                       className="mt-2"
                       min={0}
                       max={10000000}
+                      validateOnBlur={true}
                     />
                   </div>
                   

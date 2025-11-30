@@ -2,10 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import dynamic from "next/dynamic";
 import { ChartSkeleton } from "@/components/calculators/common/ChartSkeleton";
+import { validateSchema } from "@/lib/validation/utils";
+import { mutualFundReturnsCalculatorSchema, investmentAmountSchema, investmentRateSchema, investmentTenureSchema, inflationRateSchema } from "@/lib/validation/schemas";
 
 // Dynamically import chart components to reduce initial bundle size
 const InvestmentChart = dynamic(
@@ -28,6 +30,27 @@ export function MutualFundReturnsCalculatorClient() {
   const [inflationRate, setInflationRate] = useState(6);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(mutualFundReturnsCalculatorSchema, {
+      initialInvestment,
+      sipAmount: 0, // Not used in this calculator
+      sipFrequency: "monthly", // Default
+      investmentPeriod: tenure,
+      redemptionAmount: 0, // Not used in this calculator
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        futureValue: 0,
+        totalReturns: 0,
+        returnsPercentage: 0,
+        cagr: 0,
+        inflationAdjusted: 0,
+        chartData: [],
+      };
+    }
+
     const futureValue = calculateLumpsum(initialInvestment, expectedReturns, tenure);
     const totalReturns = futureValue - initialInvestment;
     const returnsPercentage = (totalReturns / initialInvestment) * 100;
@@ -79,14 +102,16 @@ export function MutualFundReturnsCalculatorClient() {
                   valueLabel={formatCurrency(initialInvestment)}
                   onValueChange={setInitialInvestment}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentAmountSchema}
                   value={initialInvestment}
-                  onChange={(e) => setInitialInvestment(Number(e.target.value))}
+                  onValueChange={(value) => setInitialInvestment(Number(value))}
                   className="mt-2"
                   min={10000}
                   max={10000000}
                   step={10000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -100,14 +125,16 @@ export function MutualFundReturnsCalculatorClient() {
                   valueLabel={`${expectedReturns}%`}
                   onValueChange={setExpectedReturns}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={expectedReturns}
-                  onChange={(e) => setExpectedReturns(Number(e.target.value))}
+                  onValueChange={(value) => setExpectedReturns(Number(value))}
                   className="mt-2"
                   min={6}
                   max={20}
                   step={0.5}
+                  validateOnBlur={true}
                 />
                 <p className="mt-1 text-xs text-text-secondary">
                   Equity funds: 12-15%, Debt funds: 6-8%, Hybrid funds: 8-12%
@@ -124,13 +151,15 @@ export function MutualFundReturnsCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={30}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -144,14 +173,16 @@ export function MutualFundReturnsCalculatorClient() {
                   valueLabel={`${inflationRate}%`}
                   onValueChange={setInflationRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={inflationRateSchema}
                   value={inflationRate}
-                  onChange={(e) => setInflationRate(Number(e.target.value))}
+                  onValueChange={(value) => setInflationRate(Number(value))}
                   className="mt-2"
                   min={3}
                   max={10}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>

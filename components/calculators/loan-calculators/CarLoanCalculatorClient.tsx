@@ -3,8 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { validateSchema } from "@/lib/validation/utils";
+import { carLoanCalculatorSchema, loanPrincipalSchema, interestRateSchema } from "@/lib/validation/schemas";
 import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 // import { AdUnit } from "@/components/common/AdUnit";
@@ -68,6 +70,25 @@ export function CarLoanCalculatorClient() {
   }, []);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(carLoanCalculatorSchema, {
+      principal,
+      rate,
+      tenure,
+      startDate,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        emi: 0,
+        totalAmount: 0,
+        totalInterest: 0,
+        principal: 0,
+        schedule: [],
+      };
+    }
+
     const emi = calculateEMI(principal, rate, tenure);
     const totalAmount = emi * tenure * 12;
     const totalInterest = totalAmount - principal;
@@ -109,15 +130,15 @@ export function CarLoanCalculatorClient() {
                   valueLabel={formatCurrency(principal)}
                   onValueChange={setPrincipal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={loanPrincipalSchema}
                   value={principal}
-                  onChange={(e) =>
-                    setPrincipal(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setPrincipal(Number(value))}
                   className="mt-2"
                   min={100000}
                   max={10000000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -131,14 +152,16 @@ export function CarLoanCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={interestRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={6}
                   max={18}
                   step={0.1}
+                  validateOnBlur={true}
                 />
               </div>
 

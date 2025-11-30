@@ -2,8 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
+import { validateSchema } from "@/lib/validation/utils";
+import { swpCalculatorSchema, investmentAmountSchema, monthlyInvestmentSchema, investmentRateSchema, investmentTenureSchema } from "@/lib/validation/schemas";
 // import { AdUnit } from "@/components/common/AdUnit";
 import { calculateSWP } from "@/lib/utils";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -87,6 +89,23 @@ export function SWPCalculatorClient() {
   const [tenure, setTenure] = useState(10);
 
   const results = useMemo(() => {
+    // Validate inputs before calculation
+    const validation = validateSchema(swpCalculatorSchema, {
+      principal: initialAmount,
+      monthlyWithdrawal,
+      rate,
+      tenure,
+    });
+
+    if (!validation.success) {
+      // Return default/empty results if validation fails
+      return {
+        finalAmount: 0,
+        totalWithdrawn: 0,
+        totalInterest: 0,
+      };
+    }
+
     return calculateSWP(initialAmount, monthlyWithdrawal, rate, tenure);
   }, [initialAmount, monthlyWithdrawal, rate, tenure]);
 
@@ -153,16 +172,16 @@ export function SWPCalculatorClient() {
                   valueLabel={formatCurrency(initialAmount)}
                   onValueChange={setInitialAmount}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentAmountSchema}
                   value={initialAmount}
-                  onChange={(e) =>
-                    setInitialAmount(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setInitialAmount(Number(value))}
                   className="mt-2"
                   min={100000}
                   max={10000000}
                   step={50000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -176,16 +195,16 @@ export function SWPCalculatorClient() {
                   valueLabel={formatCurrency(monthlyWithdrawal)}
                   onValueChange={setMonthlyWithdrawal}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={monthlyInvestmentSchema}
                   value={monthlyWithdrawal}
-                  onChange={(e) =>
-                    setMonthlyWithdrawal(Number(e.target.value))
-                  }
+                  onValueChange={(value) => setMonthlyWithdrawal(Number(value))}
                   className="mt-2"
                   min={1000}
                   max={100000}
                   step={1000}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -199,14 +218,16 @@ export function SWPCalculatorClient() {
                   valueLabel={`${rate}%`}
                   onValueChange={setRate}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentRateSchema}
                   value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
+                  onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"
                   min={6}
                   max={15}
                   step={0.5}
+                  validateOnBlur={true}
                 />
               </div>
 
@@ -220,13 +241,15 @@ export function SWPCalculatorClient() {
                   valueLabel={`${tenure} years`}
                   onValueChange={setTenure}
                 />
-                <Input
+                <ValidatedInput
                   type="number"
+                  schema={investmentTenureSchema}
                   value={tenure}
-                  onChange={(e) => setTenure(Number(e.target.value))}
+                  onValueChange={(value) => setTenure(Number(value))}
                   className="mt-2"
                   min={1}
                   max={30}
+                  validateOnBlur={true}
                 />
               </div>
             </CardContent>
