@@ -61,7 +61,11 @@ export function EMICalculatorClient() {
     if (saved) {
       if (typeof saved.principal === "number") setPrincipal(saved.principal);
       if (typeof saved.rate === "number") setRate(saved.rate);
-      if (typeof saved.tenure === "number") setTenure(saved.tenure);
+      if (typeof saved.tenure === "number") {
+        // Validate tenure is within bounds (1-30 years)
+        const validatedTenure = Math.max(1, Math.min(30, saved.tenure));
+        setTenure(validatedTenure);
+      }
       if (saved.startDate && typeof saved.startDate === "object" && saved.startDate !== null) {
         const startDate = saved.startDate as Record<string, unknown>;
         if (typeof startDate.month === "number" && typeof startDate.year === "number") {

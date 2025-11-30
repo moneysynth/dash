@@ -100,23 +100,32 @@ export function AdvancedEMIComparisonClient() {
     const saved = getCalculation("home-loan-emi-comparison_saved");
     if (saved && Array.isArray(saved.scenarios) && saved.scenarios.length > 0) {
       // Validate and load scenarios
-      const validScenarios = saved.scenarios.filter((s: unknown) => {
-        if (typeof s !== "object" || s === null) return false;
-        const scenario = s as Record<string, unknown>;
-        return (
-          typeof scenario.id === "number" &&
-          typeof scenario.name === "string" &&
-          typeof scenario.principal === "number" &&
-          typeof scenario.rate === "number" &&
-          typeof scenario.tenure === "number" &&
-          scenario.startDate &&
-          typeof (scenario.startDate as { month: number; year: number }).month === "number" &&
-          typeof (scenario.startDate as { month: number; year: number }).year === "number" &&
-          Array.isArray(scenario.partPayments) &&
-          scenario.stepUpEMI &&
-          typeof (scenario.stepUpEMI as { enabled: boolean; stepUpRate: number }).enabled === "boolean"
-        );
-      }) as AdvancedScenario[];
+      const validScenarios = saved.scenarios
+        .filter((s: unknown) => {
+          if (typeof s !== "object" || s === null) return false;
+          const scenario = s as Record<string, unknown>;
+          return (
+            typeof scenario.id === "number" &&
+            typeof scenario.name === "string" &&
+            typeof scenario.principal === "number" &&
+            typeof scenario.rate === "number" &&
+            typeof scenario.tenure === "number" &&
+            scenario.startDate &&
+            typeof (scenario.startDate as { month: number; year: number }).month === "number" &&
+            typeof (scenario.startDate as { month: number; year: number }).year === "number" &&
+            Array.isArray(scenario.partPayments) &&
+            scenario.stepUpEMI &&
+            typeof (scenario.stepUpEMI as { enabled: boolean; stepUpRate: number }).enabled === "boolean"
+          );
+        })
+        .map((s: unknown) => {
+          const scenario = s as AdvancedScenario;
+          // Validate tenure is within bounds (1-30 years)
+          return {
+            ...scenario,
+            tenure: Math.max(1, Math.min(30, scenario.tenure)),
+          };
+        }) as AdvancedScenario[];
       if (validScenarios.length > 0) {
         setScenarios(validScenarios);
       }

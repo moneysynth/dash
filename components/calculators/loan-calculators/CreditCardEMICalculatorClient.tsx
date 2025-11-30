@@ -58,7 +58,11 @@ export function CreditCardEMICalculatorClient() {
       if (typeof saved.rateType === "string" && (saved.rateType === "per annum" || saved.rateType === "per month")) {
         setRateType(saved.rateType);
       }
-      if (typeof saved.tenure === "number") setTenure(saved.tenure);
+      if (typeof saved.tenure === "number") {
+        // Validate tenure is within bounds (0.5-5 years)
+        const validatedTenure = Math.max(0.5, Math.min(5, saved.tenure));
+        setTenure(validatedTenure);
+      }
       if (saved.startDate && typeof saved.startDate === "object" && saved.startDate !== null) {
         const startDate = saved.startDate as Record<string, unknown>;
         if (typeof startDate.month === "number" && typeof startDate.year === "number") {

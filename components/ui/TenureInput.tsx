@@ -27,21 +27,28 @@ export function TenureInput({
   // Convert years to months for display when unit is months
   useEffect(() => {
     if (unit === "months") {
-      setDisplayValue(Math.round(valueInYears * 12));
+      const monthsValue = Math.round(valueInYears * 12);
+      // Validate the converted value is within bounds
+      const clampedMonths = Math.max(min * 12, Math.min(max * 12, monthsValue));
+      setDisplayValue(clampedMonths);
     } else {
-      setDisplayValue(valueInYears);
+      // Validate the years value is within bounds
+      const clampedYears = Math.max(min, Math.min(max, valueInYears));
+      setDisplayValue(clampedYears);
     }
-  }, [valueInYears, unit]);
+  }, [valueInYears, unit, min, max]);
 
   // Calculate min/max for current unit
   const minValue = unit === "months" ? min * 12 : min;
   const maxValue = unit === "months" ? max * 12 : max;
-  const stepValue = unit === "months" ? step * 12 : step;
+  const stepValue = unit === "months" ? 1 : step;
 
   const handleValueChange = (newValue: number) => {
-    setDisplayValue(newValue);
+    // Validate and clamp the value within min/max bounds
+    const clampedValue = Math.max(minValue, Math.min(maxValue, newValue));
+    setDisplayValue(clampedValue);
     // Convert to years for the onChange callback
-    const yearsValue = unit === "months" ? newValue / 12 : newValue;
+    const yearsValue = unit === "months" ? clampedValue / 12 : clampedValue;
     onChange(yearsValue);
   };
 
@@ -115,10 +122,27 @@ export function TenureInput({
         type="number"
         value={displayValue}
         onChange={(e) => {
-          const newValue = Number(e.target.value);
-          if (newValue >= minValue && newValue <= maxValue) {
+          const inputValue = e.target.value;
+          // Allow empty input for better UX
+          if (inputValue === "") {
+            return;
+          }
+          const newValue = Number(inputValue);
+          // Validate: must be a valid number and within bounds
+          if (!isNaN(newValue) && isFinite(newValue)) {
             handleValueChange(newValue);
           }
+        }}
+        onBlur={(e) => {
+          // On blur, ensure value is within bounds
+          const inputValue = e.target.value;
+          if (inputValue === "" || isNaN(Number(inputValue))) {
+            // Reset to current valid value if input is invalid
+            setDisplayValue(unit === "months" ? Math.round(valueInYears * 12) : valueInYears);
+            return;
+          }
+          const newValue = Number(inputValue);
+          handleValueChange(newValue);
         }}
         className="mt-2"
         min={minValue}

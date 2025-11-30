@@ -77,6 +77,7 @@ export const metadata: Metadata = {
     "retirement planning calculator",
     "education planning calculator",
     "goal based investment calculator",
+    "money synth",
   ],
   openGraph: {
     title: "MoneySynth - Financial Calculators & Investment Tools",
