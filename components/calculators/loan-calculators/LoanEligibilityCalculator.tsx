@@ -14,6 +14,7 @@ interface EligibilityResult {
   eligibleLoanAmount: number;
   maxEMI: number;
   eligibilityScore: number;
+  debtToIncomeRatio: number;
   factors: string[];
   suggestions: string[];
 }
@@ -25,86 +26,141 @@ function calculateLoanEligibility(
   interestRate: number = 8.5
 ): EligibilityResult {
   const totalIncome = monthlyIncome;
-  const availableIncome = totalIncome - existingEMIs;
   
-  // Typically, banks allow 40-60% of income for EMI
-  const emiToIncomeRatio = 0.5; // 50% of available income
-  const maxAffordableEMI = availableIncome * emiToIncomeRatio;
+  // Calculate Debt-to-Income (DTI) Ratio
+  const debtToIncomeRatio = totalIncome > 0 ? existingEMIs / totalIncome : 0;
+  
+  // Determine maximum allowed DTI ratio based on current DTI
+  // Banks typically allow total DTI (existing + new) up to 50-60%
+  // Calculate maximum allowed total DTI up to 60%
+  const maxAllowedDTI = 0.6; // 60% maximum total DTI
+  
+  // Calculate maximum new EMI that can be added
+  const maxTotalEMI = totalIncome * maxAllowedDTI;
+  const maxNewEMI = Math.max(0, maxTotalEMI - existingEMIs);
   
   // Calculate eligible loan amount using reverse EMI formula
   const monthlyRate = interestRate / 12 / 100;
   const numPayments = tenure * 12;
   
   let eligibleLoanAmount = 0;
-  if (monthlyRate > 0) {
+  if (monthlyRate > 0 && maxNewEMI > 0) {
     eligibleLoanAmount =
-      (maxAffordableEMI *
+      (maxNewEMI *
         (Math.pow(1 + monthlyRate, numPayments) - 1)) /
       (monthlyRate * Math.pow(1 + monthlyRate, numPayments));
-  } else {
-    eligibleLoanAmount = maxAffordableEMI * numPayments;
+  } else if (maxNewEMI > 0) {
+    eligibleLoanAmount = maxNewEMI * numPayments;
   }
   
-  // Calculate eligibility score (0-100)
+  // Calculate eligibility score (0-100) based on DTI ratio
   let score = 50; // Base score
   
   // Income factors
   if (totalIncome >= 100000) score += 20;
   else if (totalIncome >= 50000) score += 10;
+  else if (totalIncome < 30000) score -= 15;
   
-  // Existing obligations
-  const obligationRatio = existingEMIs / totalIncome;
-  if (obligationRatio < 0.2) score += 15;
-  else if (obligationRatio < 0.4) score += 5;
-  else score -= 10;
+  // Debt-to-Income Ratio factors (lower is better)
+  if (debtToIncomeRatio < 0.1) {
+    score += 20; // Excellent - very low debt
+  } else if (debtToIncomeRatio < 0.2) {
+    score += 15; // Good - low debt
+  } else if (debtToIncomeRatio < 0.3) {
+    score += 10; // Fair - moderate debt
+  } else if (debtToIncomeRatio < 0.4) {
+    score += 5; // Acceptable - higher debt
+  } else if (debtToIncomeRatio < 0.5) {
+    score += 0; // Moderate - high debt but manageable
+  } else if (debtToIncomeRatio < 0.6) {
+    score -= 10; // Risky - very high debt
+  } else {
+    score -= 25; // Very risky - extremely high debt
+  }
   
   // Tenure factor
   if (tenure >= 20) score += 10;
   else if (tenure >= 10) score += 5;
+  else if (tenure < 5) score -= 5;
+  
+  // New loan capacity factor
+  if (maxNewEMI > 50000) score += 10;
+  else if (maxNewEMI > 20000) score += 5;
+  else if (maxNewEMI < 10000) score -= 10;
   
   score = Math.max(0, Math.min(100, score));
   
   // Factors affecting eligibility
   const factors: string[] = [];
+  
+  // DTI ratio factors
+  if (debtToIncomeRatio >= 0.6) {
+    factors.push(`Very high debt-to-income ratio (${(debtToIncomeRatio * 100).toFixed(1)}%)`);
+  } else if (debtToIncomeRatio >= 0.5) {
+    factors.push(`High debt-to-income ratio (${(debtToIncomeRatio * 100).toFixed(1)}%)`);
+  } else if (debtToIncomeRatio >= 0.4) {
+    factors.push(`Moderate-high debt-to-income ratio (${(debtToIncomeRatio * 100).toFixed(1)}%)`);
+  } else if (debtToIncomeRatio >= 0.3) {
+    factors.push(`Moderate debt-to-income ratio (${(debtToIncomeRatio * 100).toFixed(1)}%)`);
+  } else if (debtToIncomeRatio < 0.2) {
+    factors.push(`Low debt-to-income ratio (${(debtToIncomeRatio * 100).toFixed(1)}%) - Good`);
+  }
+  
   if (totalIncome < 50000) {
     factors.push("Low monthly income");
   }
-  if (obligationRatio > 0.5) {
-    factors.push("High existing obligations");
+  
+  if (maxNewEMI < 10000) {
+    factors.push("Limited capacity for new loan EMI");
   }
+  
   if (tenure < 5) {
     factors.push("Short loan tenure");
   }
-  if (availableIncome < 20000) {
-    factors.push("Insufficient disposable income");
-  }
+  
   if (factors.length === 0) {
     factors.push("Good income stability");
-    factors.push("Manageable existing obligations");
+    factors.push("Manageable debt-to-income ratio");
+    factors.push("Adequate capacity for new loan");
   }
   
-  // Suggestions
+  // Suggestions based on DTI ratio
   const suggestions: string[] = [];
-  if (obligationRatio > 0.4) {
-    suggestions.push("Consider reducing existing EMIs to improve eligibility");
+  
+  if (debtToIncomeRatio >= 0.6) {
+    suggestions.push("Your debt-to-income ratio is very high. Consider paying off existing debts first");
+    suggestions.push("Reducing existing EMIs will significantly improve your eligibility");
+  } else if (debtToIncomeRatio >= 0.5) {
+    suggestions.push("Your debt-to-income ratio is high. Consider reducing existing obligations");
+    suggestions.push("Paying off some existing loans will increase your eligible loan amount");
+  } else if (debtToIncomeRatio >= 0.4) {
+    suggestions.push("Your debt-to-income ratio is moderate-high. Consider reducing existing EMIs to improve eligibility");
+  } else if (debtToIncomeRatio >= 0.3) {
+    suggestions.push("Consider reducing existing EMIs to improve eligibility and loan amount");
   }
+  
   if (totalIncome < 50000) {
     suggestions.push("Explore co-applicant option to increase loan amount");
   }
-  if (tenure < 10) {
+  
+  if (tenure < 10 && maxNewEMI > 0) {
     suggestions.push("Extending tenure can increase eligible loan amount");
   }
-  if (availableIncome < 30000) {
-    suggestions.push("Wait for income increase or reduce expenses");
+  
+  if (maxNewEMI < 10000) {
+    suggestions.push("Wait for income increase or reduce existing obligations to improve eligibility");
   }
+  
   if (suggestions.length === 0) {
-    suggestions.push("You have good eligibility. Consider negotiating better rates");
+    suggestions.push("You have good eligibility with a healthy debt-to-income ratio");
+    suggestions.push("Consider negotiating better interest rates with lenders");
   }
   
   return {
     eligibleLoanAmount: Math.max(0, eligibleLoanAmount),
-    maxEMI: Math.max(0, maxAffordableEMI),
+    maxEMI: Math.max(0, maxNewEMI),
     eligibilityScore: Math.round(score),
+    debtToIncomeRatio: Math.round(debtToIncomeRatio * 1000) / 10, // Round to 1 decimal place
     factors,
     suggestions,
   };
@@ -132,6 +188,7 @@ export function LoanEligibilityCalculator() {
         eligibleLoanAmount: 0,
         maxEMI: 0,
         eligibilityScore: 0,
+        debtToIncomeRatio: 0,
         factors: [],
         suggestions: [],
       };
@@ -237,7 +294,7 @@ export function LoanEligibilityCalculator() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-4 border border-primary/20">
               <p className="text-xs font-medium text-text-secondary mb-2 uppercase tracking-wide">
                 Max Monthly EMI
@@ -248,9 +305,25 @@ export function LoanEligibilityCalculator() {
             </div>
             <div className="rounded-lg bg-gradient-to-br from-accent/10 to-accent/5 p-4 border border-accent/20">
               <p className="text-xs font-medium text-text-secondary mb-2 uppercase tracking-wide">
+                Debt-to-Income Ratio
+              </p>
+              <p className={`text-xl font-bold ${
+                result.debtToIncomeRatio < 30 
+                  ? "text-green-600 dark:text-green-400" 
+                  : result.debtToIncomeRatio < 40 
+                  ? "text-yellow-600 dark:text-yellow-400" 
+                  : result.debtToIncomeRatio < 50
+                  ? "text-orange-600 dark:text-orange-400"
+                  : "text-red-600 dark:text-red-400"
+              }`}>
+                {result.debtToIncomeRatio}%
+              </p>
+            </div>
+            <div className="rounded-lg bg-gradient-to-br from-secondary/10 to-secondary/5 p-4 border border-secondary/20">
+              <p className="text-xs font-medium text-text-secondary mb-2 uppercase tracking-wide">
                 Available Income
               </p>
-              <p className="text-xl font-bold text-accent">
+              <p className="text-xl font-bold text-secondary">
                 {formatCurrency(monthlyIncome - existingEMIs)}
               </p>
             </div>
