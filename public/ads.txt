@@ -1,0 +1,6 @@
+# ads.txt file for MoneySynth
+# This file authorizes Google AdSense to serve ads on this domain
+# Format: <Domain>, <Publisher ID>, <Relationship>, <Certification Authority ID>
+
+google.com, pub-5962590910003151, DIRECT, f08c47fec0942fa0
+
