@@ -16,6 +16,14 @@ export function AdUnit({ size, format, adSlot, className }: AdUnitProps) {
   const [isScriptLoaded, setIsScriptLoaded] = React.useState(false);
   const [isAdPushed, setIsAdPushed] = React.useState(false);
 
+  // Check if AdSense script is already loaded (from layout.tsx)
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).adsbygoogle) {
+      setIsScriptLoaded(true);
+    }
+  }, []);
+
+  // Push ad to AdSense queue when script is loaded
   React.useEffect(() => {
     if (!isScriptLoaded || isAdPushed || !adRef.current) return;
 
@@ -25,7 +33,7 @@ export function AdUnit({ size, format, adSlot, className }: AdUnitProps) {
     } catch (error) {
       console.error("AdSense error:", error);
     }
-  }, []);
+  }, [isScriptLoaded, isAdPushed]);
 
   const dimensions = {
     "300x250": { width: 300, height: 250 },
@@ -36,11 +44,55 @@ export function AdUnit({ size, format, adSlot, className }: AdUnitProps) {
 
   const { width, height } = dimensions[size];
 
+  // Get ad format attributes based on format type
+  const getAdAttributes = () => {
+    const baseAttrs: Record<string, string> = {
+      "data-ad-client": AD_CLIENT,
+      "data-ad-slot": adSlot,
+    };
+
+    switch (format) {
+      case "responsive-display-square":
+        return {
+          ...baseAttrs,
+          "data-ad-format": "auto",
+          "data-full-width-responsive": "true",
+        };
+      case "responsive-display-horizontal":
+        return {
+          ...baseAttrs,
+          "data-ad-format": "horizontal",
+          "data-full-width-responsive": "true",
+        };
+      case "responsive-display-vertical":
+        return {
+          ...baseAttrs,
+          "data-ad-format": "vertical",
+          "data-full-width-responsive": "true",
+        };
+      case "responsive-multiplex-vertical":
+        return {
+          ...baseAttrs,
+          "data-ad-format": "autorelaxed",
+        };
+      default:
+        return {
+          ...baseAttrs,
+          "data-ad-format": "auto",
+          "data-full-width-responsive": "true",
+        };
+    }
+  };
+
+  const adAttributes = getAdAttributes();
+
   return (
     <div
-      className={`flex items-center justify-center rounded-lg border border-border bg-surface/50 ${className || ""}`}
+      ref={adRef}
+      className={`flex items-center justify-center ${className || ""}`}
       style={{ minWidth: width, minHeight: height }}
     >
+      {/* Load AdSense script if not already loaded */}
       {!isScriptLoaded && (
         <Script
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT}`}
@@ -50,16 +102,11 @@ export function AdUnit({ size, format, adSlot, className }: AdUnitProps) {
         />
       )}
 
-      <div className="text-center text-text-secondary">
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client={AD_CLIENT}
-          data-ad-slot={adSlot}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </div>
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block", width: `${width}px`, height: `${height}px` }}
+        {...adAttributes}
+      />
     </div>
   );
 }
