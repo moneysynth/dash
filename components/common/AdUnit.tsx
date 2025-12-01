@@ -1,23 +1,37 @@
 "use client";
 
+import Script from "next/script";
 import * as React from "react";
+import { AD_CLIENT } from "@/lib/ads";
 
 interface AdUnitProps {
-  size: "300x250" | "728x90";
+  size: "300x250" | "728x90" | "250x250" | "300x600";
+  format: "responsive-display-square" | "responsive-display-horizontal" | "responsive-display-vertical" | "responsive-multiplex-vertical";
+  adSlot: string;
   className?: string;
 }
 
-export function AdUnit({ size, className }: AdUnitProps) {
-  // Placeholder for Google AdSense
-  // Replace with actual AdSense code when ready
+export function AdUnit({ size, format, adSlot, className }: AdUnitProps) {
+  const adRef = React.useRef<HTMLDivElement>(null);
+  const [isScriptLoaded, setIsScriptLoaded] = React.useState(false);
+  const [isAdPushed, setIsAdPushed] = React.useState(false);
+
   React.useEffect(() => {
-    // AdSense initialization would go here
-    // Example: (window.adsbygoogle = window.adsbygoogle || []).push({});
+    if (!isScriptLoaded || isAdPushed || !adRef.current) return;
+
+    try {
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      setIsAdPushed(true);
+    } catch (error) {
+      console.error("AdSense error:", error);
+    }
   }, []);
 
   const dimensions = {
     "300x250": { width: 300, height: 250 },
     "728x90": { width: 728, height: 90 },
+    "250x250": { width: 250, height: 250 },
+    "300x600": { width: 300, height: 600 },
   };
 
   const { width, height } = dimensions[size];
@@ -27,15 +41,21 @@ export function AdUnit({ size, className }: AdUnitProps) {
       className={`flex items-center justify-center rounded-lg border border-border bg-surface/50 ${className || ""}`}
       style={{ minWidth: width, minHeight: height }}
     >
+      {!isScriptLoaded && (
+        <Script
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT}`}
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+          onLoad={() => setIsScriptLoaded(true)}
+        />
+      )}
+
       <div className="text-center text-text-secondary">
-        <p className="text-xs">Advertisement</p>
-        <p className="text-xs">{width} × {height}</p>
-        {/* Replace with actual AdSense component */}
         <ins
           className="adsbygoogle"
           style={{ display: "block" }}
-          data-ad-client="ca-pub-XXXXXXXXXX"
-          data-ad-slot="XXXXXXXXXX"
+          data-ad-client={AD_CLIENT}
+          data-ad-slot={adSlot}
           data-ad-format="auto"
           data-full-width-responsive="true"
         />

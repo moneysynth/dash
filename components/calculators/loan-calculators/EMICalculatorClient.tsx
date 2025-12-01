@@ -13,7 +13,8 @@ import { PartPaymentForm } from "@/components/calculators/common/PartPaymentForm
 import { StepUpEMIForm } from "@/components/calculators/common/StepUpEMIForm";
 import { AmortizationTable } from "@/components/calculators/common/AmortizationTable";
 import { SaveCalculation } from "@/components/calculators/common/SaveCalculation";
-// import { AdUnit } from "@/components/common/AdUnit";
+import { AdUnit } from "@/components/common/AdUnit";
+import { AD_SLOTS } from "@/lib/ads";
 import { calculateEMI } from "@/lib/utils";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { getCalculation } from "@/lib/storage";
@@ -450,6 +451,8 @@ export function EMICalculatorClient() {
             startDate={startDate}
           />
 
+          <AdUnit format="responsive-display-horizontal" size="728x90" adSlot={AD_SLOTS.DISPLAY_HORIZONTAL} className="mx-auto" />
+
           <AmortizationChart
             schedule={results.schedule}
             loanDetails={{
@@ -486,7 +489,7 @@ export function EMICalculatorClient() {
             />
           </div>
 
-          {/* <AdUnit size="300x250" className="mx-auto" /> */}
+          <AdUnit format="responsive-display-horizontal" size="728x90" adSlot={AD_SLOTS.DISPLAY_HORIZONTAL} className="mx-auto" />
         </div>
 
         <div className="space-y-6">
@@ -600,6 +603,12 @@ export function EMICalculatorClient() {
               />
             </CardContent>
           </Card>
+
+          <AdUnit format="responsive-display-square" size="250x250" adSlot={AD_SLOTS.DISPLAY_SQUARE} className="mx-auto" />
+          <AdUnit format="responsive-display-square" size="250x250" adSlot={AD_SLOTS.DISPLAY_SQUARE} className="mx-auto" />
+          <AdUnit format="responsive-display-vertical" size="300x600" adSlot={AD_SLOTS.DISPLAY_VERTICAL} className="mx-auto" />
+          <AdUnit format="responsive-display-vertical" size="300x600" adSlot={AD_SLOTS.DISPLAY_VERTICAL} className="mx-auto" />
+          <AdUnit format="responsive-display-square" size="250x250" adSlot={AD_SLOTS.DISPLAY_SQUARE} className="mx-auto" />
         </div>
       </div>
     </>
