@@ -52,9 +52,15 @@ function PartPaymentFormComponent({
     const startMonth = defaultStartDate.month;
     const startYear = defaultStartDate.year;
     
-    const monthsDiff = (year - startYear) * 12 + (month - startMonth) + 1;
-    return Math.max(1, Math.min(loanTenure, monthsDiff));
+    return (year - startYear) * 12 + (month - startMonth) + 1;
   }, [defaultStartDate, loanTenure]);
+
+  const selectedPaymentMonthNumber = useMemo(
+    () => convertToMonthNumber(newPayment.paymentDate.month, newPayment.paymentDate.year),
+    [newPayment.paymentDate, convertToMonthNumber]
+  );
+  const isPaymentDateWithinLoanRange =
+    selectedPaymentMonthNumber >= 1 && selectedPaymentMonthNumber <= loanTenure;
 
   // Convert month number to month/year
   const convertToMonthYear = useCallback((monthNumber: number): { month: number; year: number } => {
@@ -181,11 +187,16 @@ function PartPaymentFormComponent({
             onClick={addPartPayment}
             variant="primary"
             className="w-full gap-2"
-            disabled={newPayment.amount === 0}
+            disabled={newPayment.amount === 0 || !isPaymentDateWithinLoanRange}
           >
             <Plus className="h-4 w-4" />
             Add Part Payment
           </Button>
+          {!isPaymentDateWithinLoanRange && (
+            <p className="text-xs text-red-600">
+              Payment date must fall within the selected loan tenure.
+            </p>
+          )}
         </div>
 
         {partPayments.length > 0 && (

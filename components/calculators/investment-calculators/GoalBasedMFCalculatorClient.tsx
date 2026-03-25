@@ -99,13 +99,24 @@ export function GoalBasedMFCalculatorClient() {
 
   const results = useMemo(() => {
     // Validate inputs before calculation
-    const goalTypeValue = goalType.toLowerCase().replace(" ", "-") as "house" | "car" | "education" | "retirement" | "vacation" | "wedding" | "other";
+    const goalTypeMap: Record<string, "child-education" | "retirement" | "house-purchase" | "wedding" | "vacation" | "emergency-fund" | "business" | "other"> = {
+      "Child Education": "child-education",
+      "Retirement": "retirement",
+      "House Purchase": "house-purchase",
+      "Marriage": "wedding",
+      "Vacation": "vacation",
+      "Emergency Fund": "emergency-fund",
+      "Business": "business",
+      "Other": "other",
+    };
+    const goalTypeValue = goalTypeMap[goalType] ?? "other";
     const validation = validateSchema(goalBasedMFCalculatorSchema, {
-      currentInvestment: currentSavings,
-      targetAmount: goalAmount,
-      timeHorizon: timeline,
-      expectedReturnRate: expectedReturns,
+      goalAmount,
+      currentSavings,
+      timeline,
+      expectedReturns,
       inflationRate,
+      strategy,
       goalType: goalTypeValue,
     });
 
@@ -139,7 +150,8 @@ export function GoalBasedMFCalculatorClient() {
       requiredSIP = (adjustedGoal - currentSavings) / numPayments;
     }
     
-    const requiredLumpsum = adjustedGoal / Math.pow(1 + expectedReturns / 100, timeline);
+    const goalPresentValue = adjustedGoal / Math.pow(1 + expectedReturns / 100, timeline);
+    const requiredLumpsum = Math.max(0, goalPresentValue - currentSavings);
     
     const progressChart: ChartData[] = [];
     let balance = currentSavings;
@@ -148,9 +160,13 @@ export function GoalBasedMFCalculatorClient() {
       if (year === 0) {
         balance = currentSavings;
       } else {
-        if (strategy === "sip" || strategy === "mixed") {
+        if (strategy === "sip") {
           for (let month = 0; month < 12; month++) {
             balance = balance * (1 + monthlyRate) + requiredSIP;
+          }
+        } else if (strategy === "mixed") {
+          for (let month = 0; month < 12; month++) {
+            balance = balance * (1 + monthlyRate) + requiredSIP / 2;
           }
         } else {
           balance = balance * (1 + expectedReturns / 100);

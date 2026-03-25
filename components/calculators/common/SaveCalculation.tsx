@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, useEffect, memo } from "react";
 import { Save, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { saveCalculation, getCalculation } from "@/lib/storage";
@@ -17,9 +17,13 @@ function SaveCalculationComponent({
   data,
 }: SaveCalculationProps) {
   const key = `${calculatorType}_${calculationId}`;
-  const existing = getCalculation(key);
-  const [saved, setSaved] = useState(!!existing);
+  const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    const existing = getCalculation(key);
+    setSaved(!!existing);
+  }, [key]);
 
   const handleSave = useCallback(() => {
     setIsSaving(true);

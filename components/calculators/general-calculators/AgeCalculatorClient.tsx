@@ -18,6 +18,14 @@ interface AgeResult {
   };
 }
 
+function parseIsoDateAsLocalDate(value: string): Date | null {
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) {
+    return null;
+  }
+  return new Date(year, month - 1, day);
+}
+
 export function AgeCalculatorClient() {
   const [birthDate, setBirthDate] = useState<string>("");
   const [compareDate, setCompareDate] = useState<string>("");
@@ -25,10 +33,10 @@ export function AgeCalculatorClient() {
   const results = useMemo((): AgeResult | null => {
     if (!birthDate) return null;
 
-    const birth = new Date(birthDate);
-    const compare = compareDate ? new Date(compareDate) : new Date();
+    const birth = parseIsoDateAsLocalDate(birthDate);
+    const compare = compareDate ? parseIsoDateAsLocalDate(compareDate) : new Date();
 
-    if (isNaN(birth.getTime()) || isNaN(compare.getTime())) return null;
+    if (!birth || !compare || isNaN(birth.getTime()) || isNaN(compare.getTime())) return null;
     
     // Validate inputs before calculation
     const validation = validateSchema(ageCalculatorSchema, {

@@ -33,10 +33,9 @@ export function MutualFundReturnsCalculatorClient() {
     // Validate inputs before calculation
     const validation = validateSchema(mutualFundReturnsCalculatorSchema, {
       initialInvestment,
-      sipAmount: 0, // Not used in this calculator
-      sipFrequency: "monthly", // Default
-      investmentPeriod: tenure,
-      redemptionAmount: 0, // Not used in this calculator
+      expectedReturns,
+      tenure,
+      inflationRate,
     });
 
     if (!validation.success) {

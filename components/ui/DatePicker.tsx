@@ -20,6 +20,14 @@ const months = [
 
 type ViewMode = "year" | "month" | "day";
 
+function parseIsoDateAsLocalDate(value: string): Date | null {
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) {
+    return null;
+  }
+  return new Date(year, month - 1, day);
+}
+
 export function DatePicker({
   value,
   onChange,
@@ -31,12 +39,12 @@ export function DatePicker({
   const [isOpen, setIsOpen] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<ViewMode>("year");
   
-  const selectedDate = value ? new Date(value) : null;
+  const selectedDate = value ? parseIsoDateAsLocalDate(value) : null;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const minDate = min ? new Date(min) : null;
-  const maxDate = max ? new Date(max) : null;
+  const minDate = min ? parseIsoDateAsLocalDate(min) : null;
+  const maxDate = max ? parseIsoDateAsLocalDate(max) : null;
 
   if (minDate) minDate.setHours(0, 0, 0, 0);
   if (maxDate) maxDate.setHours(0, 0, 0, 0);
@@ -175,7 +183,8 @@ export function DatePicker({
 
   const formatDisplay = () => {
     if (!value) return "Select a date";
-    const date = new Date(value);
+    const date = parseIsoDateAsLocalDate(value);
+    if (!date) return "Select a date";
     return date.toLocaleDateString("en-IN", {
       day: "numeric",
       month: "long",

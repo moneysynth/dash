@@ -151,6 +151,7 @@ export function EMICalculatorClient() {
         let monthInterest = monthPrincipal * monthlyRate;
         let monthEMI = baseEMI; // No step-up multiplier
         let partPaymentAmount = 0;
+        let appliedPartPayment = 0;
 
         for (const payment of sortedPayments) {
           if (
@@ -168,8 +169,9 @@ export function EMICalculatorClient() {
           }
         }
 
-        if (partPaymentAmount > 0) {
-          principalWithoutStepUp -= partPaymentAmount;
+        if (partPaymentAmount > 0 && principalWithoutStepUp > 0) {
+          appliedPartPayment = Math.min(partPaymentAmount, principalWithoutStepUp);
+          principalWithoutStepUp -= appliedPartPayment;
           monthPrincipal = principalWithoutStepUp;
           monthInterest = monthPrincipal * monthlyRate;
           const remainingMonths = numMonths - month;
@@ -189,7 +191,7 @@ export function EMICalculatorClient() {
 
         const principalPayment = Math.max(0, monthEMI - monthInterest);
         principalWithoutStepUp -= principalPayment;
-        totalWithoutStepUp += monthEMI + partPaymentAmount;
+        totalWithoutStepUp += monthEMI + appliedPartPayment;
 
         if (principalWithoutStepUp <= 0) break;
       }
@@ -225,14 +227,15 @@ export function EMICalculatorClient() {
       const stepUpStartYear = stepUpEMI.startDate.year;
       
       // Calculate month number for step-up start relative to loan start
-      const stepUpStartMonthNumber = (stepUpStartYear - startYear) * 12 + (stepUpStartMonth - startMonth) + 1;
+      const rawStepUpStartMonthNumber = (stepUpStartYear - startYear) * 12 + (stepUpStartMonth - startMonth) + 1;
+      const stepUpStartMonthNumber = Math.max(1, rawStepUpStartMonthNumber);
       
       // If current month is before step-up starts, return 1
       if (month < stepUpStartMonthNumber) return 1;
       
       // Calculate how many years have passed since step-up started
       const monthsSinceStepUp = month - stepUpStartMonthNumber;
-      const yearsSinceStepUp = Math.floor(monthsSinceStepUp / 12);
+      const yearsSinceStepUp = Math.floor(monthsSinceStepUp / 12) + 1;
       
       // EMI increases by stepUpRate% each year
       return Math.pow(1 + stepUpEMI.stepUpRate / 100, yearsSinceStepUp);
@@ -247,6 +250,7 @@ export function EMICalculatorClient() {
       let monthEMI = baseEMI * stepUpMultiplier;
       
       let partPaymentAmount = 0;
+      let appliedPartPayment = 0;
 
       for (const payment of sortedPayments) {
         if (
@@ -264,8 +268,9 @@ export function EMICalculatorClient() {
         }
       }
 
-      if (partPaymentAmount > 0) {
-        currentPrincipal -= partPaymentAmount;
+      if (partPaymentAmount > 0 && currentPrincipal > 0) {
+        appliedPartPayment = Math.min(partPaymentAmount, currentPrincipal);
+        currentPrincipal -= appliedPartPayment;
         monthPrincipal = currentPrincipal;
         monthInterest = monthPrincipal * monthlyRate;
         // Recalculate EMI after part payment, but apply step-up multiplier
@@ -290,7 +295,7 @@ export function EMICalculatorClient() {
       const principalPayment = Math.max(0, monthEMI - monthInterest);
       currentPrincipal -= principalPayment;
       totalInterest += monthInterest;
-      totalPaid += monthEMI + partPaymentAmount;
+      totalPaid += monthEMI + appliedPartPayment;
 
       // Calculate payment date
       const paymentMonth = ((startDate.month - 1 + month - 1) % 12);
@@ -300,15 +305,15 @@ export function EMICalculatorClient() {
 
       schedule.push({
         period: month,
-        payment: monthEMI + partPaymentAmount,
-        principal: principalPayment + partPaymentAmount,
+        payment: monthEMI + appliedPartPayment,
+        principal: principalPayment + appliedPartPayment,
         interest: monthInterest,
         balance: Math.max(0, currentPrincipal),
         year: Math.ceil(month / 12),
         month: ((month - 1) % 12) + 1,
         date: paymentDate,
         dateLabel: dateLabel,
-        prepayment: partPaymentAmount > 0 ? partPaymentAmount : undefined,
+        prepayment: appliedPartPayment > 0 ? appliedPartPayment : undefined,
       });
 
       if (currentPrincipal <= 0) break;

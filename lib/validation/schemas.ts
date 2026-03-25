@@ -87,7 +87,9 @@ export const creditCardEMICalculatorSchema = z.object({
   principal: positiveNumberSchema
     .min(1000, "Amount must be at least ₹1,000")
     .max(1000000, "Amount must not exceed ₹10 lakh"),
-  rate: interestRateSchema,
+  rate: z.number()
+    .min(1, "Interest rate must be at least 1%")
+    .max(48, "Interest rate must not exceed 48%"),
   tenure: creditCardTenureSchema,
   rateType: z.enum(["per-annum", "per-month"]).optional(),
 });
@@ -195,29 +197,32 @@ export const swpCalculatorSchema = z.object({
 // Goal-Based MF Calculator Schema
 export const goalBasedMFCalculatorSchema = z.object({
   goalAmount: investmentAmountSchema,
-  currentAge: z.number().min(18, "Age must be at least 18").max(80, "Age must not exceed 80"),
-  retirementAge: z.number().min(40, "Retirement age must be at least 40").max(100, "Retirement age must not exceed 100"),
+  currentSavings: nonNegativeNumberSchema
+    .max(100000000, "Current savings must not exceed ₹10 crore"),
+  timeline: z.number()
+    .min(1, "Timeline must be at least 1 year")
+    .max(50, "Timeline must not exceed 50 years"),
   expectedReturns: investmentRateSchema,
+  inflationRate: inflationRateSchema,
+  strategy: z.enum(["sip", "lumpsum", "mixed"]),
   goalType: z.enum([
     "child-education",
     "house-purchase",
     "retirement",
     "vacation",
-    "marriage",
+    "wedding",
     "emergency-fund",
+    "business",
     "other",
   ]),
-}).refine((data) => data.retirementAge > data.currentAge, {
-  message: "Retirement age must be greater than current age",
-  path: ["retirementAge"],
 });
 
 // Mutual Fund Returns Calculator Schema
 export const mutualFundReturnsCalculatorSchema = z.object({
-  principal: investmentAmountSchema,
-  rate: investmentRateSchema,
+  initialInvestment: investmentAmountSchema,
+  expectedReturns: investmentRateSchema,
   tenure: investmentTenureSchema,
-  sipAmount: monthlyInvestmentSchema.optional(),
+  inflationRate: inflationRateSchema,
 });
 
 // General Calculator Schemas

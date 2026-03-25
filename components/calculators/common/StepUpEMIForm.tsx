@@ -68,11 +68,16 @@ function StepUpEMIFormComponent({
   }, [stepUpEMI, onStepUpEMIChange]);
 
   const handleStartDateChange = useCallback((value: { month: number; year: number }) => {
+    const loanStartMonthIndex = defaultLoanStartDate.year * 12 + defaultLoanStartDate.month;
+    const stepUpMonthIndex = value.year * 12 + value.month;
+    const safeStartDate =
+      stepUpMonthIndex < loanStartMonthIndex ? defaultLoanStartDate : value;
+
     onStepUpEMIChange({
       ...stepUpEMI,
-      startDate: value,
+      startDate: safeStartDate,
     });
-  }, [stepUpEMI, onStepUpEMIChange]);
+  }, [stepUpEMI, onStepUpEMIChange, defaultLoanStartDate]);
 
   return (
     <Card>

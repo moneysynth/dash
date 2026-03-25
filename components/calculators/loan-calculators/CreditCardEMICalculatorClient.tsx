@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { z } from "zod";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { Slider } from "@/components/ui/Slider";
 import { validateSchema } from "@/lib/validation/utils";
-import { creditCardEMICalculatorSchema, loanPrincipalSchema, interestRateSchema } from "@/lib/validation/schemas";
+import { creditCardEMICalculatorSchema, loanPrincipalSchema } from "@/lib/validation/schemas";
 import { MonthYearPicker } from "@/components/ui/MonthYearPicker";
 import { TenureInput } from "@/components/ui/TenureInput";
 // import { AdUnit } from "@/components/common/AdUnit";
@@ -116,6 +117,18 @@ export function CreditCardEMICalculatorClient() {
     };
   }, [principal, annualRate, tenure, startDate]);
 
+  const creditCardRateInputSchema = useMemo(
+    () =>
+      z.number().min(
+        rateType === "per annum" ? 12 : 1,
+        `Interest rate must be at least ${rateType === "per annum" ? 12 : 1}%`
+      ).max(
+        rateType === "per annum" ? 48 : 4,
+        `Interest rate must not exceed ${rateType === "per annum" ? 48 : 4}%`
+      ),
+    [rateType]
+  );
+
   const chartData = [
     { name: "Principal", value: results.principal },
     { name: "Interest", value: results.totalInterest },
@@ -206,7 +219,7 @@ export function CreditCardEMICalculatorClient() {
                 />
                 <ValidatedInput
                   type="number"
-                  schema={interestRateSchema}
+                  schema={creditCardRateInputSchema}
                   value={rate}
                   onValueChange={(value) => setRate(Number(value))}
                   className="mt-2"

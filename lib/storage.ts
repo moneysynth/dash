@@ -1,4 +1,5 @@
 export function saveCalculation(key: string, data: Record<string, unknown>): void {
+  if (typeof window === "undefined") return;
   try {
     const calculations = getCalculations();
     calculations[key] = {
@@ -12,6 +13,7 @@ export function saveCalculation(key: string, data: Record<string, unknown>): voi
 }
 
 export function getCalculation(key: string): Record<string, unknown> | null {
+  if (typeof window === "undefined") return null;
   try {
     const calculations = getCalculations();
     return calculations[key] || null;
@@ -22,10 +24,12 @@ export function getCalculation(key: string): Record<string, unknown> | null {
 }
 
 export function getAllCalculations(): Record<string, Record<string, unknown>> {
+  if (typeof window === "undefined") return {};
   return getCalculations();
 }
 
 export function deleteCalculation(key: string): void {
+  if (typeof window === "undefined") return;
   try {
     const calculations = getCalculations();
     delete calculations[key];
@@ -36,6 +40,7 @@ export function deleteCalculation(key: string): void {
 }
 
 export function clearAllCalculations(): void {
+  if (typeof window === "undefined") return;
   try {
     localStorage.removeItem("moneysynth_calculations");
   } catch (error) {
@@ -44,6 +49,7 @@ export function clearAllCalculations(): void {
 }
 
 function getCalculations(): Record<string, Record<string, unknown>> {
+  if (typeof window === "undefined") return {};
   try {
     const stored = localStorage.getItem("moneysynth_calculations");
     return stored ? JSON.parse(stored) : {};
@@ -58,6 +64,7 @@ export function shareCalculation(
   data: Record<string, unknown>,
   platform: "whatsapp" | "twitter" | "facebook" | "copy"
 ): void {
+  if (typeof window === "undefined") return;
   const text = `${title}\n\n${JSON.stringify(data, null, 2)}`;
   const encodedText = encodeURIComponent(text);
   const url = typeof window !== "undefined" ? window.location.href : "";

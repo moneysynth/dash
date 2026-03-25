@@ -201,14 +201,15 @@ export function AdvancedEMIComparisonClient() {
       const stepUpStartYear = stepUpEMI.startDate.year;
       
       // Calculate month number for step-up start relative to loan start
-      const stepUpStartMonthNumber = (stepUpStartYear - startYear) * 12 + (stepUpStartMonth - startMonth) + 1;
+      const rawStepUpStartMonthNumber = (stepUpStartYear - startYear) * 12 + (stepUpStartMonth - startMonth) + 1;
+      const stepUpStartMonthNumber = Math.max(1, rawStepUpStartMonthNumber);
       
       // If current month is before step-up starts, return 1
       if (month < stepUpStartMonthNumber) return 1;
       
       // Calculate how many years have passed since step-up started
       const monthsSinceStepUp = month - stepUpStartMonthNumber;
-      const yearsSinceStepUp = Math.floor(monthsSinceStepUp / 12);
+      const yearsSinceStepUp = Math.floor(monthsSinceStepUp / 12) + 1;
       
       // EMI increases by stepUpRate% each year
       return Math.pow(1 + stepUpEMI.stepUpRate / 100, yearsSinceStepUp);
@@ -228,6 +229,7 @@ export function AdvancedEMIComparisonClient() {
       let monthPrincipal = currentPrincipal;
       let monthInterest = monthPrincipal * monthlyRate;
       let partPaymentAmount = 0;
+      let appliedPartPayment = 0;
 
       // Check for part payments in this month
       for (const payment of sortedPayments) {
@@ -251,8 +253,9 @@ export function AdvancedEMIComparisonClient() {
       let monthEMI = baseEMI * stepUpMultiplier;
 
       // Apply part payment if any
-      if (partPaymentAmount > 0) {
-        currentPrincipal -= partPaymentAmount;
+      if (partPaymentAmount > 0 && currentPrincipal > 0) {
+        appliedPartPayment = Math.min(partPaymentAmount, currentPrincipal);
+        currentPrincipal -= appliedPartPayment;
         monthPrincipal = currentPrincipal;
         monthInterest = monthPrincipal * monthlyRate;
         
@@ -288,7 +291,7 @@ export function AdvancedEMIComparisonClient() {
 
       currentPrincipal -= principalPayment;
       totalInterest += monthInterest;
-      totalPaid += monthEMI + partPaymentAmount;
+      totalPaid += monthEMI + appliedPartPayment;
     }
 
     // Calculate total without step-up EMI (but with part payments) for savings calculation
@@ -302,6 +305,7 @@ export function AdvancedEMIComparisonClient() {
         let monthInterest = monthPrincipal * monthlyRate;
         let monthEMI = baseEMI; // No step-up multiplier
         let partPaymentAmount = 0;
+        let appliedPartPayment = 0;
 
         for (const payment of sortedPayments) {
           if (
@@ -319,8 +323,9 @@ export function AdvancedEMIComparisonClient() {
           }
         }
 
-        if (partPaymentAmount > 0) {
-          principalWithoutStepUp -= partPaymentAmount;
+        if (partPaymentAmount > 0 && principalWithoutStepUp > 0) {
+          appliedPartPayment = Math.min(partPaymentAmount, principalWithoutStepUp);
+          principalWithoutStepUp -= appliedPartPayment;
           monthPrincipal = principalWithoutStepUp;
           monthInterest = monthPrincipal * monthlyRate;
           const remainingMonths = numMonths - month;
@@ -340,7 +345,7 @@ export function AdvancedEMIComparisonClient() {
 
         const principalPayment = Math.max(0, monthEMI - monthInterest);
         principalWithoutStepUp -= principalPayment;
-        totalWithoutStepUp += monthEMI + partPaymentAmount;
+        totalWithoutStepUp += monthEMI + appliedPartPayment;
       }
     }
 
