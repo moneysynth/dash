@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Financial calculators (EMI, SIP, SWP, RD, FD, etc.)</li>
-                  <li>Educational blog content</li>
+                  <li>Educational financial content</li>
                   <li>Financial planning tools and resources</li>
                   <li>Comparison tools for loan and investment scenarios</li>
                 </ul>

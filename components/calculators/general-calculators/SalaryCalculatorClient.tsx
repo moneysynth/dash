@@ -102,9 +102,10 @@ export function SalaryCalculatorClient() {
       finalBasicSalary = (monthlyGrossSalary * basicPercentage) / 100;
     }
 
-    // Calculate PF and Gratuity based on basic salary
-    const finalPfEmployee = Math.max((finalBasicSalary * 12) / 100, 1800);
-    const finalPfEmployer = Math.max((finalBasicSalary * 12) / 100, 1800);
+    // PF is 12% of monthly basic salary, capped between Rs. 1,800 and Rs. 15,000
+    const calculatedMonthlyPf = (finalBasicSalary * 12) / 100;
+    const finalPfEmployee = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
+    const finalPfEmployer = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
     const finalGratuity = (finalBasicSalary * 4.81) / 100;
 
     // Available amount after employer PF and gratuity (deducted from gross salary)
@@ -384,6 +385,27 @@ export function SalaryCalculatorClient() {
                     </p>
                   </>
                 )}
+              </div>
+
+              <div>
+                <div className="rounded-lg border border-border p-4">
+                  <div>
+                    <p className="text-sm font-medium text-text-primary">
+                      PF wage ceiling (₹15,000)
+                    </p>
+                    <p className="mt-1 text-xs text-text-secondary">
+                      PF deductions remain based on the wage ceiling of ₹15,000 and contributions beyond this limit are voluntary, not mandatory.
+                    </p>
+                  </div>
+                  <a
+                    href="/labour-code-pf-wage.jpeg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block text-xs font-medium text-primary hover:text-accent"
+                  >
+                    Reference image: PF wage ceiling illustration
+                  </a>
+                </div>
               </div>
 
               <div>

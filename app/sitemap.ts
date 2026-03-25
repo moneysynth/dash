@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { getAllBlogPosts } from "@/lib/blog";
 
 // Base URL for the site
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://moneysynth.com";
@@ -26,12 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blogs`,
-      lastModified: currentDate,
-      changeFrequency: "daily",
-      priority: 0.9,
     },
     {
       url: `${baseUrl}/faq`,
@@ -193,15 +186,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Dynamic blog posts from markdown files
-  const allBlogPosts = getAllBlogPosts();
-  const blogPostPages: MetadataRoute.Sitemap = allBlogPosts.map((post) => ({
-    url: `${baseUrl}/blogs/${post.id}`,
-    lastModified: new Date(post.date).toISOString(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
-
   // Combine all pages
   return [
     ...staticPages,
@@ -210,7 +194,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...generalCalculators,
     ...toolsPages,
     ...legalPages,
-    ...blogPostPages,
   ];
 }
 

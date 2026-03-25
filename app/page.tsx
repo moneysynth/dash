@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Calculator, TrendingUp, DollarSign, BookOpen, Target, PiggyBank, Building2 } from "lucide-react";
+import { Calculator, TrendingUp, DollarSign, Target, PiggyBank, Building2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CalculatorCard } from "@/components/ui/CalculatorCard";
 // import { AdUnit } from "@/components/common/AdUnit";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { SEOStructuredData } from "@/components/common/SEOStructuredData";
 import { CalculatorLoading } from "@/components/calculators/common/CalculatorLoading";
-import { getAllBlogPosts } from "@/lib/blog";
 
 // Dynamically import calculator components for route-based code splitting
 const QuickEMICalculator = dynamic(
@@ -123,8 +121,6 @@ const structuredData = {
 };
 
 export default function Home() {
-  const allBlogPosts = getAllBlogPosts();
-  const featuredPosts = allBlogPosts.slice(0, 3);
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -200,11 +196,6 @@ export default function Home() {
                     Explore All Calculators
                   </Button>
                 </Link>
-                <Link href="/blogs">
-                  <Button size="lg" variant="outline">
-                    Read Blogs
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
@@ -251,7 +242,7 @@ export default function Home() {
                 </p>
                 <p>
                   <strong className="text-text-primary">Expert Insights:</strong> Along with our calculators, 
-                  we provide expert-written blogs, financial guides, and educational content that help you 
+                  we provide financial guides and educational content that help you 
                   understand financial concepts, make better decisions, and plan for your future. Our FAQ 
                   section answers common questions and provides additional context for using our tools effectively.
                 </p>
@@ -420,72 +411,11 @@ export default function Home() {
                   them with your financial advisor or family members.
                 </p>
                 <p>
-                  <strong className="text-text-primary">Step 5: Learn and Grow</strong> - Explore our blog 
-                  section for expert insights, financial tips, and educational content. Read about EMI calculations, 
-                  SIP strategies, loan prepayment benefits, and more. Our FAQ section answers common questions 
-                  and provides additional context to help you make the most of our calculators.
+                  <strong className="text-text-primary">Step 5: Learn and Grow</strong> - Explore our FAQ
+                  section for answers to common questions and additional context to make the most of
+                  our calculators.
                 </p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Blog Preview Section */}
-        <section className="bg-surface/50 py-16 sm:py-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-                Latest from Our Blog
-              </h2>
-              <p className="mt-4 text-lg text-text-secondary">
-                Stay informed with our financial tips and insights
-              </p>
-              <p className="mt-4 text-base text-text-secondary max-w-2xl mx-auto">
-                Our blog features expert-written articles covering various aspects of personal finance, 
-                investment strategies, loan management, and financial planning. Learn about EMI calculations, 
-                SIP benefits, loan prepayment strategies, retirement planning, and more. Each article is 
-                designed to help you make better financial decisions and achieve your financial goals.
-              </p>
-            </div>
-            <div className="mx-auto max-w-6xl grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featuredPosts.map((post) => (
-                <Card key={post.id} className="flex flex-col transition-shadow hover:shadow-lg">
-                  <CardHeader>
-                    <div className="mb-2 flex items-center gap-2 text-xs text-text-secondary">
-                      <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-                        {post.category}
-                      </span>
-                      <span>•</span>
-                      <span>{post.readTime} min read</span>
-                    </div>
-                    <CardTitle className="line-clamp-2">{post.title}</CardTitle>
-                    <CardDescription className="line-clamp-3">
-                      {post.excerpt}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="mt-auto">
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm text-text-secondary">
-                        <p>{post.author}</p>
-                        <p>{new Date(post.date).toLocaleDateString()}</p>
-                      </div>
-                      <Link href={`/blogs/${post.id}`}>
-                        <Button variant="ghost" size="sm">
-                          Read More
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="mt-12 text-center">
-              <Link href="/blogs">
-                <Button variant="outline" size="lg">
-                  View All Posts
-                  <BookOpen className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </section>

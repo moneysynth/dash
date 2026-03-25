@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ValidatedInput } from "@/components/ui/ValidatedInput";
@@ -171,6 +171,13 @@ export function LoanEligibilityCalculator() {
   const [monthlyIncome, setMonthlyIncome] = useState(75000);
   const [existingEMIs, setExistingEMIs] = useState(15000);
   const [tenure, setTenure] = useState(20);
+  const maxAllowedExistingObligations = Math.min(100000, monthlyIncome);
+
+  useEffect(() => {
+    if (existingEMIs > monthlyIncome) {
+      setExistingEMIs(monthlyIncome);
+    }
+  }, [monthlyIncome, existingEMIs]);
 
   const result = useMemo(() => {
     // Validate inputs before calculation
@@ -241,19 +248,26 @@ export function LoanEligibilityCalculator() {
               label="Existing Obligations (EMIs)"
               value={existingEMIs}
               min={0}
-              max={100000}
+              max={maxAllowedExistingObligations}
               step={1000}
               valueLabel={formatCurrency(existingEMIs)}
-              onValueChange={setExistingEMIs}
+              onValueChange={(value) =>
+                setExistingEMIs(Math.min(value, monthlyIncome))
+              }
             />
             <ValidatedInput
               type="number"
-              schema={nonNegativeNumberSchema.max(1000000)}
+              schema={nonNegativeNumberSchema.max(
+                monthlyIncome,
+                "Existing obligations cannot exceed monthly income"
+              )}
               value={existingEMIs}
-              onValueChange={(value) => setExistingEMIs(Number(value))}
+              onValueChange={(value) =>
+                setExistingEMIs(Math.min(Number(value), monthlyIncome))
+              }
               className="mt-2"
               min={0}
-              max={100000}
+              max={maxAllowedExistingObligations}
               validateOnBlur={true}
             />
             <p className="mt-2 text-xs text-text-secondary italic">

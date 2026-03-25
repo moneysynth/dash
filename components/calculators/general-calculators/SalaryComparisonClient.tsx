@@ -45,9 +45,10 @@ function calculateSalary(
     finalBasicSalary = (monthlyGrossSalary * basicPercentage) / 100;
   }
 
-  // Calculate PF and Gratuity based on basic salary
-  const finalPfEmployee = Math.max((finalBasicSalary * 12) / 100, 1800);
-  const finalPfEmployer = Math.max((finalBasicSalary * 12) / 100, 1800);
+  // PF is 12% of monthly basic salary, capped between Rs. 1,800 and Rs. 15,000
+  const calculatedMonthlyPf = (finalBasicSalary * 12) / 100;
+  const finalPfEmployee = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
+  const finalPfEmployer = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
   const finalGratuity = (finalBasicSalary * 4.81) / 100;
 
   // Available amount after employer PF and gratuity (deducted from gross salary)
@@ -118,8 +119,27 @@ export function SalaryComparisonClient() {
 
   // Calculate current scenario (with user's current basic percentage)
   const currentResults = useMemo(
-    () => calculateSalary(ctc, currentBasicPercentage, hraPercentage, professionalTax, basicMode, hraMode, basicAmount, hraAmount),
-    [ctc, currentBasicPercentage, hraPercentage, professionalTax, basicMode, hraMode, basicAmount, hraAmount]
+    () =>
+      calculateSalary(
+        ctc,
+        currentBasicPercentage,
+        hraPercentage,
+        professionalTax,
+        basicMode,
+        hraMode,
+        basicAmount,
+        hraAmount
+      ),
+    [
+      ctc,
+      currentBasicPercentage,
+      hraPercentage,
+      professionalTax,
+      basicMode,
+      hraMode,
+      basicAmount,
+      hraAmount,
+    ]
   );
 
   // Calculate new scenario (with 50% basic salary as per New Labour Code 2025)
@@ -128,9 +148,16 @@ export function SalaryComparisonClient() {
     () => {
       // If current mode is amount, we need to convert to percentage for new scenario
       // But for new scenario, it's always 50% of gross, so we use percentage mode
-      const newBasicFromGross = (ctc / 12) * 0.5;
-      const newHra = hraMode === "amount" ? hraAmount : (newBasicFromGross * hraPercentage) / 100;
-      return calculateSalary(ctc, 50, hraPercentage, professionalTax, "percentage", hraMode, 0, hraAmount);
+      return calculateSalary(
+        ctc,
+        50,
+        hraPercentage,
+        professionalTax,
+        "percentage",
+        hraMode,
+        0,
+        hraAmount
+      );
     },
     [ctc, hraPercentage, professionalTax, hraMode, hraAmount]
   );
@@ -374,6 +401,27 @@ export function SalaryComparisonClient() {
                 </p>
               </>
             )}
+          </div>
+
+          <div>
+            <div className="rounded-lg border border-border p-4">
+              <div>
+                <p className="text-sm font-medium text-text-primary">
+                  PF wage ceiling (₹15,000)
+                </p>
+                <p className="mt-1 text-xs text-text-secondary">
+                  PF deductions remain based on the wage ceiling of ₹15,000 and contributions beyond this limit are voluntary, not mandatory.
+                </p>
+              </div>
+              <a
+                href="/labour-code-pf-wage.jpeg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-xs font-medium text-primary hover:text-accent"
+              >
+                Reference image: PF wage ceiling illustration
+              </a>
+            </div>
           </div>
 
           <div>

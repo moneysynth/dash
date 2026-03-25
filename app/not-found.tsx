@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { BackButton } from "@/components/ui/BackButton";
-import { Home, Calculator, TrendingUp, HelpCircle, BarChart3, BookOpen, HelpCircle as HelpIcon, Info } from "lucide-react";
+import { Home, Calculator, TrendingUp, HelpCircle, BarChart3, HelpCircle as HelpIcon, Info } from "lucide-react";
 // import { AdUnit } from "@/components/common/AdUnit";
 
 export default function NotFound() {
@@ -34,7 +34,7 @@ export default function NotFound() {
               </p>
 
               {/* Quick Navigation Links */}
-              <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                 <Link href="/">
                   <Button
                     variant="outline"
@@ -60,15 +60,6 @@ export default function NotFound() {
                   >
                     <BarChart3 className="h-5 w-5" />
                     <span className="text-xs sm:text-sm">Tools</span>
-                  </Button>
-                </Link>
-                <Link href="/blogs">
-                  <Button
-                    variant="outline"
-                    className="h-auto w-full flex-col gap-2 py-3"
-                  >
-                    <BookOpen className="h-5 w-5" />
-                    <span className="text-xs sm:text-sm">Blog</span>
                   </Button>
                 </Link>
                 <Link href="/faq">

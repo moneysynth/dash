@@ -81,11 +81,11 @@ export default function AboutPage() {
                     complex financial data into clear, actionable insights.
                   </p>
                   <p>
-                    From expert-written blogs and real-time financial news to smart calculators
-                    that simplify planning—MoneySynth empowers users to take charge of their
-                    financial journeys. Whether you're budgeting, investing, or planning for
-                    long-term goals, our tools and content are designed to guide you with
-                    precision and trust.
+                    From real-time financial updates to smart calculators that simplify
+                    planning, MoneySynth empowers users to take charge of their financial
+                    journeys. Whether you're budgeting, investing, or planning for long-term
+                    goals, our tools and content are designed to guide you with precision and
+                    trust.
                   </p>
                   <p>
                     Built on a foundation of transparency and innovation, we combine human
@@ -167,8 +167,8 @@ export default function AboutPage() {
                   <p>
                     In a world overwhelmed with financial complexity, MoneySynth bridges the gap
                     between raw data and real understanding. We offer users a seamless experience
-                    combining insightful blogs, up-to-the-minute financial news, and
-                    precision-driven tools for EMI, SIP, SWP, and long-term financial planning.
+                    combining up-to-the-minute financial updates and precision-driven tools for
+                    EMI, SIP, SWP, and long-term financial planning.
                   </p>
                   <p>
                     Our platform stands at the intersection of trust, technology, and financial
@@ -220,8 +220,8 @@ export default function AboutPage() {
                   </CardHeader>
                   <CardContent className="text-text-secondary text-sm">
                     <p>
-                      Expert-written blogs and real-time financial news to keep you informed and
-                      make better decisions.
+                      Educational content and real-time financial updates to keep you informed
+                      and make better decisions.
                     </p>
                   </CardContent>
                 </Card>

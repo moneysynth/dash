@@ -44,12 +44,6 @@ export function Header() {
             <CalculatorDropdown />
             <ToolsDropdown />
             <Link
-              href="/blogs"
-              className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
-            >
-              Blogs
-            </Link>
-            <Link
               href="/faq"
               className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
             >

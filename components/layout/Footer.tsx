@@ -222,14 +222,6 @@ export function Footer() {
             <ul className="space-y-2 mb-6">
               <li>
                 <Link
-                  href="/blogs"
-                  className="text-sm text-text-secondary transition-colors hover:text-primary"
-                >
-                  Blogs
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/about-us"
                   className="text-sm text-text-secondary transition-colors hover:text-primary"
                 >

@@ -73,6 +73,10 @@ const tools = [
     name: "Home Loan EMI Comparison",
     href: "/tools/home-loan-emi-comparison",
   },
+  {
+    name: "Salary Comparison - Labour Code 2025",
+    href: "/tools/salary-comparison-labour-code-2025",
+  },
 ];
 
 interface MobileMenuProps {
@@ -190,13 +194,6 @@ export function MobileMenu({ isOpen, onClose, showCurrencySelector = false }: Mo
             )}
           </div>
 
-          <Link
-            href="/blogs"
-            onClick={onClose}
-            className="block py-2 text-base font-medium text-text-primary hover:text-primary transition-colors"
-          >
-            Blogs
-          </Link>
           <Link
             href="/faq"
             onClick={onClose}
