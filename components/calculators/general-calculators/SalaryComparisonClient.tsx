@@ -27,6 +27,7 @@ function calculateSalary(
   basicPercentage: number,
   hraPercentage: number,
   professionalTax: number,
+  applyPfWageCeiling: boolean,
   basicMode: "percentage" | "amount" = "percentage",
   hraMode: "percentage" | "amount" = "percentage",
   basicAmount: number = 0,
@@ -45,10 +46,11 @@ function calculateSalary(
     finalBasicSalary = (monthlyGrossSalary * basicPercentage) / 100;
   }
 
-  // PF is 12% of monthly basic salary, capped between Rs. 1,800 and Rs. 15,000
-  const calculatedMonthlyPf = (finalBasicSalary * 12) / 100;
-  const finalPfEmployee = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
-  const finalPfEmployer = Math.min(Math.max(calculatedMonthlyPf, 1800), 15000);
+  // PF is 12% of monthly basic salary.
+  // If PF wage ceiling is enabled, PF is fixed at ₹1,800/month (12% of ₹15,000 ceiling).
+  const monthlyPf = applyPfWageCeiling ? 1800 : (finalBasicSalary * 12) / 100;
+  const finalPfEmployee = monthlyPf;
+  const finalPfEmployer = monthlyPf;
   const finalGratuity = (finalBasicSalary * 4.81) / 100;
 
   // Available amount after employer PF and gratuity (deducted from gross salary)
@@ -89,6 +91,7 @@ export function SalaryComparisonClient() {
   const [currentBasicPercentage, setCurrentBasicPercentage] = useState(40);
   const [hraPercentage, setHraPercentage] = useState(50);
   const [professionalTax, setProfessionalTax] = useState(200);
+  const [applyPfWageCeiling, setApplyPfWageCeiling] = useState(false);
   
   // Mode toggles: "percentage" or "amount"
   const [basicMode, setBasicMode] = useState<"percentage" | "amount">("percentage");
@@ -106,6 +109,9 @@ export function SalaryComparisonClient() {
       if (typeof saved.currentBasicPercentage === "number") setCurrentBasicPercentage(saved.currentBasicPercentage);
       if (typeof saved.hraPercentage === "number") setHraPercentage(saved.hraPercentage);
       if (typeof saved.professionalTax === "number") setProfessionalTax(saved.professionalTax);
+      if (typeof saved.applyPfWageCeiling === "boolean") {
+        setApplyPfWageCeiling(saved.applyPfWageCeiling);
+      }
       if (saved.basicMode === "percentage" || saved.basicMode === "amount") {
         setBasicMode(saved.basicMode);
       }
@@ -125,6 +131,7 @@ export function SalaryComparisonClient() {
         currentBasicPercentage,
         hraPercentage,
         professionalTax,
+        applyPfWageCeiling,
         basicMode,
         hraMode,
         basicAmount,
@@ -133,10 +140,10 @@ export function SalaryComparisonClient() {
     [
       ctc,
       currentBasicPercentage,
-      hraPercentage,
-      professionalTax,
-      basicMode,
-      hraMode,
+hraPercentage,
+professionalTax,
+basicMode, applyPfWageCeiling,
+hraMode,
       basicAmount,
       hraAmount,
     ]
@@ -153,13 +160,14 @@ export function SalaryComparisonClient() {
         50,
         hraPercentage,
         professionalTax,
+        applyPfWageCeiling,
         "percentage",
         hraMode,
         0,
         hraAmount
       );
     },
-    [ctc, hraPercentage, professionalTax, hraMode, hraAmount]
+    [ctc, hraPercentage, professionalTax, applyPfWageCeiling, hraMode, hraAmount]
   );
 
   // Calculate differences
@@ -405,13 +413,30 @@ export function SalaryComparisonClient() {
 
           <div>
             <div className="rounded-lg border border-border p-4">
-              <div>
-                <p className="text-sm font-medium text-text-primary">
-                  PF wage ceiling (₹15,000)
-                </p>
-                <p className="mt-1 text-xs text-text-secondary">
-                  PF deductions remain based on the wage ceiling of ₹15,000 and contributions beyond this limit are voluntary, not mandatory.
-                </p>
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-text-primary">
+                    Apply PF wage ceiling (₹15,000)
+                  </p>
+                  <p className="mt-1 text-xs text-text-secondary">
+                    PF deductions remain based on the wage ceiling of ₹15,000 and contributions beyond this limit are voluntary, not mandatory.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={applyPfWageCeiling}
+                    onChange={() =>
+                      setApplyPfWageCeiling((previous) => !previous)
+                    }
+                    className="sr-only peer focus:outline-none"
+                  />
+                  <div
+                    className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Toggle PF wage ceiling</span>
+                </label>
               </div>
               <a
                 href="/labour-code-pf-wage.jpeg"
@@ -762,6 +787,7 @@ export function SalaryComparisonClient() {
             hraMode,
             basicAmount,
             hraAmount,
+            applyPfWageCeiling,
           }}
         />
       </div>
